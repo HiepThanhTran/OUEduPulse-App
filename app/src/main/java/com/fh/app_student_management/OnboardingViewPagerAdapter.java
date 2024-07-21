@@ -2,17 +2,17 @@ package com.fh.app_student_management;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-public class OnboardingViewPagerAdapter extends FragmentStatePagerAdapter {
-    public OnboardingViewPagerAdapter(@NonNull FragmentManager fm, int behavior) {
-        super(fm, behavior);
+public class OnboardingViewPagerAdapter extends FragmentStateAdapter {
+    public OnboardingViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
+        super(fragmentActivity);
     }
 
     @NonNull
     @Override
-    public Fragment getItem(int position) {
+    public Fragment createFragment(int position) {
         switch (position) {
             case 0:
                 return new OnboardingFragment1();
@@ -26,7 +26,7 @@ public class OnboardingViewPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     @Override
-    public int getCount() {
+    public int getItemCount() {
         return 3;
     }
 }

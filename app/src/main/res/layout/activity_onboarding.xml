@@ -21,12 +21,12 @@
         android:textSize="16dp"
         app:cornerRadius="16dp" />
 
-    <androidx.viewpager.widget.ViewPager
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/btnSkip"
-        android:layout_above="@id/layoutBottom"/>
+        android:layout_above="@id/layoutBottom"
+        android:layout_below="@id/btnSkip" />
 
     <RelativeLayout
         android:id="@+id/layoutBottom"
@@ -35,7 +35,7 @@
         android:layout_alignParentBottom="true"
         android:padding="12dp">
 
-        <me.relex.circleindicator.CircleIndicator
+        <me.relex.circleindicator.CircleIndicator3
             android:id="@+id/circleIndicator"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
@@ -52,8 +52,17 @@
             android:fontFamily="@font/opensans_bold"
             android:text="Tiếp tục"
             android:textSize="16dp"
-            app:cornerRadius="16dp"
-            />
+            app:cornerRadius="16dp" />
 
+        <Button
+            android:id="@+id/btnStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:backgroundTint="@color/primaryColor"
+            android:fontFamily="@font/opensans_bold"
+            android:text="Bắt đầu"
+            android:textSize="16dp"
+            app:cornerRadius="16dp" />
     </RelativeLayout>
 </RelativeLayout>
