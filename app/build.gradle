@@ -38,5 +38,9 @@ dependencies {
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
 
+    //Lottie
     implementation("com.airbnb.android:lottie:6.3.0")
+
+    //Circle Indicator
+    implementation 'me.relex:circleindicator:2.1.6'
 }
