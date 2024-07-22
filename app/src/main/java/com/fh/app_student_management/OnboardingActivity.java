@@ -3,6 +3,8 @@ package com.fh.app_student_management;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
@@ -19,7 +21,6 @@ public class OnboardingActivity extends AppCompatActivity {
     private Button btnNext;
     private Button btnStart;
     private OnboardingViewPagerAdapter viewPagerAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +37,7 @@ public class OnboardingActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 if (position == 2) {
-                    btnSkip.setVisibility(View.GONE);
+                    btnSkip.setVisibility(View.INVISIBLE);
                     btnNext.setVisibility(View.GONE);
                     btnStart.setVisibility(View.VISIBLE);
                 } else {
@@ -75,7 +76,7 @@ public class OnboardingActivity extends AppCompatActivity {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(OnboardingActivity.this, MainActivity.class);
+                Intent intent = new Intent(OnboardingActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
             }
