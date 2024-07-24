@@ -1,7 +1,5 @@
 package com.fh.app_student_management.data;
 
-import com.fh.app_student_management.utilities.Constants;
-
 import android.content.Context;
 
 import androidx.room.Database;
@@ -32,6 +30,7 @@ import com.fh.app_student_management.data.relations.LecturerSubjectCrossRef;
 import com.fh.app_student_management.data.relations.StudentClassCrossRef;
 import com.fh.app_student_management.data.relations.StudentSemesterCrossRef;
 import com.fh.app_student_management.data.relations.StudentSubjectCrossRef;
+import com.fh.app_student_management.utilities.Constants;
 
 @Database(entities = {
         AcademicYear.class,

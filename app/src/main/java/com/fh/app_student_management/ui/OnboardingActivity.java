@@ -15,12 +15,13 @@ import com.fh.app_student_management.adapters.OnboardingViewPagerAdapter;
 import me.relex.circleindicator.CircleIndicator3;
 
 public class OnboardingActivity extends AppCompatActivity {
-
     private Button btnSkip;
     private ViewPager2 viewPager;
+    private RelativeLayout layoutBottom;
     private CircleIndicator3 circleIndicator;
     private Button btnNext;
     private Button btnStart;
+    private OnboardingViewPagerAdapter viewPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +29,7 @@ public class OnboardingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_onboarding);
 
         initOnboarding();
-        OnboardingViewPagerAdapter viewPagerAdapter = new OnboardingViewPagerAdapter(this);
+        viewPagerAdapter = new OnboardingViewPagerAdapter(this);
         viewPager.setAdapter(viewPagerAdapter);
 
         circleIndicator.setViewPager(viewPager);
@@ -38,7 +39,7 @@ public class OnboardingActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 if (position == 2) {
-                    btnSkip.setVisibility(View.GONE);
+                    btnSkip.setVisibility(View.INVISIBLE);
                     btnNext.setVisibility(View.GONE);
                     btnStart.setVisibility(View.VISIBLE);
                 } else {
@@ -53,34 +54,23 @@ public class OnboardingActivity extends AppCompatActivity {
     private void initOnboarding() {
         btnSkip = findViewById(R.id.btnSkip);
         viewPager = findViewById(R.id.viewPager);
-        RelativeLayout layoutBottom = findViewById(R.id.layoutBottom);
+        layoutBottom = findViewById(R.id.layoutBottom);
         btnNext = findViewById(R.id.btnNext);
         circleIndicator = findViewById(R.id.circleIndicator);
         btnStart = findViewById(R.id.btnStart);
 
-        btnSkip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewPager.setCurrentItem(2);
+        btnSkip.setOnClickListener(v -> viewPager.setCurrentItem(2));
+
+        btnNext.setOnClickListener(v -> {
+            if (viewPager.getCurrentItem() < 2) {
+                viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
             }
         });
 
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (viewPager.getCurrentItem() < 2) {
-                    viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-                }
-            }
-        });
-
-        btnStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(OnboardingActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        btnStart.setOnClickListener(v -> {
+            Intent intent = new Intent(OnboardingActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
         });
     }
 }
