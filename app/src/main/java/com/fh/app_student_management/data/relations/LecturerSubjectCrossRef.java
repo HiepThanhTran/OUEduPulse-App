@@ -10,4 +10,20 @@ public class LecturerSubjectCrossRef {
     private long lecturerId;
     @ColumnInfo(name = "subject_id")
     private long subjectId;
+
+    public long getLecturerId() {
+        return lecturerId;
+    }
+
+    public void setLecturerId(long lecturerId) {
+        this.lecturerId = lecturerId;
+    }
+
+    public long getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(long subjectId) {
+        this.subjectId = subjectId;
+    }
 }

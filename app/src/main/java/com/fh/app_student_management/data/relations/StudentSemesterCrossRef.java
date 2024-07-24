@@ -10,4 +10,20 @@ public class StudentSemesterCrossRef {
     private long studentId;
     @ColumnInfo(name = "semester_id")
     private long semesterId;
+
+    public long getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(long studentId) {
+        this.studentId = studentId;
+    }
+
+    public long getSemesterId() {
+        return semesterId;
+    }
+
+    public void setSemesterId(long semesterId) {
+        this.semesterId = semesterId;
+    }
 }

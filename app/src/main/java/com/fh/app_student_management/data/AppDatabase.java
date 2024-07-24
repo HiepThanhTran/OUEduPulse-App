@@ -5,7 +5,9 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
+import com.fh.app_student_management.data.converters.DateConverter;
 import com.fh.app_student_management.data.dao.AcademicYearDAO;
 import com.fh.app_student_management.data.dao.ClassDAO;
 import com.fh.app_student_management.data.dao.FacultyDAO;
@@ -48,6 +50,7 @@ import com.fh.app_student_management.utilities.Constants;
         StudentClassCrossRef.class,
         StudentSubjectCrossRef.class
 }, version = Constants.DATABASE_VERSION)
+@TypeConverters({DateConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
 
     private static volatile AppDatabase INSTANCE;

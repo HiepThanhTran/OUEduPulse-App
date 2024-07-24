@@ -11,6 +11,7 @@ import com.fh.app_student_management.R;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
+
     private final Handler handler = new Handler();
     private Runnable runnable;
 
