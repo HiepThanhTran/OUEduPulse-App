@@ -1,12 +1,13 @@
-package com.fh.app_student_management;
+package com.fh.app_student_management.fragments.onboarding;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+
+import com.fh.app_student_management.R;
 
 /**
  * A simple {@link Fragment} subclass.

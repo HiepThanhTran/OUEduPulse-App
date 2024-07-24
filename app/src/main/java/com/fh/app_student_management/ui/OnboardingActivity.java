@@ -1,4 +1,4 @@
-package com.fh.app_student_management;
+package com.fh.app_student_management.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,16 +9,18 @@ import android.widget.RelativeLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.fh.app_student_management.R;
+import com.fh.app_student_management.adapters.OnboardingViewPagerAdapter;
+
 import me.relex.circleindicator.CircleIndicator3;
 
 public class OnboardingActivity extends AppCompatActivity {
+
     private Button btnSkip;
     private ViewPager2 viewPager;
-    private RelativeLayout layoutBottom;
     private CircleIndicator3 circleIndicator;
     private Button btnNext;
     private Button btnStart;
-    private OnboardingViewPagerAdapter viewPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +28,7 @@ public class OnboardingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_onboarding);
 
         initOnboarding();
-        viewPagerAdapter = new OnboardingViewPagerAdapter(this);
+        OnboardingViewPagerAdapter viewPagerAdapter = new OnboardingViewPagerAdapter(this);
         viewPager.setAdapter(viewPagerAdapter);
 
         circleIndicator.setViewPager(viewPager);
@@ -51,7 +53,7 @@ public class OnboardingActivity extends AppCompatActivity {
     private void initOnboarding() {
         btnSkip = findViewById(R.id.btnSkip);
         viewPager = findViewById(R.id.viewPager);
-        layoutBottom = findViewById(R.id.layoutBottom);
+        RelativeLayout layoutBottom = findViewById(R.id.layoutBottom);
         btnNext = findViewById(R.id.btnNext);
         circleIndicator = findViewById(R.id.circleIndicator);
         btnStart = findViewById(R.id.btnStart);

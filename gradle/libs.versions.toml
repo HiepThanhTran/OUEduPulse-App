@@ -1,22 +1,35 @@
 [versions]
 agp = "8.5.1"
+circleindicator = "2.1.6"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
+lottie = "6.4.1"
 material = "1.12.0"
 activity = "1.9.0"
 constraintlayout = "2.1.4"
+roomVersion = "2.6.1"
+devtoolsKsp = "1.8.10-1.0.9"
 
 [libraries]
+androidx-room-guava = { module = "androidx.room:room-guava", version.ref = "roomVersion" }
+androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "roomVersion" }
+androidx-room-rxjava2 = { module = "androidx.room:room-rxjava2", version.ref = "roomVersion" }
+androidx-room-rxjava3 = { module = "androidx.room:room-rxjava3", version.ref = "roomVersion" }
+androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "roomVersion" }
+circleindicator = { module = "me.relex:circleindicator", version.ref = "circleindicator" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomVersion" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-
+devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "devtoolsKsp" }

@@ -1,14 +1,15 @@
-package com.fh.app_student_management;
+package com.fh.app_student_management.ui;
 
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.fh.app_student_management.R;
+import com.fh.app_student_management.data.AppDatabase;
 
 public class MainActivity extends AppCompatActivity {
+
+    private AppDatabase db = AppDatabase.getInstance(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
