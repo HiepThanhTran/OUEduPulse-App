@@ -24,7 +24,6 @@
         android:background="@color/grey_sub"
         app:itemIconTint="@color/bottom_nav_item_color"
         app:itemTextColor="@color/white"
-        app:itemPaddingBottom="10dp"
         app:itemIconSize="30dp"
-        app:itemTextAppearanceActive="@style/CustomTextAppearance"/>
+        app:itemTextAppearanceActive="@style/CustomTextAppearance" />
 </LinearLayout>

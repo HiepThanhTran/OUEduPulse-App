@@ -32,8 +32,8 @@ public class BottomNavigation extends AppCompatActivity {
 
                 if (itemId == R.id.navHome) {
                     loadFragment(new HomeFragment());
-                } else if (itemId == R.id.navProfile) {
-                    loadFragment(new ProfileFragment());
+                } else if (itemId == R.id.navSetting) {
+                    loadFragment(new SettingFragment());
                 }
 
                 return true;

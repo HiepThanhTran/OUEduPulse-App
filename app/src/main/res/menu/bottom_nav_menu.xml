@@ -9,10 +9,10 @@
         />
 
     <item
-        android:id="@+id/navProfile"
+        android:id="@+id/navSetting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:title="Hồ sơ"
-        android:icon="@drawable/ic_profile"
+        android:title="Cài đặt"
+        android:icon="@drawable/ic_setting"
         />
 </menu>
