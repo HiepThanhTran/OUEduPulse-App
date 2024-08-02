@@ -38,11 +38,10 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
 
-        // Đặt OnClickListener cho btnBack
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish(); // Kết thúc Activity hiện tại
+                finish();
             }
         });
     }
