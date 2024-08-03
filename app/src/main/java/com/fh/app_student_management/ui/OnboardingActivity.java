@@ -10,6 +10,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.fh.app_student_management.R;
 import com.fh.app_student_management.adapters.OnboardingViewPagerAdapter;
+import com.fh.app_student_management.data.AppDatabase;
 
 import me.relex.circleindicator.CircleIndicator3;
 

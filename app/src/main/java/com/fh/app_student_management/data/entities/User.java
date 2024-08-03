@@ -5,7 +5,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.fh.app_student_management.utilities.Role;
+import com.fh.app_student_management.utilities.Constants;
+import com.fh.app_student_management.utilities.PasswordUtils;
 
 import java.util.Date;
 import java.util.Objects;
@@ -23,7 +24,7 @@ public class User {
     private String address;
     private String email;
     private String password;
-    private Role role;
+    private Constants.Role role;
     @ColumnInfo(name = "faculty_id")
     private long facultyId;
 
@@ -80,14 +81,18 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = PasswordUtils.hashPassword(password);
     }
 
-    public Role getRole() {
+    public boolean checkPassword(String password) {
+        return PasswordUtils.verifyPassword(password, this.password);
+    }
+
+    public Constants.Role getRole() {
         return this.role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(Constants.Role role) {
         this.role = role;
     }
 
@@ -107,7 +112,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, fullName);
+        return Objects.hash(id, email, password);
     }
 
     @Override
@@ -115,6 +120,6 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id && Objects.equals(fullName, user.fullName);
+        return id == user.id && Objects.equals(email, user.email) && Objects.equals(password, user.password);
     }
 }

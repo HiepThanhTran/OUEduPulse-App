@@ -1,4 +1,4 @@
-package com.fh.app_student_management.fragments.onboarding;
+package com.fh.app_student_management.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

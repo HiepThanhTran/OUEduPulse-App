@@ -8,6 +8,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.fh.app_student_management.data.entities.User;
+import com.fh.app_student_management.utilities.Constants;
 
 import java.util.List;
 
@@ -20,13 +21,19 @@ public interface UserDAO {
     @Query("SELECT * FROM users WHERE id = :id")
     User getById(long id);
 
+    @Query("SELECT * FROM users WHERE email = :email")
+    User getByEmail(String email);
+
     @Query("SELECT * FROM users WHERE full_name LIKE '%' || :name || '%'")
     List<User> findByName(String name);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Query("SELECT COUNT(*) FROM users WHERE role = :role")
+    int countByRole(Constants.Role role);
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(User user);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertAll(User... users);
 
     @Update
