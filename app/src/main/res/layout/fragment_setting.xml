@@ -30,6 +30,7 @@
                 android:textSize="26sp" />
 
             <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/avatar"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_marginTop="20dp"
@@ -38,13 +39,14 @@
                 app:srcCompat="@drawable/avatar" />
 
             <TextView
+                android:id="@+id/nameUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/opensans_bold"
                 android:gravity="center"
-                android:text="Sahara"
+                android:text="Trần Thị Hương"
                 android:textColor="@color/white"
                 android:textSize="20dp" />
 
@@ -88,7 +90,8 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp">
 
                         <ImageView
                             android:id="@+id/iconLanguage"
@@ -116,6 +119,37 @@
                             android:layout_centerVertical="true"
                             android:switchMinWidth="50dp"
                             android:theme="@style/SwitchMode"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/iconChangePassword"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/circle_red"
+                            android:padding="6dp"
+                            android:src="@drawable/ic_change_password" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="22dp"
+                            android:layout_toEndOf="@+id/iconChangePassword"
+                            android:fontFamily="@font/opensans_bold"
+                            android:text="Đổi mật khẩu"
+                            android:textColor="@color/white"
+                            android:textSize="16dp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_arrow_right" />
                     </RelativeLayout>
                 </LinearLayout>
 
