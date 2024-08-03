@@ -23,10 +23,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
 }
 
 dependencies {
@@ -66,4 +68,7 @@ dependencies {
 
     // optional - Paging 3 Integration
     implementation libs.androidx.room.paging
+
+    //Imagepicker
+    implementation 'com.github.dhaval2404:imagepicker:2.1'
 }
