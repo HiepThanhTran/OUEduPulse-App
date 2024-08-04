@@ -38,7 +38,7 @@
                 android:text="Xin chào"
                 android:textSize="25sp"
                 android:fontFamily="@font/opensans_bold"
-                android:background="@color/white"/>
+                android:background="@color/white" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -47,7 +47,7 @@
                 android:textSize="18sp"
                 android:fontFamily="@font/opensans_bold"
                 android:background="@color/white"
-                android:layout_marginTop="5dp"/>
+                android:layout_marginTop="5dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -90,12 +90,13 @@
                 android:layout_marginTop="5dp">
 
                 <CheckBox
+                    android:id="@+id/chkRememberPassword"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nhớ mật khẩu"
-                    android:textSize="16sp"
+                    android:buttonTintMode="multiply"
                     android:fontFamily="@font/opensans_bold"
-                    android:buttonTintMode="multiply" />
+                    android:text="Nhớ mật khẩu"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -130,7 +131,7 @@
                     android:text="Bạn chưa có tài khoản? "
                     android:textSize="16sp"
                     android:fontFamily="@font/opensans_bold"
-                    android:id="@+id/tv_no_account"/>
+                    android:id="@+id/tv_no_account" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -139,8 +140,8 @@
                     android:textSize="16sp"
                     android:textColor="@color/primaryColor"
                     android:fontFamily="@font/opensans_bold"
-                    android:id="@+id/tvRegister"
-                    android:layout_toEndOf="@id/tv_no_account"/>
+                    android:id="@+id/txtRegister"
+                    android:layout_toEndOf="@id/tv_no_account" />
             </RelativeLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

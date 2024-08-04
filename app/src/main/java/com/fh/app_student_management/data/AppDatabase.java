@@ -1,15 +1,13 @@
 package com.fh.app_student_management.data;
 
 import android.content.Context;
-import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
-import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.fh.app_student_management.R;
 import com.fh.app_student_management.data.converters.DateConverter;
 import com.fh.app_student_management.data.dao.AcademicYearDAO;
 import com.fh.app_student_management.data.dao.ClassDAO;
@@ -35,8 +33,9 @@ import com.fh.app_student_management.data.relations.LecturerSubjectCrossRef;
 import com.fh.app_student_management.data.relations.StudentClassCrossRef;
 import com.fh.app_student_management.data.relations.StudentSemesterCrossRef;
 import com.fh.app_student_management.data.relations.StudentSubjectCrossRef;
-import com.fh.app_student_management.utilities.AppExecutors;
 import com.fh.app_student_management.utilities.Constants;
+import com.fh.app_student_management.utilities.ImageUtils;
+import com.fh.app_student_management.utilities.PasswordUtils;
 
 @Database(entities = {
         AcademicYear.class,
@@ -64,27 +63,27 @@ public abstract class AppDatabase extends RoomDatabase {
             synchronized (AppDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            AppDatabase.class, Constants.DATABASE_NAME).addCallback(new RoomDatabase.Callback() {
-                        @Override
-                        public void onCreate(@NonNull SupportSQLiteDatabase db) {
-                            super.onCreate(db);
-                            AppExecutors.getInstance().diskIO().execute(() -> {
-                                UserDAO userDao = INSTANCE.userDAO();
-                                if (userDao.countByRole(Constants.Role.ADMIN) == 0) {
-                                    User admin = new User();
-                                    admin.setFullName("Administrator");
-                                    admin.setEmail("admin@gmail.com");
-                                    admin.setPassword("Admin@123");
-                                    admin.setRole(Constants.Role.ADMIN);
-                                    userDao.insert(admin);
-                                }
-                            });
-                        }
-                    }).fallbackToDestructiveMigration().allowMainThreadQueries().build();
+                                    AppDatabase.class, Constants.DATABASE_NAME)
+                            .fallbackToDestructiveMigration()
+                            .allowMainThreadQueries()
+                            .build();
                 }
             }
         }
         return INSTANCE;
+    }
+
+    public static void insertAdmin(Context context) {
+        UserDAO userDao = getInstance(context).userDAO();
+        if (userDao.countByRole(Constants.Role.ADMIN) == 0) {
+            User admin = new User();
+            admin.setFullName("Administrator");
+            admin.setEmail("admin@gmail.com");
+            admin.setPassword(PasswordUtils.hashPassword("admin@123"));
+            admin.setAvatar(ImageUtils.getBytesFromDrawable(context, R.drawable.default_avatar));
+            admin.setRole(Constants.Role.ADMIN);
+            userDao.insert(admin);
+        }
     }
 
     public abstract AcademicYearDAO academicYearDAO();

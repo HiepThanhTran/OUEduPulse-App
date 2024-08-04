@@ -5,14 +5,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:title="Trang chủ"
-        android:icon="@drawable/ic_home"
-        />
+        android:icon="@drawable/ic_home" />
 
     <item
         android:id="@+id/navSetting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:title="Cài đặt"
-        android:icon="@drawable/ic_setting"
-        />
+        android:icon="@drawable/ic_setting" />
 </menu>

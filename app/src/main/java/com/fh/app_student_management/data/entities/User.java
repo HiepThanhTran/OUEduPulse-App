@@ -3,15 +3,15 @@ package com.fh.app_student_management.data.entities;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import com.fh.app_student_management.utilities.Constants;
-import com.fh.app_student_management.utilities.PasswordUtils;
 
 import java.util.Date;
 import java.util.Objects;
 
-@Entity(tableName = "users")
+@Entity(tableName = "users", indices = {@Index(value = {"email"}, unique = true)})
 public class User {
 
     @PrimaryKey(autoGenerate = true)
@@ -24,6 +24,8 @@ public class User {
     private String address;
     private String email;
     private String password;
+    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
+    private byte[] avatar;
     private Constants.Role role;
     @ColumnInfo(name = "faculty_id")
     private long facultyId;
@@ -81,11 +83,15 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = PasswordUtils.hashPassword(password);
+        this.password = password;
     }
 
-    public boolean checkPassword(String password) {
-        return PasswordUtils.verifyPassword(password, this.password);
+    public byte[] getAvatar() {
+        return this.avatar;
+    }
+
+    public void setAvatar(byte[] avatar) {
+        this.avatar= avatar;
     }
 
     public Constants.Role getRole() {
@@ -120,6 +126,7 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id && Objects.equals(email, user.email) && Objects.equals(password, user.password);
+        return id == user.id && Objects.equals(email, user.email) && Objects.equals(password,
+                user.password);
     }
 }

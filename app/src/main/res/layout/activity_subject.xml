@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/grey"
     tools:context=".ui.SubjectActivity"
-    android:background="@color/grey">
+    tools:ignore="HardcodedText">
 
     <RelativeLayout
         android:id="@+id/top"
@@ -17,6 +17,7 @@
             android:id="@+id/btnBack"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:contentDescription="ic_back"
             android:padding="14dp"
             android:src="@drawable/ic_back" />
 
@@ -27,13 +28,13 @@
             android:fontFamily="@font/opensans_bold"
             android:text="Học kì 3 - 2024 - 2025"
             android:textColor="@color/white"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_below="@id/top"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top">
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"

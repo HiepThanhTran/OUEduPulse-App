@@ -32,7 +32,7 @@ public class EditProfileActivity extends AppCompatActivity {
         avatar = findViewById(R.id.avatar);
         iconCamera = findViewById(R.id.iconCamera);
         btnBack = findViewById(R.id.btnBack);
-        inputDateOfBirth = findViewById(R.id.inputDateOfBirth);
+        inputDateOfBirth = findViewById(R.id.inputDob);
 
         iconCamera.setOnClickListener(new View.OnClickListener() {
             @Override

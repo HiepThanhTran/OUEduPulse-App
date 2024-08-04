@@ -22,10 +22,8 @@
             android:name=".ui.EditProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.SettingActivity"
-            android:exported="false" /> <!-- <activity -->
-        <!-- android:name=".ui.BottomNavigation" -->
-        <!-- android:exported="false" /> -->
+            android:name=".ui.BottomNavigation"
+            android:exported="false" />
         <activity
             android:name=".ui.RegisterActivity"
             android:exported="false" />
@@ -36,7 +34,7 @@
             android:name=".ui.OnboardingActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.BottomNavigation"
+            android:name=".ui.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey"
-    tools:context=".ui.HomeFragment">
+    tools:context=".fragments.HomeFragment"
+    tools:ignore="HardcodedText">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -46,7 +47,7 @@
                     android:textSize="20sp" />
 
                 <TextView
-                    android:id="@+id/nameUser"
+                    android:id="@+id/txtUsername"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/opensans_bold"
@@ -72,7 +73,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center">
 
@@ -93,8 +94,9 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
+                                android:contentDescription="classes"
                                 android:src="@drawable/classes"
-                                android:padding="10dp"/>
+                                android:padding="10dp" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -104,7 +106,7 @@
                                 android:textColor="@color/white"
                                 android:textSize="16sp"
                                 android:gravity="center"
-                                android:layout_marginBottom="10dp"/>
+                                android:layout_marginBottom="10dp" />
 
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
@@ -127,8 +129,9 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
+                                android:contentDescription="statistical"
                                 android:src="@drawable/statistical"
-                                android:padding="10dp"/>
+                                android:padding="10dp" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -138,7 +141,7 @@
                                 android:textColor="@color/white"
                                 android:textSize="16sp"
                                 android:gravity="center"
-                                android:layout_marginBottom="10dp"/>
+                                android:layout_marginBottom="10dp" />
 
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
