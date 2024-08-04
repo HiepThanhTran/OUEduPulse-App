@@ -29,10 +29,10 @@ public interface UserDAO {
     @Query("SELECT COUNT(*) FROM users WHERE role = :role")
     int countByRole(Constants.Role role);
 
-    @Insert()
-    void insert(User user);
+    @Insert
+    Long insert(User user);
 
-    @Insert()
+    @Insert
     void insertAll(User... users);
 
     @Update

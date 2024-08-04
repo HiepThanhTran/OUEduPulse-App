@@ -3,11 +3,23 @@ package com.fh.app_student_management.data.entities;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 import java.util.Objects;
 
-@Entity(tableName = "grades")
+@Entity(tableName = "grades", foreignKeys = {
+        @ForeignKey(
+                entity = Student.class,
+                parentColumns = "id",
+                childColumns = "student_id"
+        ),
+        @ForeignKey(
+                entity = Subject.class,
+                parentColumns = "id",
+                childColumns = "subject_id"
+        )
+})
 public class Grade {
 
     @PrimaryKey(autoGenerate = true)

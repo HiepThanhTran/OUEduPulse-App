@@ -18,13 +18,13 @@ public interface ClassDAO {
     List<Class> getAll();
 
     @Query("SELECT * FROM classes WHERE id = :id")
-    Class getById(long id);
+    Class getById(Long id);
 
     @Query("SELECT * FROM classes WHERE name LIKE '%' || :name || '%'")
     List<Class> findByName(String name);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Class Class);
+    Long insert(Class Class);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Class... classes);

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.SemesterActivity"
     android:background="@color/grey"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ui.SemesterActivity"
+    tools:ignore="HardcodedText">
 
     <RelativeLayout
         android:id="@+id/frameRole"
@@ -18,6 +18,7 @@
             android:id="@+id/btnBack"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:contentDescription="ic_back"
             android:padding="14dp"
             android:src="@drawable/ic_back" />
 
@@ -28,15 +29,15 @@
             android:fontFamily="@font/opensans_bold"
             android:text="Danh sách học kì"
             android:textColor="@color/white"
-            android:textSize="20dp"/>
+            android:textSize="20sp" />
     </RelativeLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
 
         <ListView
             android:id="@+id/lvSemester"

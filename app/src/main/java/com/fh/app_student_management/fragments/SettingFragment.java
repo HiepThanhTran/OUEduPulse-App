@@ -1,7 +1,9 @@
 package com.fh.app_student_management.fragments;
 
+import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,7 +16,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
 import com.fh.app_student_management.R;
@@ -27,21 +32,25 @@ import com.fh.app_student_management.utilities.Constants;
 import com.fh.app_student_management.utilities.ImageUtils;
 
 import java.util.Map;
-import java.util.Objects;
 
 public class SettingFragment extends Fragment {
 
-    private static final String USER_EMAIL = "userEmail";
-    private User user;
+    private static final int REQUEST_CODE_EDIT_PROFILE = 1;
 
+    private User user;
+    private SharedPreferences preferences;
+
+    private ImageView avatar;
+    private TextView txtUsername;
     private Button btnEditProfile;
     private LinearLayout btnLogout;
+    private SwitchCompat notificationSwitch;
 
     public static SettingFragment newInstance(Map<String, String> params) {
         SettingFragment fragment = new SettingFragment();
         Bundle args = new Bundle();
 
-        args.putString(USER_EMAIL, params.get(USER_EMAIL));
+        args.putString(Constants.USER_EMAIL, params.get(Constants.USER_EMAIL));
         fragment.setArguments(args);
 
         return fragment;
@@ -51,7 +60,7 @@ public class SettingFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            String userEmail = getArguments().getString(USER_EMAIL);
+            String userEmail = getArguments().getString(Constants.USER_EMAIL);
             UserDAO userDAO = AppDatabase.getInstance(requireContext()).userDAO();
 
             user = userDAO.getByEmail(userEmail);
@@ -64,7 +73,8 @@ public class SettingFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
 
         Window window = requireActivity().getWindow();
-        window.setStatusBarColor(getResources().getColor(R.color.grey, requireActivity().getTheme()));
+        window.setStatusBarColor(getResources().getColor(R.color.grey,
+                requireActivity().getTheme()));
 
         initSettingsView(view);
         handleEventListener();
@@ -72,21 +82,47 @@ public class SettingFragment extends Fragment {
         return view;
     }
 
+    private final ActivityResultLauncher<Intent> editProfileLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    String userEmail = result.getData().getStringExtra(Constants.USER_EMAIL);
+                    UserDAO userDAO = AppDatabase.getInstance(requireContext()).userDAO();
+                    user = userDAO.getByEmail(userEmail);
+
+                    txtUsername.setText(user.getFullName());
+                    avatar.setImageBitmap(ImageUtils.getBitmapFromBytes(user.getAvatar()));
+                }
+            }
+    );
+
     private void initSettingsView(View view) {
-        TextView txtUsername = view.findViewById(R.id.txtUsername);
-        ImageView avatar = view.findViewById(R.id.avatar);
+        avatar = view.findViewById(R.id.avatar);
+        txtUsername = view.findViewById(R.id.txtUsername);
 
         btnEditProfile = view.findViewById(R.id.btnEditProfile);
         btnLogout = view.findViewById(R.id.btnLogout);
+        notificationSwitch = view.findViewById(R.id.notificationSwitch);
+
+        preferences = requireActivity().getSharedPreferences(Constants.PREFS_NAME, MODE_PRIVATE);
+        boolean isSwitchChecked = preferences.getBoolean(Constants.PREF_NOTIFICATION_SWITCH, false);
 
         txtUsername.setText(user.getFullName());
         avatar.setImageBitmap(ImageUtils.getBitmapFromBytes(user.getAvatar()));
+        notificationSwitch.setChecked(isSwitchChecked);
     }
 
     private void handleEventListener() {
         btnEditProfile.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), EditProfileActivity.class);
-            startActivity(intent);
+            intent.putExtra(Constants.USER_EMAIL, user.getEmail());
+            editProfileLauncher.launch(intent);
+        });
+
+        notificationSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean(Constants.PREF_NOTIFICATION_SWITCH, isChecked);
+            editor.apply();
         });
 
         btnLogout.setOnClickListener(v -> {
@@ -100,11 +136,8 @@ public class SettingFragment extends Fragment {
     }
 
     private void logout() {
-        SharedPreferences sharedPreferences =
-                requireActivity().getSharedPreferences(Constants.KEY_SHARED_PREFERENCES,
-                        MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove("userEmail");
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.remove(Constants.USER_EMAIL);
         editor.apply();
 
         Intent intent = new Intent(getActivity(), LoginActivity.class);

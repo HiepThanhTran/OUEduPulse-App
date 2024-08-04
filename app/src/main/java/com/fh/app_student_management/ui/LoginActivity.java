@@ -64,20 +64,9 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         btnLogin.setOnClickListener(v -> {
-            String email = edtEmail.getText().toString().trim();
-            String password = edtPassword.getText().toString().trim();
+            if (!validateInputs()) return;
 
-            if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (Validator.isValidEmail(email)) {
-                Toast.makeText(this, "Email không hợp lệ!", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            performLogin(email, password);
+            performLogin();
         });
 
         txtRegister.setOnClickListener(v -> {
@@ -87,28 +76,56 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void performLogin(String email, String password) {
+    private void performLogin() {
         UserDAO userDao = AppDatabase.getInstance(this).userDAO();
-        User user = userDao.getByEmail(email);
-        if (user == null || !PasswordUtils.verifyPassword(password, user.getPassword())) {
+        User user = userDao.getByEmail(edtEmail.getText().toString().trim());
+
+        if (user == null || !PasswordUtils.verifyPassword(edtPassword.getText().toString().trim()
+                , user.getPassword())) {
             Toast.makeText(this, "Email hoặc mật khẩu không chính xác!", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (chkRememberPassword.isChecked()) {
             SharedPreferences sharedPreferences =
-                    getSharedPreferences(Constants.KEY_SHARED_PREFERENCES, MODE_PRIVATE);
+                    getSharedPreferences(Constants.PREFS_NAME, MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
 
-            editor.putString("userEmail", user.getEmail());
+            editor.putString(Constants.USER_EMAIL, user.getEmail());
 
             editor.apply();
         }
 
         Intent intent = new Intent(LoginActivity.this, BottomNavigation.class);
-        intent.putExtra("userEmail", user.getEmail());
+        intent.putExtra(Constants.USER_EMAIL, user.getEmail());
 
         startActivity(intent);
         finish();
+    }
+
+    private boolean validateInputs() {
+        if (isEmpty(edtEmail)) {
+            showToast("Email không được để trống");
+            return false;
+        }
+
+        if (isEmpty(edtPassword)) {
+            showToast("Mật khẩu không được để trống");
+            return false;
+        }
+
+        if (!Validator.isValidEmail(edtEmail.getText().toString())) {
+            showToast("Email không hợp lệ");
+        }
+
+        return true;
+    }
+
+    private boolean isEmpty(EditText editText) {
+        return editText.getText().toString().trim().isEmpty();
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

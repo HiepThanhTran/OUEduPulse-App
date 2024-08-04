@@ -3,11 +3,18 @@ package com.fh.app_student_management.data.entities;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 import java.util.Objects;
 
-@Entity(tableName = "majors")
+@Entity(tableName = "majors", foreignKeys = {
+        @ForeignKey(
+                entity = Faculty.class,
+                parentColumns = "id",
+                childColumns = "faculty_id"
+        )
+})
 public class Major {
 
     @PrimaryKey(autoGenerate = true)

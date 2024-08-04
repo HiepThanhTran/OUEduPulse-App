@@ -18,13 +18,13 @@ public interface SubjectDAO {
     List<Subject> getAll();
 
     @Query("SELECT * FROM subjects WHERE id = :id")
-    Subject getById(long id);
+    Subject getById(Long id);
 
     @Query("SELECT * FROM subjects WHERE name LIKE '%' || :name || '%'")
     List<Subject> findByName(String name);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Subject subject);
+    Long insert(Subject subject);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Subject... subjects);

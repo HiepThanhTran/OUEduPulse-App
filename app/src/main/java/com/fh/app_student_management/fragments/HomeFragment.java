@@ -24,14 +24,13 @@ import java.util.Objects;
 
 public class HomeFragment extends Fragment {
 
-    private static final String USER_EMAIL = "userEmail";
     private User user;
 
     public static HomeFragment newInstance(Map<String, String> params) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
 
-        args.putString(USER_EMAIL, params.get(USER_EMAIL));
+        args.putString(Constants.USER_EMAIL, params.get(Constants.USER_EMAIL));
         fragment.setArguments(args);
 
         return fragment;
@@ -41,7 +40,7 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            String userEmail = getArguments().getString(USER_EMAIL);
+            String userEmail = getArguments().getString(Constants.USER_EMAIL);
             UserDAO userDAO = AppDatabase.getInstance(requireContext()).userDAO();
 
             user = userDAO.getByEmail(userEmail);
@@ -57,10 +56,8 @@ public class HomeFragment extends Fragment {
         window.setStatusBarColor(getResources().getColor(R.color.grey_sub,
                 requireActivity().getTheme()));
 
-        if (user.getRole() == Constants.Role.LECTURER) {
+        if (Objects.requireNonNull(user.getRole()) == Constants.Role.LECTURER) {
             loadFragment(new LecturerFragment());
-        } else {
-            //
         }
 
         initHomeView(view);

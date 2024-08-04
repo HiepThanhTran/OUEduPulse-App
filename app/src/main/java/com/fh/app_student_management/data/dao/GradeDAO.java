@@ -18,10 +18,10 @@ public interface GradeDAO {
     List<Grade> getAll();
 
     @Query("SELECT * FROM grades WHERE id = :id")
-    Grade getById(long id);
+    Grade getById(Long id);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Grade Grade);
+    Long insert(Grade Grade);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Grade... grades);

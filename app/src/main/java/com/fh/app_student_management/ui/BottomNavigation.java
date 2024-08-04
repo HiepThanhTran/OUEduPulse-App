@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.fh.app_student_management.R;
 import com.fh.app_student_management.fragments.HomeFragment;
 import com.fh.app_student_management.fragments.SettingFragment;
+import com.fh.app_student_management.utilities.Constants;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.HashMap;
@@ -27,9 +28,9 @@ public class BottomNavigation extends AppCompatActivity {
         setContentView(R.layout.activity_bottom_navigation);
 
         Intent intent = getIntent();
-        String userEmail = intent.getStringExtra("userEmail");
+        String userEmail = intent.getStringExtra(Constants.USER_EMAIL);
         Map<String, String> params = new HashMap<>();
-        params.put("userEmail", userEmail);
+        params.put(Constants.USER_EMAIL, userEmail);
 
         initBottomNavigationView();
         handleEventListener(params);

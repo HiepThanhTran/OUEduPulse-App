@@ -1,13 +1,34 @@
 package com.fh.app_student_management.data.entities;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
 
-@Entity(tableName = "lecturers")
-public class Lecturer extends User {
+@Entity(tableName = "lecturers", foreignKeys = {
+        @ForeignKey(
+                entity = User.class,
+                parentColumns = "id",
+                childColumns = "user_id"
+        )
+})
+public class Lecturer {
 
+    @PrimaryKey(autoGenerate = true)
+    private long id;
     private String specialization;
     private String degree;
     private String certificate;
+    @ColumnInfo(name = "user_id")
+    private long userId;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getSpecialization() {
         return specialization;
@@ -31,5 +52,13 @@ public class Lecturer extends User {
 
     public void setCertificate(String certificate) {
         this.certificate = certificate;
+    }
+    
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 }

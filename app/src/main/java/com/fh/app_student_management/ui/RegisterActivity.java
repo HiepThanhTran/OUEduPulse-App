@@ -16,7 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.fh.app_student_management.R;
 import com.fh.app_student_management.data.AppDatabase;
+import com.fh.app_student_management.data.dao.LecturerDAO;
 import com.fh.app_student_management.data.dao.UserDAO;
+import com.fh.app_student_management.data.entities.Lecturer;
 import com.fh.app_student_management.data.entities.User;
 import com.fh.app_student_management.utilities.Constants;
 import com.fh.app_student_management.utilities.ImageUtils;
@@ -65,27 +67,9 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         btnRegister.setOnClickListener(v -> {
-            String fullName = edtFullName.getText().toString().trim();
-            String email = edtEmail.getText().toString().trim();
-            String password = edtPassword.getText().toString();
-            String confirmPassword = edtConfirmPassword.getText().toString();
+            if(!validateInputs()) return;
 
-            if (fullName.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-                Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (Validator.isValidEmail(email)) {
-                Toast.makeText(this, "Email không hợp lệ!", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (!password.equals(confirmPassword)) {
-                Toast.makeText(this, "Mật khẩu không khớp!", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            performRegister(fullName, email, password);
+            performRegister();
         });
 
         txtLogin.setOnClickListener(v -> {
@@ -95,22 +79,27 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void performRegister(String fullName, String email, String password) {
+    private void performRegister() {
         User user = new User();
-        user.setFullName(fullName);
-        user.setEmail(email);
-        user.setPassword(PasswordUtils.hashPassword(password));
+        user.setFullName(edtFullName.getText().toString().trim());
+        user.setEmail(edtEmail.getText().toString().trim());
+        user.setPassword(PasswordUtils.hashPassword(edtPassword.getText().toString()));
         user.setAvatar(ImageUtils.getBytesFromDrawable(this, R.drawable.default_avatar));
         user.setRole(Constants.Role.LECTURER);
 
         try {
-            UserDAO userDao = AppDatabase.getInstance(this).userDAO();
-            userDao.insert(user);
+            UserDAO userDAO = AppDatabase.getInstance(this).userDAO();
+            Long userId = userDAO.insert(user);
+
+            Lecturer lecturer = new Lecturer();
+            lecturer.setUserId(userId);
+            LecturerDAO lecturerDAO = AppDatabase.getInstance(this).lecturerDAO();
+            lecturerDAO.insert(lecturer);
         } catch (SQLiteConstraintException ex) {
-            Toast.makeText(this, "Email đã tồn tại!", Toast.LENGTH_SHORT).show();
+            showToast("Email đã tồn tại!");
             return;
         } catch (Exception ex) {
-            Toast.makeText(this, "Đăng ký thất bại!", Toast.LENGTH_SHORT).show();
+            showToast("Đăng ký thất bại!");
             return;
         }
 
@@ -123,5 +112,50 @@ public class RegisterActivity extends AppCompatActivity {
             finish();
         });
         builder.show();
+    }
+
+    private boolean validateInputs() {
+        if (isEmpty(edtFullName)) {
+            showToast("Họ và tên không được để trống");
+            return false;
+        }
+
+        if (isEmpty(edtEmail)) {
+            showToast("Email không được để trống");
+            return false;
+        }
+
+        if (isEmpty(edtPassword)) {
+            showToast("Mật khẩu không được để trống");
+            return false;
+        }
+
+        if (isEmpty(edtConfirmPassword)) {
+            showToast("Xác nhận mật khẩu không được để trống");
+        }
+
+        if (!Validator.isValidEmail(edtEmail.getText().toString())) {
+            showToast("Email không hợp lệ");
+            return false;
+        }
+        if (!edtPassword.getText().toString().equals(edtConfirmPassword.getText().toString())) {
+            showToast("Mật khẩu không khớp");
+            return false;
+        }
+
+        if (edtPassword.getText().toString().length() < 8) {
+            showToast("Mật khẩu phải có ít nhất 8 ký tự");
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean isEmpty(EditText editText) {
+        return editText.getText().toString().trim().isEmpty();
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

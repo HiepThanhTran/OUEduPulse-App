@@ -68,7 +68,7 @@ public class OnboardingActivity extends AppCompatActivity {
 
         btnStart.setOnClickListener(v -> {
             SharedPreferences sharedPreferences =
-                    getSharedPreferences(Constants.KEY_SHARED_PREFERENCES, MODE_PRIVATE);
+                    getSharedPreferences(Constants.PREFS_NAME, MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean("isOnboarding", true);
             editor.apply();

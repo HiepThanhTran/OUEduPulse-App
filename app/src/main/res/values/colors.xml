@@ -6,4 +6,5 @@
     <color name="grey">#212a37</color>
     <color name="grey_sub">#161d29</color>
     <color name="grey_third">#1AFFFFFF</color>
+    <color name="disabled_grey">#C0C0C0</color>
 </resources>

@@ -3,12 +3,19 @@ package com.fh.app_student_management.data.entities;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
 import java.util.Objects;
 
-@Entity(tableName = "semesters")
+@Entity(tableName = "semesters", foreignKeys = {
+        @ForeignKey(
+                entity = AcademicYear.class,
+                parentColumns = "id",
+                childColumns = "academic_year_id"
+        )
+})
 public class Semester {
 
     @PrimaryKey(autoGenerate = true)

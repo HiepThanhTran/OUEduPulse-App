@@ -18,13 +18,13 @@ public interface SemesterDAO {
     List<Semester> getAll();
 
     @Query("SELECT * FROM semesters WHERE id = :id")
-    Semester getById(long id);
+    Semester getById(Long id);
 
     @Query("SELECT * FROM semesters WHERE name LIKE '%' || :name || '%'")
     List<Semester> findByName(String name);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Semester semester);
+    Long insert(Semester semester);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Semester... semesters);

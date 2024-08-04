@@ -3,6 +3,7 @@ package com.fh.app_student_management.data.entities;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -11,7 +12,14 @@ import com.fh.app_student_management.utilities.Constants;
 import java.util.Date;
 import java.util.Objects;
 
-@Entity(tableName = "users", indices = {@Index(value = {"email"}, unique = true)})
+@Entity(tableName = "users", indices = {@Index(value = {"email"}, unique = true)}, foreignKeys = {
+        @ForeignKey(
+                entity = Faculty.class,
+                parentColumns = "id",
+                childColumns = "faculty_id",
+                onDelete = ForeignKey.SET_NULL
+        )
+})
 public class User {
 
     @PrimaryKey(autoGenerate = true)
@@ -28,7 +36,7 @@ public class User {
     private byte[] avatar;
     private Constants.Role role;
     @ColumnInfo(name = "faculty_id")
-    private long facultyId;
+    private Long facultyId;
 
     public long getId() {
         return id;
@@ -54,7 +62,7 @@ public class User {
         this.dob = dob;
     }
 
-    public boolean isGender() {
+    public boolean getGender() {
         return gender;
     }
 
@@ -91,7 +99,7 @@ public class User {
     }
 
     public void setAvatar(byte[] avatar) {
-        this.avatar= avatar;
+        this.avatar = avatar;
     }
 
     public Constants.Role getRole() {
@@ -102,11 +110,11 @@ public class User {
         this.role = role;
     }
 
-    public long getFacultyId() {
+    public Long getFacultyId() {
         return facultyId;
     }
 
-    public void setFacultyId(long facultyId) {
+    public void setFacultyId(Long facultyId) {
         this.facultyId = facultyId;
     }
 

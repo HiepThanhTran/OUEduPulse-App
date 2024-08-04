@@ -18,15 +18,15 @@ public interface LecturerDAO {
     List<Lecturer> getAll();
 
     @Query("SELECT * FROM lecturers WHERE id = :id")
-    Lecturer getById(long id);
+    Lecturer getById(Long id);
 
-    @Query("SELECT * FROM lecturers WHERE full_name LIKE '%' || :name || '%'")
-    List<Lecturer> findByName(String name);
+    @Query("SELECT * FROM lecturers WHERE user_id = :userId")
+    Lecturer getByUserId(Long userId);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Lecturer Lecturer);
+    @Insert
+    Long insert(Lecturer Lecturer);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     void insertAll(Lecturer... lecturers);
 
     @Update

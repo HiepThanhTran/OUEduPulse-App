@@ -2,15 +2,45 @@ package com.fh.app_student_management.data.entities;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
 
-@Entity(tableName = "students")
-public class Student extends User {
+@Entity(tableName = "students", foreignKeys = {
+        @ForeignKey(
+                entity = User.class,
+                parentColumns = "id",
+                childColumns = "user_id"
+        ),
+        @ForeignKey(
+                entity = Major.class,
+                parentColumns = "id",
+                childColumns = "major_id"
+        ),
+        @ForeignKey(
+                entity = AcademicYear.class,
+                parentColumns = "id",
+                childColumns = "academic_year_id"
+        )
+})
+public class Student {
 
+    @PrimaryKey(autoGenerate = true)
+    private long id;
     private String specialization;
     @ColumnInfo(name = "major_id")
     private long majorId;
     @ColumnInfo(name = "academic_year_id")
     private long academicYearId;
+    @ColumnInfo(name = "user_id")
+    private long userId;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getSpecialization() {
         return specialization;
@@ -34,5 +64,13 @@ public class Student extends User {
 
     public void setAcademicYearId(long academicYearId) {
         this.academicYearId = academicYearId;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 }

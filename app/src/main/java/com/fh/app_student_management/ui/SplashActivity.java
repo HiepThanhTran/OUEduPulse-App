@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.fh.app_student_management.R;
 import com.fh.app_student_management.data.AppDatabase;
-import com.fh.app_student_management.utilities.AppExecutors;
 import com.fh.app_student_management.utilities.Constants;
 
 @SuppressLint("CustomSplashScreen")
@@ -28,9 +27,9 @@ public class SplashActivity extends AppCompatActivity {
 
         runnable = () -> {
             SharedPreferences sharedPreferences =
-                    getSharedPreferences(Constants.KEY_SHARED_PREFERENCES, MODE_PRIVATE);
+                    getSharedPreferences(Constants.PREFS_NAME, MODE_PRIVATE);
             boolean isOnboarding = sharedPreferences.getBoolean("isOnboarding", false);
-            String userEmail = sharedPreferences.getString("userEmail", null);
+            String userEmail = sharedPreferences.getString(Constants.USER_EMAIL, null);
 
             Class<?> targetActivity = LoginActivity.class;
 
@@ -40,7 +39,7 @@ public class SplashActivity extends AppCompatActivity {
             Intent intent = new Intent(SplashActivity.this, targetActivity);
 
             if (userEmail != null) {
-                intent.putExtra("userEmail", userEmail);
+                intent.putExtra(Constants.USER_EMAIL, userEmail);
             }
 
             startActivity(intent);

@@ -18,15 +18,15 @@ public interface StudentDAO {
     List<Student> getAll();
 
     @Query("SELECT * FROM students WHERE id = :id")
-    Student getById(long id);
+    Student getById(Long id);
 
-    @Query("SELECT * FROM students WHERE full_name LIKE '%' || :name || '%'")
-    List<Student> findByName(String name);
+    @Query("SELECT * FROM students WHERE user_id = :userId")
+    Student getByUserId(Long userId);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Student student);
+    @Insert
+    Long insert(Student student);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     void insertAll(Student... students);
 
     @Update
