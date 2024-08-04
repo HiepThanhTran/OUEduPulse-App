@@ -12,7 +12,6 @@ import com.fh.app_student_management.R;
 
 public class SemesterActivity extends AppCompatActivity {
     private ImageView btnBack;
-    private LinearLayout btnToSubject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,15 +23,6 @@ public class SemesterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
-            }
-        });
-
-        btnToSubject = findViewById(R.id.btnToSubject);
-        btnToSubject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SemesterActivity.this, SubjectActivity.class);
-                startActivity(intent);
             }
         });
     }

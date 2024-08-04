@@ -9,7 +9,6 @@
     android:background="@color/grey"
     android:orientation="vertical">
 
-    <!-- Thanh tiêu đề -->
     <RelativeLayout
         android:id="@+id/top"
         android:layout_width="match_parent"
@@ -36,44 +35,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginTop="20dp">
 
-        <LinearLayout
-            android:id="@+id/btnToSubject"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="5dp"
+        <ListView
+            android:id="@+id/lvSemester"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:padding="15dp"
-            android:orientation="vertical"
-            android:background="@drawable/round_back_white_setting">
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            tools:listitem="@layout/list_semester">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/iconSesmester"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/circle_red"
-                    android:padding="6dp"
-                    android:src="@drawable/ic_sesmester" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="22dp"
-                    android:layout_toEndOf="@+id/iconSesmester"
-                    android:fontFamily="@font/opensans_bold"
-                    android:text="Học kì 3 - 2024 - 2025"
-                    android:textColor="@color/white"
-                    android:textSize="18dp" />
-            </RelativeLayout>
-
-        </LinearLayout>
+        </ListView>
     </LinearLayout>
 </LinearLayout>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.SubjectActivity"
+    tools:context=".ui.ClassActivity"
     android:background="@color/grey">
 
     <RelativeLayout
@@ -24,26 +24,22 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:fontFamily="@font/opensans_bold"
-            android:text="Học kì 3 - 2024 - 2025"
+            android:text="Danh sách học kì"
             android:textColor="@color/white"
-            android:textSize="20dp" />
+            android:textSize="20dp"/>
     </RelativeLayout>
 
+
     <LinearLayout
-        android:layout_below="@id/top"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp">
+        android:layout_height="match_parent">
 
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            tools:listitem="@layout/lits_subject">
+            android:scrollbars="vertical">
 
         </ListView>
+
     </LinearLayout>
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
