@@ -1,6 +1,5 @@
 package com.fh.app_student_management.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,14 +8,15 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.fh.app_student_management.R;
 import com.fh.app_student_management.data.AppDatabase;
 import com.fh.app_student_management.data.dao.UserDAO;
 import com.fh.app_student_management.data.entities.User;
-import com.fh.app_student_management.ui.SemesterActivity;
+import com.fh.app_student_management.utilities.Constants;
 import com.fh.app_student_management.utilities.ImageUtils;
 
 import java.util.Map;
@@ -26,8 +26,6 @@ public class HomeFragment extends Fragment {
 
     private static final String USER_EMAIL = "userEmail";
     private User user;
-
-    private CardView btnToSemester;
 
     public static HomeFragment newInstance(Map<String, String> params) {
         HomeFragment fragment = new HomeFragment();
@@ -58,9 +56,14 @@ public class HomeFragment extends Fragment {
         Window window = Objects.requireNonNull(requireActivity()).getWindow();
         window.setStatusBarColor(getResources().getColor(R.color.grey_sub,
                 requireActivity().getTheme()));
-        
+
+        if (user.getRole() == Constants.Role.LECTURER) {
+            loadFragment(new LecturerFragment());
+        } else {
+            //
+        }
+
         initHomeView(view);
-        handleEventListener();
 
         return view;
     }
@@ -69,16 +72,14 @@ public class HomeFragment extends Fragment {
         TextView txtUsername = view.findViewById(R.id.txtUsername);
         ImageView avatar = view.findViewById(R.id.avatar);
 
-        btnToSemester = view.findViewById(R.id.btnToSemester);
-
         txtUsername.setText(user.getFullName());
         avatar.setImageBitmap(ImageUtils.getBitmapFromBytes(user.getAvatar()));
     }
 
-    private void handleEventListener() {
-        btnToSemester.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), SemesterActivity.class);
-            startActivity(intent);
-        });
+    private void loadFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getChildFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout, fragment);
+        fragmentTransaction.commit();
     }
 }
