@@ -3,12 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.SemesterActivity"
     android:background="@color/grey"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ui.SemesterActivity">
 
     <RelativeLayout
         android:id="@+id/top"
@@ -29,7 +28,7 @@
             android:fontFamily="@font/opensans_bold"
             android:text="Danh sách học kì"
             android:textColor="@color/white"
-            android:textSize="20dp"/>
+            android:textSize="20dp" />
     </RelativeLayout>
 
     <androidx.appcompat.widget.SearchView
@@ -43,15 +42,16 @@
         app:iconifiedByDefault="false"
         app:queryHint="Nhập học kì..."
         app:searchIcon="@drawable/ic_search"
-        app:closeIcon="@drawable/ic_close" />
+        app:closeIcon="@drawable/ic_close">
+    </androidx.appcompat.widget.SearchView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="20dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp">
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="vertical">
 
         <ListView
             android:id="@+id/lvSemester"
@@ -59,6 +59,7 @@
             android:layout_height="match_parent"
             android:scrollbars="vertical"
             tools:listitem="@layout/list_semester">
+
         </ListView>
     </LinearLayout>
 </LinearLayout>
