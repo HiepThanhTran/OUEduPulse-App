@@ -17,187 +17,162 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
+            android:backgroundTint="@color/grey_sub"
             app:cardCornerRadius="16dp"
             app:cardElevation="8dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp">
 
-                <ImageView
-                    android:id="@+id/imageClass"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/background_class" />
-
-                <LinearLayout
+                <TextView
+                    android:id="@+id/nameClass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/imageClass"
-                    android:orientation="vertical"
-                    android:padding="14dp"
-                    android:background="@color/grey_sub">
+                    android:fontFamily="@font/opensans_bold"
+                    android:text="DH21IT01"
+                    android:textColor="@color/white"
+                    android:textSize="22sp" />
+
+                <LinearLayout
+                    android:id="@+id/facultyContainer"
+                    android:layout_below="@id/nameClass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/faculty" />
 
                     <LinearLayout
+                        android:layout_marginStart="10dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center"
-                        android:layout_marginBottom="18dp">
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:fontFamily="@font/opensans_bold"
+                            android:text="Khoa: "
+                            android:textColor="@color/white"
+                            android:textSize="20sp"/>
+
+                        <TextView
+                            android:id="@+id/faculty"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/opensans_bold"
+                            android:text="Công nghệ thông tin"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/majorContainer"
+                    android:layout_below="@id/facultyContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="12dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/major"/>
+
+                    <LinearLayout
+                        android:layout_marginStart="12dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
                         <TextView
                             android:layout_marginStart="5dp"
-                            android:id="@+id/nameClass"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ngành: "
+                            android:textSize="20sp"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/opensans_bold"/>
+
+                        <TextView
+                            android:id="@+id/major"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="DH21IT01"
-                            android:textSize="24sp"
-                            android:fontFamily="@font/opensans_bold"
-                            android:textColor="@color/white"/>
-
+                            android:text="IT"
+                            android:textSize="20sp"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/opensans_bold"/>
                     </LinearLayout>
-
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center">
-
-                            <ImageView
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:src="@drawable/faculty"/>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
-
-                                <TextView
-                                    android:layout_marginStart="5dp"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Khoa: "
-                                    android:textSize="20dp"
-                                    android:textColor="@color/white"
-                                    android:fontFamily="@font/opensans_bold"/>
-
-                                <TextView
-                                    android:id="@+id/faculty"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="CNTT"
-                                    android:textSize="20dp"
-                                    android:textColor="@color/white"
-                                    android:fontFamily="@font/opensans_bold"/>
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/middle"
-                            android:layout_alignParentEnd="true"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center">
-
-                            <ImageView
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:src="@drawable/major"/>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
-
-                                <TextView
-                                    android:layout_marginStart="5dp"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Ngành: "
-                                    android:textSize="20dp"
-                                    android:textColor="@color/white"
-                                    android:fontFamily="@font/opensans_bold"/>
-
-                                <TextView
-                                    android:id="@+id/major"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="IT"
-                                    android:textSize="20dp"
-                                    android:textColor="@color/white"
-                                    android:fontFamily="@font/opensans_bold"/>
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/time"
-                            android:layout_below="@id/middle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="20dp"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical">
-
-                            <ImageView
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:src="@drawable/academic_year"/>
-
-                            <TextView
-                                android:layout_marginStart="5dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Năm học: "
-                                android:textSize="20sp"
-                                android:textColor="@color/white"
-                                android:fontFamily="@font/opensans_bold"/>
-
-                            <TextView
-                                android:id="@+id/academyYear"
-                                android:layout_marginStart="5dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="2023 - 2024"
-                                android:textSize="20sp"
-                                android:textColor="@color/white"
-                                android:fontFamily="@font/opensans_bold"/>
-                        </LinearLayout>
-
-                        <RelativeLayout
-                            android:layout_below="@+id/time"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="32dp"
-                            android:layout_marginBottom="10dp">
-
-                            <androidx.appcompat.widget.AppCompatButton
-                                android:id="@+id/btnWatchPointClass"
-                                android:layout_alignParentEnd="true"
-                                android:layout_width="wrap_content"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center"
-                                android:background="@drawable/round_button_edit"
-                                android:backgroundTint="@color/primaryColor"
-                                android:fontFamily="@font/opensans_bold"
-                                android:paddingStart="30dp"
-                                android:paddingEnd="30dp"
-                                android:text="Xem điểm"
-                                android:textAllCaps="false"
-                                android:textColor="@color/white"
-                                android:textSize="16dp" />
-
-                        </RelativeLayout>
-                    </RelativeLayout>
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/academicContainer"
+                    android:layout_below="@id/majorContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="12dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/academic_year"/>
+
+                    <LinearLayout
+                        android:layout_marginStart="12dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_marginStart="5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Năm học: "
+                            android:textSize="20sp"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/opensans_bold"/>
+
+                        <TextView
+                            android:id="@+id/major"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2024 - 2025"
+                            android:textSize="20sp"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/opensans_bold"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@id/academicContainer"
+                    android:id="@+id/btnWatchPointClass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="40dp"
+                    android:background="@drawable/round_button_edit"
+                    android:backgroundTint="@color/primaryColor"
+                    android:fontFamily="@font/opensans_bold"
+                    android:paddingStart="30dp"
+                    android:paddingEnd="30dp"
+                    android:text="Xem điểm"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="16dp" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
     </LinearLayout>
-
 </RelativeLayout>
