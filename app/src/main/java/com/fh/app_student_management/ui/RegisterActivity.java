@@ -21,8 +21,7 @@ import com.fh.app_student_management.data.dao.UserDAO;
 import com.fh.app_student_management.data.entities.Lecturer;
 import com.fh.app_student_management.data.entities.User;
 import com.fh.app_student_management.utilities.Constants;
-import com.fh.app_student_management.utilities.ImageUtils;
-import com.fh.app_student_management.utilities.PasswordUtils;
+import com.fh.app_student_management.utilities.Utils;
 import com.fh.app_student_management.utilities.Validator;
 
 import java.util.Objects;
@@ -83,8 +82,8 @@ public class RegisterActivity extends AppCompatActivity {
         User user = new User();
         user.setFullName(edtFullName.getText().toString().trim());
         user.setEmail(edtEmail.getText().toString().trim());
-        user.setPassword(PasswordUtils.hashPassword(edtPassword.getText().toString()));
-        user.setAvatar(ImageUtils.getBytesFromDrawable(this, R.drawable.default_avatar));
+        user.setPassword(Utils.hashPassword(edtPassword.getText().toString()));
+        user.setAvatar(Utils.getBytesFromDrawable(this, R.drawable.default_avatar));
         user.setRole(Constants.Role.LECTURER);
 
         try {

@@ -23,6 +23,9 @@ public interface SemesterDAO {
     @Query("SELECT * FROM semesters WHERE name LIKE '%' || :name || '%'")
     List<Semester> findByName(String name);
 
+    @Query("SELECT COUNT(*) FROM semesters")
+    int count();
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Long insert(Semester semester);
 

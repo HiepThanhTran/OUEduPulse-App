@@ -28,9 +28,10 @@ import com.fh.app_student_management.data.entities.User;
 import com.fh.app_student_management.ui.EditProfileActivity;
 import com.fh.app_student_management.ui.LoginActivity;
 import com.fh.app_student_management.utilities.Constants;
-import com.fh.app_student_management.utilities.ImageUtils;
+import com.fh.app_student_management.utilities.Utils;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class SettingFragment extends Fragment {
 
@@ -43,12 +44,12 @@ public class SettingFragment extends Fragment {
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                    String userEmail = result.getData().getStringExtra(Constants.USER_EMAIL);
-                    UserDAO userDAO = AppDatabase.getInstance(requireContext()).userDAO();
-                    user = userDAO.getByEmail(userEmail);
+                    Long userId = result.getData().getLongExtra(Constants.USER_ID, 0);
+                    AppDatabase db = AppDatabase.getInstance(requireContext());
+                    user = db.userDAO().getById(userId);
 
                     txtUsername.setText(user.getFullName());
-                    avatar.setImageBitmap(ImageUtils.getBitmapFromBytes(user.getAvatar()));
+                    avatar.setImageBitmap(Utils.getBitmapFromBytes(user.getAvatar()));
                 }
             }
     );
@@ -60,7 +61,7 @@ public class SettingFragment extends Fragment {
         SettingFragment fragment = new SettingFragment();
         Bundle args = new Bundle();
 
-        args.putString(Constants.USER_EMAIL, params.get(Constants.USER_EMAIL));
+        args.putString(Constants.USER_ID, params.get(Constants.USER_ID));
         fragment.setArguments(args);
 
         return fragment;
@@ -70,10 +71,10 @@ public class SettingFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            String userEmail = getArguments().getString(Constants.USER_EMAIL);
-            UserDAO userDAO = AppDatabase.getInstance(requireContext()).userDAO();
+            long userId = Long.parseLong(Objects.requireNonNull(requireArguments().getString(Constants.USER_ID)));
+            AppDatabase db = AppDatabase.getInstance(requireContext());
 
-            user = userDAO.getByEmail(userEmail);
+            user = db.userDAO().getById(userId);
         }
     }
 
@@ -104,14 +105,14 @@ public class SettingFragment extends Fragment {
         boolean isSwitchChecked = preferences.getBoolean(Constants.PREF_NOTIFICATION_SWITCH, false);
 
         txtUsername.setText(user.getFullName());
-        avatar.setImageBitmap(ImageUtils.getBitmapFromBytes(user.getAvatar()));
+        avatar.setImageBitmap(Utils.getBitmapFromBytes(user.getAvatar()));
         notificationSwitch.setChecked(isSwitchChecked);
     }
 
     private void handleEventListener() {
         btnEditProfile.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), EditProfileActivity.class);
-            intent.putExtra(Constants.USER_EMAIL, user.getEmail());
+            intent.putExtra(Constants.USER_ID, user.getId());
             editProfileLauncher.launch(intent);
         });
 
@@ -133,7 +134,7 @@ public class SettingFragment extends Fragment {
 
     private void logout() {
         SharedPreferences.Editor editor = preferences.edit();
-        editor.remove(Constants.USER_EMAIL);
+        editor.remove(Constants.USER_ID);
         editor.apply();
 
         Intent intent = new Intent(getActivity(), LoginActivity.class);

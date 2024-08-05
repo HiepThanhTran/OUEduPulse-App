@@ -14,6 +14,7 @@ public class Validator {
 
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
         Matcher matcher = pattern.matcher(email);
+
         return matcher.matches();
     }
 }

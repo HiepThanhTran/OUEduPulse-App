@@ -23,23 +23,27 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        AppDatabase.insertAdmin(this);
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.PREFS_NAME, MODE_PRIVATE);
+        boolean insertedDefaultValues = sharedPreferences.getBoolean("insertedDefaultValues", false);
+
+        if (!insertedDefaultValues) {
+            AppDatabase.insertDefaultValue(this);
+            sharedPreferences.edit().putBoolean("insertedDefaultValues", true).apply();
+        }
 
         runnable = () -> {
-            SharedPreferences sharedPreferences =
-                    getSharedPreferences(Constants.PREFS_NAME, MODE_PRIVATE);
             boolean isOnboarding = sharedPreferences.getBoolean("isOnboarding", false);
-            String userEmail = sharedPreferences.getString(Constants.USER_EMAIL, null);
+            Long userId = sharedPreferences.getLong(Constants.USER_ID, 0);
 
             Class<?> targetActivity = LoginActivity.class;
 
             targetActivity = !isOnboarding ? OnboardingActivity.class : targetActivity;
-            targetActivity = userEmail != null ? BottomNavigation.class : targetActivity;
+            targetActivity = userId > 0 ? BottomNavigation.class : targetActivity;
 
             Intent intent = new Intent(SplashActivity.this, targetActivity);
 
-            if (userEmail != null) {
-                intent.putExtra(Constants.USER_EMAIL, userEmail);
+            if (userId > 0) {
+                intent.putExtra(Constants.USER_ID, userId);
             }
 
             startActivity(intent);

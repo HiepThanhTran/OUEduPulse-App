@@ -27,9 +27,9 @@ public class BottomNavigation extends AppCompatActivity {
         setContentView(R.layout.activity_bottom_navigation);
 
         Intent intent = getIntent();
-        String userEmail = intent.getStringExtra(Constants.USER_EMAIL);
+        Long userId = intent.getLongExtra(Constants.USER_ID, 0);
         Map<String, String> params = new HashMap<>();
-        params.put(Constants.USER_EMAIL, userEmail);
+        params.put(Constants.USER_ID, String.valueOf(userId));
 
         initBottomNavigationView();
         handleEventListener(params);

@@ -26,7 +26,7 @@ import com.fh.app_student_management.data.dao.UserDAO;
 import com.fh.app_student_management.data.entities.Lecturer;
 import com.fh.app_student_management.data.entities.User;
 import com.fh.app_student_management.utilities.Constants;
-import com.fh.app_student_management.utilities.ImageUtils;
+import com.fh.app_student_management.utilities.Utils;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 
 import java.text.ParseException;
@@ -56,7 +56,7 @@ public class EditProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_profile);
 
         Intent intent = getIntent();
-        String userEmail = intent.getStringExtra(Constants.USER_EMAIL);
+        String userEmail = intent.getStringExtra(Constants.USER_ID);
         UserDAO userDAO = AppDatabase.getInstance(this).userDAO();
 
         user = userDAO.getByEmail(userEmail);
@@ -95,7 +95,7 @@ public class EditProfileActivity extends AppCompatActivity {
         btnSaveProfile = findViewById(R.id.btnSaveProfile);
 
         inputEmail.setText(user.getEmail());
-        avatar.setImageBitmap(ImageUtils.getBitmapFromBytes(user.getAvatar()));
+        avatar.setImageBitmap(Utils.getBitmapFromBytes(user.getAvatar()));
         inputFullName.setText(user.getFullName());
 
         setTextOrHint(inputDob, user.getDob());
@@ -155,21 +155,21 @@ public class EditProfileActivity extends AppCompatActivity {
         performEditProfile();
 
         Intent resultIntent = new Intent();
-        resultIntent.putExtra(Constants.USER_EMAIL, user.getEmail());
+        resultIntent.putExtra(Constants.USER_ID, user.getEmail());
         setResult(RESULT_OK, resultIntent);
         finish();
     }
 
     private void performEditProfile() {
         try {
-            user.setAvatar(ImageUtils.getBytesFromBitmap(ImageUtils.getBitmapFromView(avatar)));
+            user.setAvatar(Utils.getBytesFromBitmap(Utils.getBitmapFromView(avatar)));
             user.setFullName(inputFullName.getText().toString());
             if (radioGroupGender.getCheckedRadioButtonId() == R.id.radioButtonMale) {
                 user.setGender(Constants.MALE);
             } else {
                 user.setGender(Constants.FEMALE);
             }
-            user.setDob(Constants.sdf.parse(inputDob.getText().toString()));
+            user.setDob(Constants.DATE_FORMAT("dd/MM/yyyy").parse(inputDob.getText().toString()));
             user.setAddress(inputAddress.getText().toString());
 
             if (Objects.requireNonNull(user.getRole()) == Constants.Role.LECTURER) {
@@ -260,7 +260,7 @@ public class EditProfileActivity extends AppCompatActivity {
         if (value == null) {
             editText.setHint("Chưa có");
         } else {
-            editText.setText(Constants.sdf.format(user.getDob()));
+            editText.setText(Constants.DATE_FORMAT("dd/MM/yyyy").format(user.getDob()));
         }
     }
 

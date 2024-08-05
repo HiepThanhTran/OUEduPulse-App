@@ -19,7 +19,7 @@ import com.fh.app_student_management.data.AppDatabase;
 import com.fh.app_student_management.data.dao.UserDAO;
 import com.fh.app_student_management.data.entities.User;
 import com.fh.app_student_management.utilities.Constants;
-import com.fh.app_student_management.utilities.PasswordUtils;
+import com.fh.app_student_management.utilities.Utils;
 import com.fh.app_student_management.utilities.Validator;
 
 import java.util.Objects;
@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
         UserDAO userDao = AppDatabase.getInstance(this).userDAO();
         User user = userDao.getByEmail(edtEmail.getText().toString().trim());
 
-        if (user == null || !PasswordUtils.verifyPassword(edtPassword.getText().toString().trim()
+        if (user == null || !Utils.verifyPassword(edtPassword.getText().toString().trim()
                 , user.getPassword())) {
             Toast.makeText(this, "Email hoặc mật khẩu không chính xác!", Toast.LENGTH_SHORT).show();
             return;
@@ -91,13 +91,13 @@ public class LoginActivity extends AppCompatActivity {
                     getSharedPreferences(Constants.PREFS_NAME, MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
 
-            editor.putString(Constants.USER_EMAIL, user.getEmail());
+            editor.putLong(Constants.USER_ID, user.getId());
 
             editor.apply();
         }
 
         Intent intent = new Intent(LoginActivity.this, BottomNavigation.class);
-        intent.putExtra(Constants.USER_EMAIL, user.getEmail());
+        intent.putExtra(Constants.USER_ID, user.getId());
 
         startActivity(intent);
         finish();

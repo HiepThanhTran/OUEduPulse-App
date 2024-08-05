@@ -23,6 +23,13 @@ public interface ClassDAO {
     @Query("SELECT * FROM classes WHERE name LIKE '%' || :name || '%'")
     List<Class> findByName(String name);
 
+    @Query("SELECT c.* FROM classes c " +
+            "JOIN semesters s ON c.id = s.id " +
+            "JOIN lecturers l ON c.lecturer_id = l.id " +
+            "JOIN users u ON l.user_id = u.id " +
+            "WHERE s.id = :selectedSemesterId AND u.id = :currentUserId")
+    List<Class> getClassesBySemesterAndLecturer(long selectedSemesterId, long currentUserId);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Long insert(Class Class);
 

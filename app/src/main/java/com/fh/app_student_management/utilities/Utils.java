@@ -6,9 +6,23 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.view.View;
 
-import java.io.ByteArrayOutputStream;
+import org.mindrot.jbcrypt.BCrypt;
 
-public class ImageUtils {
+import java.io.ByteArrayOutputStream;
+import java.text.Normalizer;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.regex.Pattern;
+
+public final class Utils {
+
+    public static String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt());
+    }
+
+    public static boolean verifyPassword(String password, String hashedPassword) {
+        return BCrypt.checkpw(password, hashedPassword);
+    }
 
     public static byte[] getBytesFromDrawable(Context context, int drawableId) {
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), drawableId);
@@ -21,6 +35,7 @@ public class ImageUtils {
     public static byte[] getBytesFromBitmap(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+
         return byteArrayOutputStream.toByteArray();
     }
 
@@ -37,5 +52,16 @@ public class ImageUtils {
 
         return bitmap;
     }
-}
 
+    public static String removeVietnameseAccents(String str) {
+        if (str == null) return null;
+        String normalized = Normalizer.normalize(str, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{M}");
+        return pattern.matcher(normalized).replaceAll("");
+    }
+
+    public static boolean equalsIgnoreVietnameseAccent(String str1, String str2) {
+        if (str1 == null || str2 == null) return false;
+        return removeVietnameseAccents(str1).equalsIgnoreCase(removeVietnameseAccents(str2));
+    }
+}

@@ -14,11 +14,12 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.fh.app_student_management.R;
 import com.fh.app_student_management.data.AppDatabase;
-import com.fh.app_student_management.data.dao.UserDAO;
+import com.fh.app_student_management.data.entities.Lecturer;
 import com.fh.app_student_management.data.entities.User;
 import com.fh.app_student_management.utilities.Constants;
-import com.fh.app_student_management.utilities.ImageUtils;
+import com.fh.app_student_management.utilities.Utils;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -30,7 +31,7 @@ public class HomeFragment extends Fragment {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
 
-        args.putString(Constants.USER_EMAIL, params.get(Constants.USER_EMAIL));
+        args.putString(Constants.USER_ID, params.get(Constants.USER_ID));
         fragment.setArguments(args);
 
         return fragment;
@@ -40,10 +41,10 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            String userEmail = getArguments().getString(Constants.USER_EMAIL);
-            UserDAO userDAO = AppDatabase.getInstance(requireContext()).userDAO();
+            long userId = Long.parseLong(Objects.requireNonNull(requireArguments().getString(Constants.USER_ID)));
+            AppDatabase db = AppDatabase.getInstance(requireContext());
 
-            user = userDAO.getByEmail(userEmail);
+            user = db.userDAO().getById(userId);
         }
     }
 
@@ -57,7 +58,10 @@ public class HomeFragment extends Fragment {
                 requireActivity().getTheme()));
 
         if (Objects.requireNonNull(user.getRole()) == Constants.Role.LECTURER) {
-            loadFragment(new LecturerFragment());
+            Map<String, String> params = new HashMap<>();
+            params.put(Constants.USER_ID, String.valueOf(user.getId()));
+
+            loadFragment(LecturerFragment.newInstance(params));
         }
 
         initHomeView(view);
@@ -70,7 +74,7 @@ public class HomeFragment extends Fragment {
         ImageView avatar = view.findViewById(R.id.avatar);
 
         txtUsername.setText(user.getFullName());
-        avatar.setImageBitmap(ImageUtils.getBitmapFromBytes(user.getAvatar()));
+        avatar.setImageBitmap(Utils.getBitmapFromBytes(user.getAvatar()));
     }
 
     private void loadFragment(Fragment fragment) {

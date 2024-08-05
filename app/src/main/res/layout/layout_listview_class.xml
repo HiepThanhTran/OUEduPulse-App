@@ -166,7 +166,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_below="@id/academicContainer"
-                    android:layout_alignParentEnd="true"
                     android:layout_gravity="center"
                     android:layout_marginTop="36dp"
                     android:background="@drawable/round_button_edit"
@@ -174,7 +173,7 @@
                     android:fontFamily="@font/opensans_bold"
                     android:paddingStart="30dp"
                     android:paddingEnd="30dp"
-                    android:text="Xem điểm"
+                    android:text="Xem"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
