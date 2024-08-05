@@ -11,6 +11,7 @@
     tools:ignore="HardcodedText">
 
     <RelativeLayout
+        android:id="@+id/top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -30,7 +31,6 @@
             android:text="Chỉnh sửa hồ sơ"
             android:textColor="@color/white"
             android:textSize="20sp" />
-
     </RelativeLayout>
 
     <RelativeLayout
@@ -109,9 +109,11 @@
                     android:inputType="textEmailAddress"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
-                    android:textColor="@color/disabled_grey"
+                    android:text="21510501222huong@ou.edu.vn"
+                    android:textColor="#C0C0C0"
                     android:textSize="16sp"
                     tools:ignore="LabelFor" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -143,6 +145,7 @@
                     android:inputType="textMultiLine"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
+                    android:text="Trần Thị Hương"
                     android:textColor="@color/grey"
                     android:textSize="16sp"
                     tools:ignore="LabelFor" />
@@ -181,7 +184,8 @@
                         android:text="Nam"
                         android:textColor="@color/white"
                         android:textSize="16sp"
-                        android:theme="@style/RadioButtonStyle" />
+                        android:theme="@style/RadioButtonStyle"
+                        tools:ignore="RtlSymmetry" />
 
                     <RadioButton
                         android:id="@+id/radioButtonFemale"
@@ -189,12 +193,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:button="@drawable/custome_radio_button"
+                        android:checked="true"
                         android:fontFamily="@font/opensans_bold"
                         android:paddingStart="8dp"
                         android:text="Nữ"
                         android:textColor="@color/white"
                         android:textSize="16sp"
-                        android:theme="@style/RadioButtonStyle" />
+                        android:theme="@style/RadioButtonStyle"
+                        tools:ignore="RtlSymmetry" />
 
                 </RadioGroup>
 
@@ -227,14 +233,13 @@
                     android:ems="10"
                     android:focusable="true"
                     android:fontFamily="@font/opensans_bold"
-                    android:gravity="center_vertical"
                     android:inputType="none"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
+                    android:text="20/10/1999"
                     android:textColor="@color/grey"
                     android:textSize="16sp"
-                    app:drawableStartCompat="@drawable/ic_date_of_birth"
-                    tools:ignore="Autofill,LabelFor" />
+                    app:drawableStartCompat="@drawable/ic_date_of_birth" />
 
             </LinearLayout>
 
@@ -267,114 +272,20 @@
                     android:inputType="textMultiLine"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
-                    android:textColor="@color/grey"
-                    android:textSize="16sp"
-                    tools:ignore="LabelFor" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:fontFamily="@font/opensans_bold"
-                    android:text="Chuyên ngành giảng dạy"
-                    android:textColor="@color/white"
-                    android:textSize="18sp" />
-
-
-                <EditText
-                    android:id="@+id/inputSpecialization"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="@drawable/custom_input"
-                    android:drawableStart="@drawable/ic_specialization"
-                    android:drawablePadding="12dp"
-                    android:ems="10"
-                    android:fontFamily="@font/opensans_bold"
-                    android:inputType="textMultiLine"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
+                    android:text="Gò Vấp Hồ Chí Minh"
                     android:textColor="@color/grey"
                     android:textSize="16sp"
                     tools:ignore="Autofill,LabelFor" />
 
             </LinearLayout>
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                tools:ignore="UselessLeaf">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:fontFamily="@font/opensans_bold"
-                    android:text="Bằng cấp"
-                    android:textColor="@color/white"
-                    android:textSize="18sp" />
-
-                <EditText
-                    android:id="@+id/inputDegree"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="@drawable/custom_input"
-                    android:drawableStart="@drawable/ic_degree"
-                    android:drawablePadding="12dp"
-                    android:ems="10"
-                    android:fontFamily="@font/opensans_bold"
-                    android:inputType="textMultiLine"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:textColor="@color/grey"
-                    android:textSize="16sp"
-                    tools:ignore="Autofill,LabelFor" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:fontFamily="@font/opensans_bold"
-                    android:text="Chứng chỉ"
-                    android:textColor="@color/white"
-                    android:textSize="18sp" />
-
-                <EditText
-                    android:id="@+id/inputCertificate"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="@drawable/custom_input"
-                    android:drawableStart="@drawable/ic_certificate"
-                    android:drawablePadding="12dp"
-                    android:ems="10"
-                    android:fontFamily="@font/opensans_bold"
-                    android:inputType="textMultiLine"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:textColor="@color/grey"
-                    android:textSize="16sp"
-                    tools:ignore="Autofill,LabelFor" />
-
-            </LinearLayout>
+            </FrameLayout>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnSaveProfile"

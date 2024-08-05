@@ -5,8 +5,8 @@
     android:id="@+id/layoutLogin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.LoginActivity"
     android:background="@color/grey"
+    tools:context=".ui.LoginActivity"
     tools:ignore="HardcodedText">
 
     <ImageView
@@ -19,35 +19,35 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/imageForm"
         android:layout_alignParentBottom="true"
-        android:background="@color/white"
-        app:cardCornerRadius="28dp"
         android:layout_marginBottom="-20dp"
-        android:layout_below="@id/imageForm">
+        android:background="@color/white"
+        app:cardCornerRadius="28dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:orientation="vertical"
-            android:padding="28dp"
-            android:background="@color/white">
+            android:padding="28dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Xin chào"
-                android:textSize="25sp"
-                android:fontFamily="@font/opensans_bold"
-                android:background="@color/white" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Hãy đăng nhập để sử dụng hệ thống"
-                android:textSize="18sp"
-                android:fontFamily="@font/opensans_bold"
                 android:background="@color/white"
-                android:layout_marginTop="5dp" />
+                android:fontFamily="@font/opensans_bold"
+                android:text="Xin chào"
+                android:textSize="25sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@color/white"
+                android:fontFamily="@font/opensans_bold"
+                android:text="Hãy đăng nhập để sử dụng hệ thống"
+                android:textSize="18sp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -69,13 +69,13 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Mật khẩu"
                 android:layout_marginTop="20dp"
-                app:startIconDrawable="@drawable/ic_password"
-                app:endIconMode="password_toggle"
+                android:hint="Mật khẩu"
                 app:boxStrokeColor="@color/grey"
+                app:endIconMode="password_toggle"
+                app:hintTextAppearance="@style/CustomHintTextAppearance"
                 app:hintTextColor="@color/black"
-                app:hintTextAppearance="@style/CustomHintTextAppearance">
+                app:startIconDrawable="@drawable/ic_password">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtPassword"
@@ -101,12 +101,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Quên mật khẩu"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/opensans_bold"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"
-                    android:textColor="@color/primaryColor" />
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/opensans_bold"
+                    android:text="Quên mật khẩu"
+                    android:textColor="@color/primaryColor"
+                    android:textSize="16sp" />
             </RelativeLayout>
 
             <com.google.android.material.button.MaterialButton
@@ -126,23 +126,26 @@
                 android:gravity="center">
 
                 <TextView
+                    android:id="@+id/tv_no_account"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Bạn chưa có tài khoản? "
-                    android:textSize="16sp"
                     android:fontFamily="@font/opensans_bold"
-                    android:id="@+id/tv_no_account" />
+                    android:text="Bạn chưa có tài khoản? "
+                    android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/txtRegister"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Đăng ký"
-                    android:textSize="16sp"
-                    android:textColor="@color/primaryColor"
+                    android:layout_toEndOf="@id/tv_no_account"
                     android:fontFamily="@font/opensans_bold"
-                    android:id="@+id/txtRegister"
-                    android:layout_toEndOf="@id/tv_no_account" />
+                    android:text="Đăng ký"
+                    android:textColor="@color/primaryColor"
+                    android:textSize="16sp" />
             </RelativeLayout>
+
         </LinearLayout>
+
     </androidx.cardview.widget.CardView>
+
 </RelativeLayout>

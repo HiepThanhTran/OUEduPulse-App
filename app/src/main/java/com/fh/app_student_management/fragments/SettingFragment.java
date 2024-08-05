@@ -3,7 +3,6 @@ package com.fh.app_student_management.fragments;
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -35,13 +34,24 @@ import java.util.Map;
 
 public class SettingFragment extends Fragment {
 
-    private static final int REQUEST_CODE_EDIT_PROFILE = 1;
-
     private User user;
     private SharedPreferences preferences;
 
     private ImageView avatar;
     private TextView txtUsername;
+    private final ActivityResultLauncher<Intent> editProfileLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    String userEmail = result.getData().getStringExtra(Constants.USER_EMAIL);
+                    UserDAO userDAO = AppDatabase.getInstance(requireContext()).userDAO();
+                    user = userDAO.getByEmail(userEmail);
+
+                    txtUsername.setText(user.getFullName());
+                    avatar.setImageBitmap(ImageUtils.getBitmapFromBytes(user.getAvatar()));
+                }
+            }
+    );
     private Button btnEditProfile;
     private LinearLayout btnLogout;
     private SwitchCompat notificationSwitch;
@@ -81,20 +91,6 @@ public class SettingFragment extends Fragment {
 
         return view;
     }
-
-    private final ActivityResultLauncher<Intent> editProfileLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                    String userEmail = result.getData().getStringExtra(Constants.USER_EMAIL);
-                    UserDAO userDAO = AppDatabase.getInstance(requireContext()).userDAO();
-                    user = userDAO.getByEmail(userEmail);
-
-                    txtUsername.setText(user.getFullName());
-                    avatar.setImageBitmap(ImageUtils.getBitmapFromBytes(user.getAvatar()));
-                }
-            }
-    );
 
     private void initSettingsView(View view) {
         avatar = view.findViewById(R.id.avatar);

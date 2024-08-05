@@ -10,7 +10,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:id="@+id/top"
@@ -56,13 +57,16 @@
                     android:textSize="18sp" />
 
             </LinearLayout>
+
         </LinearLayout>
 
         <FrameLayout
             android:id="@+id/frameLayout"
-            android:layout_below="@+id/top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"/>
+            android:layout_below="@+id/top"
+            android:layout_marginTop="40dp" />
+
     </RelativeLayout>
+
 </FrameLayout>

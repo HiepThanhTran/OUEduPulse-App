@@ -8,10 +8,10 @@
     tools:context=".fragments.SettingFragment"
     tools:ignore="HardcodedText">
 
-
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:id="@+id/frameRole"
@@ -66,6 +66,7 @@
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
+
         </LinearLayout>
 
         <ScrollView
@@ -156,6 +157,7 @@
                             android:contentDescription="ic_arrow_right"
                             android:src="@drawable/ic_arrow_right" />
                     </RelativeLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -198,6 +200,7 @@
                             android:layout_centerVertical="true"
                             android:contentDescription="ic_arrow_right"
                             android:src="@drawable/ic_arrow_right" />
+
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -232,6 +235,7 @@
                             android:layout_centerVertical="true"
                             android:contentDescription="ic_arrow_right"
                             android:src="@drawable/ic_arrow_right" />
+
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -266,7 +270,9 @@
                             android:layout_centerVertical="true"
                             android:contentDescription="ic_arrow_right"
                             android:src="@drawable/ic_arrow_right" />
+
                     </RelativeLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -310,6 +316,7 @@
                             android:layout_centerVertical="true"
                             android:contentDescription="ic_arrow_right"
                             android:src="@drawable/ic_arrow_right" />
+
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -344,6 +351,7 @@
                             android:layout_centerVertical="true"
                             android:contentDescription="ic_arrow_right"
                             android:src="@drawable/ic_arrow_right" />
+
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -378,7 +386,9 @@
                             android:layout_centerVertical="true"
                             android:contentDescription="ic_arrow_right"
                             android:src="@drawable/ic_arrow_right" />
+
                     </RelativeLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -424,9 +434,15 @@
                             android:layout_centerVertical="true"
                             android:contentDescription="ic_arrow_right"
                             android:src="@drawable/ic_arrow_right" />
+
                     </RelativeLayout>
+
                 </LinearLayout>
+
             </LinearLayout>
+
         </ScrollView>
+
     </RelativeLayout>
+
 </FrameLayout>

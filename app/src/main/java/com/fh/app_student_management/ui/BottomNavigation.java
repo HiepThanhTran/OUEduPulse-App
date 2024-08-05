@@ -16,7 +16,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class BottomNavigation extends AppCompatActivity {
 

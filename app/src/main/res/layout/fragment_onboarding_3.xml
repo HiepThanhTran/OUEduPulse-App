@@ -36,4 +36,5 @@
         android:lineHeight="40dp"
         android:fontFamily="@font/opensans_bold"
         tools:targetApi="p" />
+
 </LinearLayout>

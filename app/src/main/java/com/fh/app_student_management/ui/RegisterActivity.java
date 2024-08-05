@@ -67,7 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         btnRegister.setOnClickListener(v -> {
-            if(!validateInputs()) return;
+            if (!validateInputs()) return;
 
             performRegister();
         });
@@ -143,8 +143,8 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         }
 
-        if (edtPassword.getText().toString().length() < 8) {
-            showToast("Mật khẩu phải có ít nhất 8 ký tự");
+        if (edtPassword.getText().toString().length() < 6) {
+            showToast("Mật khẩu phải có ít nhất 6 ký tự");
             return false;
         }
 

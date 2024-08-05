@@ -9,15 +9,8 @@ import androidx.fragment.app.Fragment;
 
 import com.fh.app_student_management.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link OnboardingFragment1#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class OnboardingFragment1 extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -29,15 +22,6 @@ public class OnboardingFragment1 extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment OnboardingFragment1.
-     */
-    // TODO: Rename and change types and number of parameters
     public static OnboardingFragment1 newInstance(String param1, String param2) {
         OnboardingFragment1 fragment = new OnboardingFragment1();
         Bundle args = new Bundle();
@@ -59,7 +43,6 @@ public class OnboardingFragment1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_onboarding_1, container, false);
     }
 }

@@ -6,11 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.fh.app_student_management.R;
 
-public class ClassActivity extends AppCompatActivity {
+public class PointActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_class);
+        setContentView(R.layout.activity_point);
     }
 }

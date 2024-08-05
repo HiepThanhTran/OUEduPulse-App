@@ -25,4 +25,5 @@
         app:itemTextColor="@color/white"
         app:itemIconSize="30dp"
         app:itemTextAppearanceActive="@style/CustomTextAppearance" />
+
 </LinearLayout>

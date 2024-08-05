@@ -116,6 +116,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (!Validator.isValidEmail(edtEmail.getText().toString())) {
             showToast("Email không hợp lệ");
+            return false;
         }
 
         return true;

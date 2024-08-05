@@ -2,18 +2,18 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey"
+    android:orientation="vertical"
     tools:context=".ui.LoginActivity"
     tools:ignore="HardcodedText">
 
     <LinearLayout
         android:id="@+id/layoutRegister"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/imageForm"
@@ -157,7 +157,11 @@
                         android:textColor="@color/primaryColor"
                         android:textSize="16sp" />
                 </RelativeLayout>
+
             </LinearLayout>
+
         </androidx.cardview.widget.CardView>
+
     </LinearLayout>
+
 </ScrollView>

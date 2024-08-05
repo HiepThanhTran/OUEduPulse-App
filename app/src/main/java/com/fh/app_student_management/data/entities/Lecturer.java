@@ -53,7 +53,7 @@ public class Lecturer {
     public void setCertificate(String certificate) {
         this.certificate = certificate;
     }
-    
+
     public long getUserId() {
         return userId;
     }

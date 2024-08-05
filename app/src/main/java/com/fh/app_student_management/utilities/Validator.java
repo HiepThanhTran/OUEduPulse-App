@@ -9,11 +9,11 @@ public class Validator {
 
     public static boolean isValidEmail(String email) {
         if (email == null || email.isEmpty()) {
-            return true;
+            return false;
         }
 
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
         Matcher matcher = pattern.matcher(email);
-        return !matcher.matches();
+        return matcher.matches();
     }
 }
