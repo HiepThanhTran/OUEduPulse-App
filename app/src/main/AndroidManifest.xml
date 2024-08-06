@@ -12,14 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppStudentManagement"
         tools:targetApi="31">
-        <activity
-            android:name=".ui.EditLecturerActivity"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".ui.EditLecturerActivity"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".ui.AddLecturerActivity"
-            android:exported="false" /> <!-- <activity -->
-        <!-- android:name=".ui.UserManagementActivity" -->
-        <!-- android:exported="false" /> -->
+            android:exported="false" />
+         <activity
+         android:name=".ui.UserManagementActivity"
+         android:exported="false" />
         <activity
             android:name=".ui.PointActivity"
             android:exported="false" />
@@ -48,7 +49,7 @@
             android:name=".ui.OnboardingActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.UserManagementActivity"
+            android:name=".ui.EditLecturerActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
