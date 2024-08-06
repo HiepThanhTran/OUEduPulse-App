@@ -57,7 +57,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/statistical"
+                android:id="@+id/btnToStatistical"
                 android:layout_width="160dp"
                 android:layout_height="160dp"
                 android:layout_margin="10dp"
