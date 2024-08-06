@@ -12,33 +12,41 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppStudentManagement"
         tools:targetApi="31">
-
         <activity
-            android:name=".ui.PointActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.ClassActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.SubjectActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.SemesterActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.EditProfileActivity"
+            android:name=".ui.AddLecturerActivity"
             android:exported="false" />
         <activity
             android:name=".ui.BottomNavigation"
             android:exported="false" />
         <activity
-            android:name=".ui.RegisterActivity"
+            android:name=".ui.ClassActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.EditLecturerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.EditProfileActivity"
             android:exported="false" />
         <activity
             android:name=".ui.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".ui.OnboardingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.PointActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.SemesterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.SubjectActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.UserManagementActivity"
             android:exported="false" />
         <activity
             android:name=".ui.SplashActivity"
@@ -48,9 +56,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
     </application>
 
 </manifest>
