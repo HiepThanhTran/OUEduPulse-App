@@ -23,6 +23,11 @@ import java.util.Objects;
                 entity = Lecturer.class,
                 parentColumns = "id",
                 childColumns = "lecturer_id"
+        ),
+        @ForeignKey(
+                entity = Semester.class,
+                parentColumns = "id",
+                childColumns = "semester_id"
         )
 })
 public class Class {
@@ -34,6 +39,8 @@ public class Class {
     private long majorId;
     @ColumnInfo(name = "academic_year_id")
     private long academicYearId;
+    @ColumnInfo(name = "semester_id")
+    private long semesterId;
     @ColumnInfo(name = "lecturer_id")
     private long lecturerId;
 
@@ -67,6 +74,14 @@ public class Class {
 
     public void setAcademicYearId(long academicYearId) {
         this.academicYearId = academicYearId;
+    }
+
+    public long getSemesterId() {
+        return semesterId;
+    }
+
+    public void setSemesterId(long semesterId) {
+        this.semesterId = semesterId;
     }
 
     public long getLecturerId() {

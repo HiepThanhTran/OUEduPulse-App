@@ -64,4 +64,10 @@ public final class Utils {
         if (str1 == null || str2 == null) return false;
         return removeVietnameseAccents(str1).equalsIgnoreCase(removeVietnameseAccents(str2));
     }
+
+    public static int getYearFromDate(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.get(Calendar.YEAR);
+    }
 }

@@ -55,11 +55,11 @@
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/lvSemester"
+            android:id="@+id/rvSemester"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"
-            tools:listitem="@layout/layout_listview_semester" />
+            tools:listitem="@layout/layout_recycle_view_semester" />
 
     </LinearLayout>
 

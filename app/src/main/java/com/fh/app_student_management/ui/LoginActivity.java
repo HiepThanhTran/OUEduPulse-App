@@ -1,5 +1,6 @@
 package com.fh.app_student_management.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,12 +33,19 @@ public class LoginActivity extends AppCompatActivity {
     private TextView txtRegister;
     private CheckBox chkRememberPassword;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         initLoginView();
+
+        // TODO: TEMP
+        edtEmail.setText("lecturer1@gmail.com");
+        edtPassword.setText("user@123");
+        chkRememberPassword.setChecked(true);
+
         handleEventListener();
     }
 
@@ -97,7 +105,9 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         Intent intent = new Intent(LoginActivity.this, BottomNavigation.class);
-        intent.putExtra(Constants.USER_ID, user.getId());
+        Bundle bundle = new Bundle();
+        bundle.putLong(Constants.USER_ID, user.getId());
+        intent.putExtras(bundle);
 
         startActivity(intent);
         finish();

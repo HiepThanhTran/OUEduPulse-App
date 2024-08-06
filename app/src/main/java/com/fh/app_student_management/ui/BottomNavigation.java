@@ -27,7 +27,9 @@ public class BottomNavigation extends AppCompatActivity {
         setContentView(R.layout.activity_bottom_navigation);
 
         Intent intent = getIntent();
-        Long userId = intent.getLongExtra(Constants.USER_ID, 0);
+        Bundle bundle = intent.getExtras();
+        assert bundle != null;
+        long userId = bundle.getLong(Constants.USER_ID, 0);
         Map<String, String> params = new HashMap<>();
         params.put(Constants.USER_ID, String.valueOf(userId));
 

@@ -13,6 +13,11 @@ import java.util.Objects;
                 entity = Major.class,
                 parentColumns = "id",
                 childColumns = "major_id"
+        ),
+        @ForeignKey(
+                entity = Class.class,
+                parentColumns = "id",
+                childColumns = "class_id"
         )
 })
 public class Subject {
@@ -23,6 +28,8 @@ public class Subject {
     private int credits;
     @ColumnInfo(name = "major_id")
     private long majorId;
+    @ColumnInfo(name = "class_id")
+    private long classId;
 
     public long getId() {
         return id;
@@ -54,6 +61,14 @@ public class Subject {
 
     public void setMajorId(long majorId) {
         this.majorId = majorId;
+    }
+
+    public long getClassId() {
+        return classId;
+    }
+
+    public void setClassId(long classId) {
+        this.classId = classId;
     }
 
     @NonNull

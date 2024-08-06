@@ -56,10 +56,12 @@ public class EditProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_profile);
 
         Intent intent = getIntent();
-        String userEmail = intent.getStringExtra(Constants.USER_ID);
+        Bundle bundle = intent.getExtras();
+        assert bundle != null;
+        long userId = bundle.getLong(Constants.USER_ID, 0);
         UserDAO userDAO = AppDatabase.getInstance(this).userDAO();
 
-        user = userDAO.getByEmail(userEmail);
+        user = userDAO.getById(userId);
         if (Objects.requireNonNull(user.getRole()) == Constants.Role.LECTURER) {
             lecturer = AppDatabase.getInstance(this).lecturerDAO().getByUserId(user.getId());
         } else {

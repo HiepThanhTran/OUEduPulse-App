@@ -37,6 +37,7 @@ import com.fh.app_student_management.data.relations.StudentSubjectCrossRef;
 import com.fh.app_student_management.utilities.Constants;
 import com.fh.app_student_management.utilities.Utils;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -83,13 +84,13 @@ public abstract class AppDatabase extends RoomDatabase {
         insertSemesterList(context);
         insertFacultyList(context);
         insertMajorList(context);
-        insertSubjectList(context);
         insertUser(context);
         insertClassList(context);
+        insertSubjectList(context);
     }
 
     private static void insertAcademicYearList(Context context) {
-        AcademicYearDAO academicYearDAO = getInstance(context).academicYearDAO();
+        AppDatabase db = getInstance(context);
 
         for (int i = 2021; i <= 2025; i++) {
             AcademicYear academicYear = new AcademicYear();
@@ -102,15 +103,15 @@ public abstract class AppDatabase extends RoomDatabase {
             endCal.set(i + 4, Calendar.AUGUST, 31);
             academicYear.setEndDate(endCal.getTime());
 
-            academicYearDAO.insert(academicYear);
+            db.academicYearDAO().insert(academicYear);
         }
     }
 
     private static void insertSemesterList(Context context) {
-        AcademicYearDAO academicYearDAO = getInstance(context).academicYearDAO();
-        SemesterDAO semesterDAO = getInstance(context).semesterDAO();
-        List<AcademicYear> academicYears = academicYearDAO.getAll();
+        AppDatabase db = getInstance(context);
+        List<AcademicYear> academicYears = db.academicYearDAO().getAll();
         Calendar calendar = Calendar.getInstance();
+
         int[][] semesterMonths = {
                 {0, 2}, // Học kỳ 1: từ tháng 1 đến tháng 3
                 {3, 5}, // Học kỳ 2: từ tháng 4 đến tháng 6
@@ -135,13 +136,13 @@ public abstract class AppDatabase extends RoomDatabase {
                 semester.setEndDate(calendar.getTime());
 
                 semester.setAcademicYearId(academicYearId);
-                semesterDAO.insert(semester);
+                db.semesterDAO().insert(semester);
             }
         }
     }
 
     private static void insertFacultyList(Context context) {
-        FacultyDAO facultyDAO = getInstance(context).facultyDAO();
+        AppDatabase db = getInstance(context);
 
         String[] faculties = {
                 "Khoa học máy tính",
@@ -156,13 +157,13 @@ public abstract class AppDatabase extends RoomDatabase {
         for (String facultyName : faculties) {
             Faculty faculty = new Faculty();
             faculty.setName(facultyName);
-            facultyDAO.insert(faculty);
+
+            db.facultyDAO().insert(faculty);
         }
     }
 
     private static void insertMajorList(Context context) {
-        FacultyDAO facultyDAO = getInstance(context).facultyDAO();
-        MajorDAO majorDAO = getInstance(context).majorDAO();
+        AppDatabase db = getInstance(context);
 
         String[][] majorsByFaculty = {
                 {"Công nghệ thông tin", "An toàn thông tin", "Hệ thống thông tin", "Mạng máy tính", "Lập trình di động"},
@@ -172,67 +173,66 @@ public abstract class AppDatabase extends RoomDatabase {
         };
 
         for (long facultyId = 1; facultyId <= majorsByFaculty.length; facultyId++) {
-            Faculty faculty = facultyDAO.getById(facultyId);
+            Faculty faculty = db.facultyDAO().getById(facultyId);
             for (String majorName : majorsByFaculty[(int) facultyId - 1]) {
                 Major major = new Major();
                 major.setName(majorName);
                 major.setFacultyId(faculty.getId());
-                majorDAO.insert(major);
+
+                db.majorDAO().insert(major);
             }
         }
     }
 
     private static void insertClassList(Context context) {
-        AcademicYearDAO academicYearDAO = getInstance(context).academicYearDAO();
-        MajorDAO majorDAO = getInstance(context).majorDAO();
-        ClassDAO classDAO = getInstance(context).classDAO();
-        List<AcademicYear> academicYears = academicYearDAO.getAll();
-        List<Major> majors = majorDAO.getAll();
+        AppDatabase db = getInstance(context);
+        List<Semester> semesters = db.semesterDAO().getAll();
+        List<Lecturer> lecturers = db.lecturerDAO().getAll();
+        List<Major> majors = db.majorDAO().getAll();
         Random random = new Random();
 
-        for (Major major : majors) {
-            for (AcademicYear academicYear : academicYears) {
-                for (int i = 1; i <= 3; i++) {
-                    Class clazz = new Class();
-                    clazz.setName("Lớp " + i + " - " + major.getName() + " - " + academicYear.getName());
-                    clazz.setMajorId(major.getId());
-                    clazz.setAcademicYearId(academicYear.getId());
-                    clazz.setLecturerId(1 + random.nextInt(10));
+        for (Semester semester : semesters) {
+            AcademicYear academicYear = db.academicYearDAO().getById(semester.getAcademicYearId());
 
-                    classDAO.insert(clazz);
+            for (Lecturer lecturer : lecturers) {
+                for (int i = 1; i <= 3; i++) {
+                    Major randomMajor = majors.get(random.nextInt(majors.size()));
+
+                    Class clazz = new Class();
+                    clazz.setName(randomMajor.getName() + " - " + academicYear.getName());
+                    clazz.setMajorId(randomMajor.getId());
+                    clazz.setAcademicYearId(academicYear.getId());
+                    clazz.setSemesterId(semester.getId());
+                    clazz.setLecturerId(lecturer.getId());
+
+                    db.classDAO().insert(clazz);
                 }
             }
         }
     }
 
     private static void insertSubjectList(Context context) {
-        SubjectDAO subjectDAO = getInstance(context).subjectDAO();
-        MajorDAO majorDAO = getInstance(context).majorDAO();
-        List<Major> majors = majorDAO.getAll();
+        AppDatabase db = getInstance(context);
+        List<Class> classes = db.classDAO().getAll();
 
         String[] subjects = {
-                "Nhập môn Công nghệ thông tin",
-                "Lập trình Java",
-                "Cơ sở dữ liệu",
-                "Mạng máy tính",
-                "Hệ điều hành",
-                "Kỹ thuật phần mềm",
-                "Cấu trúc dữ liệu và Giải thuật",
-                "An ninh mạng",
-                "Trí tuệ nhân tạo",
-                "Khoa học dữ liệu"
+                "Nhập môn Công nghệ thông tin", "Lập trình Java",
+                "Cơ sở dữ liệu", "Mạng máy tính",
+                "Hệ điều hành", "Kỹ thuật phần mềm",
+                "Cấu trúc dữ liệu và Giải thuật", "An ninh mạng",
+                "Trí tuệ nhân tạo", "Khoa học dữ liệu"
         };
-
         int[] credits = {3, 4, 3, 3, 3, 4, 4, 3, 4, 3};
 
-        for (Major major : majors) {
-            for (int i = 0; i < subjects.length; i++) {
+        for (int i = 0; i < subjects.length; i++) {
+            for(Class aclass : classes) {
                 Subject subject = new Subject();
                 subject.setName(subjects[i]);
                 subject.setCredits(credits[i]);
-                subject.setMajorId(major.getId());
+                subject.setMajorId(aclass.getMajorId());
+                subject.setClassId(aclass.getId());
 
-                subjectDAO.insert(subject);
+                db.subjectDAO().insert(subject);
             }
         }
     }

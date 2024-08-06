@@ -22,7 +22,7 @@ public class SemesterActivity extends AppCompatActivity {
     private ImageView btnBack;
     private SearchView searchViewSemester;
 
-    private SemesterRecyclerViewAdapter semesterListViewAdapter;
+    private SemesterRecyclerViewAdapter semesterRecycleViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +37,11 @@ public class SemesterActivity extends AppCompatActivity {
         layoutSemester = findViewById(R.id.layoutSemester);
         btnBack = findViewById(R.id.btnBack);
         searchViewSemester = findViewById(R.id.searchViewSemester);
-        RecyclerView rvSemester = findViewById(R.id.lvSemester);
+        RecyclerView rvSemester = findViewById(R.id.rvSemester);
 
-        semesterListViewAdapter = new SemesterRecyclerViewAdapter(this, getIntent(), getSemesters());
+        semesterRecycleViewAdapter = new SemesterRecyclerViewAdapter(this, getIntent(), getSemesters());
         rvSemester.setLayoutManager(new LinearLayoutManager(this));
-        rvSemester.setAdapter(semesterListViewAdapter);
+        rvSemester.setAdapter(semesterRecycleViewAdapter);
     }
 
     private void handleEventListener() {
@@ -56,13 +56,13 @@ public class SemesterActivity extends AppCompatActivity {
         searchViewSemester.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                semesterListViewAdapter.getFilter().filter(query);
+                semesterRecycleViewAdapter.getFilter().filter(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                semesterListViewAdapter.getFilter().filter(newText);
+                semesterRecycleViewAdapter.getFilter().filter(newText);
                 return false;
             }
         });

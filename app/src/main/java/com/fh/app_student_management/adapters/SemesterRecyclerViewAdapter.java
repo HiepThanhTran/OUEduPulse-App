@@ -3,19 +3,19 @@ package com.fh.app_student_management.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fh.app_student_management.R;
-import com.fh.app_student_management.adapters.listener.SemesterItemClickListener;
+import com.fh.app_student_management.adapters.listener.ItemClickListener;
 import com.fh.app_student_management.data.entities.Semester;
 import com.fh.app_student_management.ui.ClassActivity;
 import com.fh.app_student_management.utilities.Constants;
@@ -41,7 +41,7 @@ public class SemesterRecyclerViewAdapter extends RecyclerView.Adapter<SemesterRe
     @NonNull
     @Override
     public SemesterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.layout_listview_semester, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_recycle_view_semester, parent, false);
 
         return new SemesterViewHolder(view);
     }
@@ -54,11 +54,16 @@ public class SemesterRecyclerViewAdapter extends RecyclerView.Adapter<SemesterRe
         String semesterName = String.format("%s (%s - %s)", semester.getName(), startDate, endDate);
         holder.txtSemesterName.setText(semesterName);
 
-        holder.setSemesterItemClickListener((view, position1, isLongClick) -> {
-            Long userId = intent.getLongExtra(Constants.USER_ID, 0);
+        holder.setItemClickListener((view, position1, isLongClick) -> {
+            Bundle bundle = intent.getExtras();
+
+            assert bundle != null;
+            long userId = bundle.getLong(Constants.USER_ID, 0);
             Intent newIntent = new Intent(context, ClassActivity.class);
-            newIntent.putExtra(Constants.USER_ID, userId);
-            newIntent.putExtra(Constants.SEMESTER_ID, semester.getId());
+            Bundle newBundle = new Bundle();
+            newBundle.putLong(Constants.USER_ID, userId);
+            newBundle.putLong(Constants.SEMESTER_ID, semester.getId());
+            newIntent.putExtras(newBundle);
             context.startActivity(newIntent);
         });
     }
@@ -72,8 +77,8 @@ public class SemesterRecyclerViewAdapter extends RecyclerView.Adapter<SemesterRe
     public Filter getFilter() {
         return new Filter() {
             @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                String query = constraint.toString().toLowerCase(Locale.getDefault());
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String query = Utils.removeVietnameseAccents(charSequence.toString().toLowerCase(Locale.getDefault()));
 
                 if (query.isEmpty()) {
                     filteredList = originalList;
@@ -83,7 +88,9 @@ public class SemesterRecyclerViewAdapter extends RecyclerView.Adapter<SemesterRe
                         String startDate = Constants.DATE_FORMAT("MM/yyyy").format(semester.getStartDate());
                         String endDate = Constants.DATE_FORMAT("MM/yyyy").format(semester.getEndDate());
                         String semesterName = String.format("%s (%s - %s)", semester.getName(), startDate, endDate);
-                        if (Utils.removeVietnameseAccents(semesterName.toLowerCase()).contains(Utils.removeVietnameseAccents(query))) {
+                        String semesterNameFilter = Utils.removeVietnameseAccents(semesterName.toLowerCase(Locale.getDefault()));
+
+                        if (semesterNameFilter.contains(query)) {
                             filtered.add(semester);
                         }
                     }
@@ -99,8 +106,8 @@ public class SemesterRecyclerViewAdapter extends RecyclerView.Adapter<SemesterRe
             @Override
             @SuppressWarnings("unchecked")
             @SuppressLint("NotifyDataSetChanged")
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                filteredList = (ArrayList<Semester>) results.values;
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                filteredList = (ArrayList<Semester>) filterResults.values;
                 notifyDataSetChanged();
             }
         };
@@ -108,8 +115,8 @@ public class SemesterRecyclerViewAdapter extends RecyclerView.Adapter<SemesterRe
 
     public static class SemesterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
+        private ItemClickListener itemClickListener;
         private final TextView txtSemesterName;
-        private SemesterItemClickListener semesterItemClickListener;
 
         public SemesterViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -119,18 +126,18 @@ public class SemesterRecyclerViewAdapter extends RecyclerView.Adapter<SemesterRe
             itemView.setOnLongClickListener(this);
         }
 
-        public void setSemesterItemClickListener(SemesterItemClickListener semesterItemClickListener) {
-            this.semesterItemClickListener = semesterItemClickListener;
+        public void setItemClickListener(ItemClickListener itemClickListener) {
+            this.itemClickListener = itemClickListener;
         }
 
         @Override
         public void onClick(View view) {
-            semesterItemClickListener.onClick(view, getAdapterPosition(), false);
+            itemClickListener.onClick(view, getAdapterPosition(), false);
         }
 
         @Override
         public boolean onLongClick(View view) {
-            semesterItemClickListener.onClick(view, getAdapterPosition(), true);
+            itemClickListener.onClick(view, getAdapterPosition(), true);
             return true;
         }
     }

@@ -43,7 +43,9 @@ public class SplashActivity extends AppCompatActivity {
             Intent intent = new Intent(SplashActivity.this, targetActivity);
 
             if (userId > 0) {
-                intent.putExtra(Constants.USER_ID, userId);
+                Bundle bundle = new Bundle();
+                bundle.putLong(Constants.USER_ID, userId);
+                intent.putExtras(bundle);
             }
 
             startActivity(intent);

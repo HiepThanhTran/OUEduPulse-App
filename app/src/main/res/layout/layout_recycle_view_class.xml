@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/grey"
     tools:ignore="HardcodedText">
 
@@ -19,7 +19,8 @@
             android:layout_marginBottom="12dp"
             android:backgroundTint="@color/grey_sub"
             app:cardCornerRadius="16dp"
-            app:cardElevation="8dp">
+            app:cardElevation="8dp"
+            app:contentPadding="10dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -30,7 +31,7 @@
                 android:paddingBottom="16dp">
 
                 <TextView
-                    android:id="@+id/nameClass"
+                    android:id="@+id/txtClassName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/opensans_bold"
@@ -42,7 +43,7 @@
                     android:id="@+id/facultyContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/nameClass"
+                    android:layout_below="@id/txtClassName"
                     android:layout_marginTop="20dp"
                     android:gravity="center_vertical">
 
@@ -67,7 +68,7 @@
                             android:textSize="20sp" />
 
                         <TextView
-                            android:id="@+id/faculty"
+                            android:id="@+id/txtFacultyName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/opensans_bold"
@@ -108,7 +109,7 @@
                             android:textSize="20sp" />
 
                         <TextView
-                            android:id="@+id/major"
+                            android:id="@+id/txtMajorName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/opensans_bold"
@@ -149,7 +150,7 @@
                             android:textSize="20sp" />
 
                         <TextView
-                            android:id="@+id/academicYear"
+                            android:id="@+id/txtAcademicYearName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/opensans_bold"

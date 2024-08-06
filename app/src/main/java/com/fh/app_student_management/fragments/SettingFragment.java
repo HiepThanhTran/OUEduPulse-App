@@ -112,7 +112,9 @@ public class SettingFragment extends Fragment {
     private void handleEventListener() {
         btnEditProfile.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), EditProfileActivity.class);
-            intent.putExtra(Constants.USER_ID, user.getId());
+            Bundle bundle = new Bundle();
+            bundle.putLong(Constants.USER_ID, user.getId());
+            intent.putExtras(bundle);
             editProfileLauncher.launch(intent);
         });
 

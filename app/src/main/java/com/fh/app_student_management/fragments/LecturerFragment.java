@@ -66,7 +66,9 @@ public class LecturerFragment extends Fragment {
     private void handleEventListener() {
         btnToSemester.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), SemesterActivity.class);
-            intent.putExtra(Constants.USER_ID, user.getId());
+            Bundle bundle = new Bundle();
+            bundle.putLong(Constants.USER_ID, user.getId());
+            intent.putExtras(bundle);
             startActivity(intent);
         });
     }

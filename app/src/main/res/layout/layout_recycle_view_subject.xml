@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/grey"
     tools:ignore="HardcodedText">
 
@@ -29,13 +29,14 @@
                     android:layout_height="wrap_content"
                     android:background="@color/grey_sub"
                     android:orientation="vertical"
-                    android:padding="14dp">
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp"
-                        android:gravity="center"
+                        android:layout_marginVertical="10dp"
+                        android:gravity="top"
                         android:orientation="horizontal"
                         tools:ignore="UseCompoundDrawables">
 
@@ -46,12 +47,21 @@
                             android:src="@drawable/subject" />
 
                         <TextView
-                            android:id="@+id/nameSubject"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:fontFamily="@font/opensans_bold"
+                            android:text="Môn:"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/txtSubjectName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:fontFamily="@font/opensans_bold"
-                            android:text="Lập trình di động"
+                            android:text="Nhập môn công nghệ thông tin"
                             android:textColor="@color/white"
                             android:textSize="22sp" />
 
@@ -60,7 +70,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
+                        android:layout_marginVertical="10dp"
+                        android:gravity="top"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -79,7 +90,7 @@
                             android:textSize="20sp" />
 
                         <TextView
-                            android:id="@+id/credits"
+                            android:id="@+id/txtCredits"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
