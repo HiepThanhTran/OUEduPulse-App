@@ -32,11 +32,77 @@
 
     </RelativeLayout>
 
+    <TableLayout
+        android:id="@+id/titleTable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:stretchColumns="1,2,3,4,5">
+
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="STT"
+                android:textStyle="bold"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:background="@color/grey_dark" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Họ và tên"
+                android:textStyle="bold"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:background="@color/grey_dark" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MSSV"
+                android:textStyle="bold"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:background="@color/grey_dark" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GK"
+                android:textStyle="bold"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:background="@color/grey_dark" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CK"
+                android:textStyle="bold"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:background="@color/grey_dark" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TB"
+                android:textStyle="bold"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:background="@color/grey_dark" />
+        </TableRow>
+    </TableLayout>
+
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/top"
+        android:layout_below="@id/titleTable"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         tools:listitem="@layout/table_row" />
