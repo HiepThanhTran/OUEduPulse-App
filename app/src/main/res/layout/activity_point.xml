@@ -33,6 +33,8 @@
     </RelativeLayout>
 
     <TableLayout
+        android:layout_marginTop="10dp"
+        android:background="@color/grey_sub"
         android:id="@+id/titleTable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -46,28 +48,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="STT"
-                android:textStyle="bold"
+                android:textSize="16sp"
+                android:fontFamily="@font/opensans_bold"
                 android:padding="8dp"
-                android:textColor="@color/white"
-                android:background="@color/grey_dark" />
+                android:textColor="@color/white" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Họ và tên"
-                android:textStyle="bold"
+                android:textSize="16sp"
+                android:fontFamily="@font/opensans_bold"
                 android:padding="8dp"
-                android:textColor="@color/white"
-                android:background="@color/grey_dark" />
+                android:textColor="@color/white" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="MSSV"
-                android:textStyle="bold"
+                android:fontFamily="@font/opensans_bold"
                 android:padding="8dp"
-                android:textColor="@color/white"
-                android:background="@color/grey_dark" />
+                android:textSize="16sp"
+                android:textColor="@color/white" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -75,26 +77,26 @@
                 android:text="GK"
                 android:textStyle="bold"
                 android:padding="8dp"
+                android:fontFamily="@font/opensans_bold"
                 android:textColor="@color/white"
-                android:background="@color/grey_dark" />
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="CK"
-                android:textStyle="bold"
+                android:textSize="16dp"
+                android:fontFamily="@font/opensans_bold"
                 android:padding="8dp"
-                android:textColor="@color/white"
-                android:background="@color/grey_dark" />
+                android:textColor="@color/white" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TB"
+                android:textSize="16sp"
                 android:textStyle="bold"
-                android:padding="8dp"
-                android:textColor="@color/white"
-                android:background="@color/grey_dark" />
+                android:textColor="@color/white" />
         </TableRow>
     </TableLayout>
 
