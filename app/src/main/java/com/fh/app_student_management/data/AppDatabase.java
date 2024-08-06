@@ -184,59 +184,6 @@ public abstract class AppDatabase extends RoomDatabase {
         }
     }
 
-    private static void insertClassList(Context context) {
-        AppDatabase db = getInstance(context);
-        List<Semester> semesters = db.semesterDAO().getAll();
-        List<Lecturer> lecturers = db.lecturerDAO().getAll();
-        List<Major> majors = db.majorDAO().getAll();
-        Random random = new Random();
-
-        for (Semester semester : semesters) {
-            AcademicYear academicYear = db.academicYearDAO().getById(semester.getAcademicYearId());
-
-            for (Lecturer lecturer : lecturers) {
-                for (int i = 1; i <= 3; i++) {
-                    Major randomMajor = majors.get(random.nextInt(majors.size()));
-
-                    Class clazz = new Class();
-                    clazz.setName(randomMajor.getName() + " - " + academicYear.getName());
-                    clazz.setMajorId(randomMajor.getId());
-                    clazz.setAcademicYearId(academicYear.getId());
-                    clazz.setSemesterId(semester.getId());
-                    clazz.setLecturerId(lecturer.getId());
-
-                    db.classDAO().insert(clazz);
-                }
-            }
-        }
-    }
-
-    private static void insertSubjectList(Context context) {
-        AppDatabase db = getInstance(context);
-        List<Class> classes = db.classDAO().getAll();
-
-        String[] subjects = {
-                "Nhập môn Công nghệ thông tin", "Lập trình Java",
-                "Cơ sở dữ liệu", "Mạng máy tính",
-                "Hệ điều hành", "Kỹ thuật phần mềm",
-                "Cấu trúc dữ liệu và Giải thuật", "An ninh mạng",
-                "Trí tuệ nhân tạo", "Khoa học dữ liệu"
-        };
-        int[] credits = {3, 4, 3, 3, 3, 4, 4, 3, 4, 3};
-
-        for (int i = 0; i < subjects.length; i++) {
-            for(Class aclass : classes) {
-                Subject subject = new Subject();
-                subject.setName(subjects[i]);
-                subject.setCredits(credits[i]);
-                subject.setMajorId(aclass.getMajorId());
-                subject.setClassId(aclass.getId());
-
-                db.subjectDAO().insert(subject);
-            }
-        }
-    }
-
     private static void insertUser(Context context) {
         AcademicYearDAO academicYearDAO = getInstance(context).academicYearDAO();
         LecturerDAO lecturerDAO = getInstance(context).lecturerDAO();
@@ -305,6 +252,59 @@ public abstract class AppDatabase extends RoomDatabase {
             student.setUserId(userId);
 
             studentDAO.insert(student);
+        }
+    }
+
+    private static void insertClassList(Context context) {
+        AppDatabase db = getInstance(context);
+        List<Semester> semesters = db.semesterDAO().getAll();
+        List<Lecturer> lecturers = db.lecturerDAO().getAll();
+        List<Major> majors = db.majorDAO().getAll();
+        Random random = new Random();
+
+        for (Semester semester : semesters) {
+            AcademicYear academicYear = db.academicYearDAO().getById(semester.getAcademicYearId());
+
+            for (Lecturer lecturer : lecturers) {
+                for (int i = 1; i <= 3; i++) {
+                    Major randomMajor = majors.get(random.nextInt(majors.size()));
+
+                    Class clazz = new Class();
+                    clazz.setName(randomMajor.getName() + " - " + academicYear.getName());
+                    clazz.setMajorId(randomMajor.getId());
+                    clazz.setAcademicYearId(academicYear.getId());
+                    clazz.setSemesterId(semester.getId());
+                    clazz.setLecturerId(lecturer.getId());
+
+                    db.classDAO().insert(clazz);
+                }
+            }
+        }
+    }
+
+    private static void insertSubjectList(Context context) {
+        AppDatabase db = getInstance(context);
+        List<Class> classes = db.classDAO().getAll();
+
+        String[] subjects = {
+                "Nhập môn Công nghệ thông tin", "Lập trình Java",
+                "Cơ sở dữ liệu", "Mạng máy tính",
+                "Hệ điều hành", "Kỹ thuật phần mềm",
+                "Cấu trúc dữ liệu và Giải thuật", "An ninh mạng",
+                "Trí tuệ nhân tạo", "Khoa học dữ liệu"
+        };
+        int[] credits = {3, 4, 3, 3, 3, 4, 4, 3, 4, 3};
+
+        for (int i = 0; i < subjects.length; i++) {
+            for(Class aclass : classes) {
+                Subject subject = new Subject();
+                subject.setName(subjects[i]);
+                subject.setCredits(credits[i]);
+                subject.setMajorId(aclass.getMajorId());
+                subject.setClassId(aclass.getId());
+
+                db.subjectDAO().insert(subject);
+            }
         }
     }
 

@@ -20,13 +20,10 @@ public interface MajorDAO {
     @Query("SELECT * FROM majors WHERE id = :id")
     Major getById(Long id);
 
-    @Query("SELECT * FROM majors WHERE name LIKE '%' || :name || '%'")
-    List<Major> findByName(String name);
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     Long insert(Major Major);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     void insertAll(Major... majors);
 
     @Update

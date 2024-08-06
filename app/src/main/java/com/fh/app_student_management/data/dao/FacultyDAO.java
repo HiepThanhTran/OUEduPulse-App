@@ -20,13 +20,10 @@ public interface FacultyDAO {
     @Query("SELECT * FROM faculties WHERE id = :id")
     Faculty getById(Long id);
 
-    @Query("SELECT * FROM faculties WHERE name LIKE '%' || :name || '%'")
-    List<Faculty> findByName(String name);
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     Long insert(Faculty Faculty);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     void insertAll(Faculty... faculties);
 
     @Update

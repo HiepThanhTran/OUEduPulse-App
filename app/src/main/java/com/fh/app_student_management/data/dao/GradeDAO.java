@@ -20,10 +20,10 @@ public interface GradeDAO {
     @Query("SELECT * FROM grades WHERE id = :id")
     Grade getById(Long id);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     Long insert(Grade Grade);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     void insertAll(Grade... grades);
 
     @Update

@@ -20,20 +20,17 @@ public interface ClassDAO {
     @Query("SELECT * FROM classes WHERE id = :id")
     Class getById(Long id);
 
-    @Query("SELECT * FROM classes WHERE name LIKE '%' || :name || '%'")
-    List<Class> findByName(String name);
-
     @Query("SELECT c.* FROM classes c " +
-            "JOIN semesters s ON c.semester_id = s.id " +
-            "JOIN lecturers l ON c.lecturer_id = l.id " +
-            "JOIN users u ON l.user_id = u.id " +
-            "WHERE s.id = :selectedSemesterId AND u.id = :currentUserId")
+            "WHERE c.semester_id = :selectedSemesterId AND c.lecturer_id IN (" +
+            "  SELECT l.id FROM lecturers l " +
+            "  JOIN users u ON l.user_id = u.id " +
+            "  WHERE u.id = :currentUserId)")
     List<Class> getBySemesterAndLecturer(long selectedSemesterId, long currentUserId);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     Long insert(Class Class);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     void insertAll(Class... classes);
 
     @Update

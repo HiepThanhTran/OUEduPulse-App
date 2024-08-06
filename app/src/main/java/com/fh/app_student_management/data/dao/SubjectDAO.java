@@ -20,20 +20,18 @@ public interface SubjectDAO {
     @Query("SELECT * FROM subjects WHERE id = :id")
     Subject getById(Long id);
 
-    @Query("SELECT * FROM subjects WHERE name LIKE '%' || :name || '%'")
-    List<Subject> findByName(String name);
-
     @Query("SELECT s.* FROM subjects s " +
             "JOIN classes c ON s.class_id = c.id " +
-            "JOIN lecturers l ON c.lecturer_id = l.id " +
-            "JOIN users u ON l.user_id = u.id " +
-            "WHERE c.id = :selectedClassId AND u.id = :currentUserId")
+            "WHERE c.id = :selectedClassId AND c.lecturer_id IN (" +
+            "  SELECT l.id FROM lecturers l " +
+            "  JOIN users u ON l.user_id = u.id " +
+            "  WHERE u.id = :currentUserId)")
     List<Subject> getByClassAndLecturer(Long selectedClassId, Long currentUserId);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     Long insert(Subject subject);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     void insertAll(Subject... subjects);
 
     @Update

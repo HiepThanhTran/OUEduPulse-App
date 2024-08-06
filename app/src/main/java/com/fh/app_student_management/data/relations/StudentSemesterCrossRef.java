@@ -2,8 +2,23 @@ package com.fh.app_student_management.data.relations;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 
-@Entity(primaryKeys = {"student_id", "semester_id"})
+import com.fh.app_student_management.data.entities.Semester;
+import com.fh.app_student_management.data.entities.Student;
+
+@Entity(primaryKeys = {"student_id", "semester_id"}, foreignKeys = {
+        @ForeignKey(
+                entity = Student.class,
+                parentColumns = "id",
+                childColumns = "student_id"
+        ),
+        @ForeignKey(
+                entity = Semester.class,
+                parentColumns = "id",
+                childColumns = "semester_id"
+        )
+})
 public class StudentSemesterCrossRef {
 
     @ColumnInfo(name = "student_id")
