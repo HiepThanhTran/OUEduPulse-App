@@ -12,9 +12,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppStudentManagement"
         tools:targetApi="31">
-<!--        <activity-->
-<!--            android:name=".ui.AddStudentForAdminActivity"-->
-<!--            android:exported="false" />-->
+        <activity
+            android:name=".ui.StatisticalScoreForAdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.StatisticalClassForAdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.StatisticalSubjectForAdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.StatisticalForAdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.AddStudentForAdminActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.PointManagementAdminActivity"
             android:exported="false" />
@@ -64,7 +76,7 @@
             android:name=".ui.UserManagementActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.AddStudentForAdminActivity"
+            android:name=".ui.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
