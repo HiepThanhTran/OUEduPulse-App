@@ -1,13 +1,11 @@
-package com.fh.app_student_management.data.relations;
+package com.fh.app_student_management.data.entities;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
 
-import com.fh.app_student_management.data.entities.Student;
-import com.fh.app_student_management.data.entities.Subject;
-
-@Entity(primaryKeys = {"student_id", "subject_id"}, foreignKeys = {
+@Entity(tableName = "student_subject_cross_ref", foreignKeys = {
         @ForeignKey(
                 entity = Student.class,
                 parentColumns = "id",
@@ -20,11 +18,21 @@ import com.fh.app_student_management.data.entities.Subject;
         )
 })
 public class StudentSubjectCrossRef {
-
+    
+    @PrimaryKey(autoGenerate = true)
+    private long id;
     @ColumnInfo(name = "student_id")
     private long studentId;
     @ColumnInfo(name = "subject_id")
     private long subjectId;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public long getStudentId() {
         return studentId;

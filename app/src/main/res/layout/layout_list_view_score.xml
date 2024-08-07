@@ -9,64 +9,57 @@
     tools:ignore="HardcodedText">
 
     <TextView
-        android:id="@+id/tvSTT"
+        android:id="@+id/txtId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="1"
+        android:text="2151050469"
         android:textColor="@color/white"
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/tvName"
+        android:id="@+id/txtName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:gravity="center"
-        android:text="Nguyễn Văn A"
-        android:textColor="@color/white"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/tvMSSV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:gravity="center"
-        android:text="123456"
+        android:text="Nguyễn Huỳnh Ngọc Như"
         android:textColor="@color/white"
         android:textSize="16sp" />
 
     <EditText
-        android:id="@+id/etGK"
+        android:id="@+id/edtGK"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
         android:inputType="numberDecimal"
+        android:text="10"
         android:textColor="@color/white"
         android:textSize="16sp"
         tools:ignore="Autofill,LabelFor" />
 
     <EditText
-        android:id="@+id/etCK"
+        android:id="@+id/edtCK"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
         android:inputType="numberDecimal"
+        android:text="10"
         android:textColor="@color/white"
         android:textSize="16sp"
         tools:ignore="Autofill,LabelFor" />
 
     <EditText
-        android:id="@+id/etTB"
+        android:id="@+id/edtTB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
         android:inputType="numberDecimal"
+        android:text="10"
         android:textColor="@color/white"
         android:textSize="16sp"
         tools:ignore="Autofill,LabelFor" />

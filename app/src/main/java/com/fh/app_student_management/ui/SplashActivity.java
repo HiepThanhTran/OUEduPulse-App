@@ -33,7 +33,7 @@ public class SplashActivity extends AppCompatActivity {
 
         runnable = () -> {
             boolean isOnboarding = sharedPreferences.getBoolean("isOnboarding", false);
-            Long userId = sharedPreferences.getLong(Constants.USER_ID, 0);
+            long userId = sharedPreferences.getLong(Constants.USER_ID, 0);
 
             Class<?> targetActivity = LoginActivity.class;
 

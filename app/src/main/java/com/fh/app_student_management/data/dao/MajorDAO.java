@@ -21,7 +21,7 @@ public interface MajorDAO {
     Major getById(Long id);
 
     @Insert
-    Long insert(Major Major);
+    Long insert(Major major);
 
     @Insert
     void insertAll(Major... majors);

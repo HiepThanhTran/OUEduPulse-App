@@ -21,7 +21,7 @@ public interface AcademicYearDAO {
     AcademicYear getById(Long id);
 
     @Insert
-    Long insert(AcademicYear AcademicYear);
+    Long insert(AcademicYear academic_year);
 
     @Insert
     void insertAll(AcademicYear... academic_years);
