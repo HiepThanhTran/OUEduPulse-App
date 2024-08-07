@@ -1,14 +1,18 @@
-package com.fh.app_student_management;
+package com.fh.app_student_management.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import com.fh.app_student_management.R;
+
 public class PointManagementAdminActivity extends AppCompatActivity {
     private ImageView btnBack;
     private AppCompatButton btnAddStudent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,6 +22,9 @@ public class PointManagementAdminActivity extends AppCompatActivity {
         btnBack.setOnClickListener(v -> finish());
 
         btnAddStudent = findViewById(R.id.btnAddStudent);
-
+        btnAddStudent.setOnClickListener(v -> {
+            Intent intent = new Intent(PointManagementAdminActivity.this, AddStudentForAdminActivity.class);
+            startActivity(intent);
+        });
     }
 }

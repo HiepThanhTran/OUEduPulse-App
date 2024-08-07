@@ -12,11 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppStudentManagement"
         tools:targetApi="31">
+<!--        <activity-->
+<!--            android:name=".ui.AddStudentForAdminActivity"-->
+<!--            android:exported="false" />-->
         <activity
-            android:name=".ui.AddStudentForAdminActivity"
-            android:exported="false" />
-        <activity
-            android:name=".PointManagementAdminActivity"
+            android:name=".ui.PointManagementAdminActivity"
             android:exported="false" />
         <activity
             android:name=".ui.SemesterAdminActivity"
@@ -64,7 +64,7 @@
             android:name=".ui.UserManagementActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.SplashActivity"
+            android:name=".ui.AddStudentForAdminActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
