@@ -33,11 +33,37 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_below="@id/top"
+        android:id="@+id/center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSavePoint"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/round_button_edit"
+            android:backgroundTint="@color/primaryColor"
+            android:fontFamily="@font/opensans_bold"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:text="Lưu"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
     <TableLayout
         android:id="@+id/titleTable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/top"
+        android:layout_below="@id/center"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
