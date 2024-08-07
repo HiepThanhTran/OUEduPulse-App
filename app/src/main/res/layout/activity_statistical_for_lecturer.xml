@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.StatisticalForLecturerActivity"
+    android:layout_gravity="center"
     android:background="@color/grey"
-    android:layout_gravity="center">
+    tools:context=".ui.StatisticalForLecturerActivity"
+    tools:ignore="HardcodedText">
 
     <RelativeLayout
         android:id="@+id/top"
@@ -31,16 +30,17 @@
             android:text="Danh sách học kì"
             android:textColor="@color/white"
             android:textSize="20sp" />
+
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_below="@id/top"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp">
 
         <LinearLayout
             android:id="@+id/subjectContainer"
@@ -63,25 +63,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="@drawable/custom_input"
+                android:clickable="true"
                 android:drawableStart="@drawable/ic_clock"
                 android:drawablePadding="12dp"
                 android:ems="10"
+                android:focusable="true"
+                android:focusableInTouchMode="false"
                 android:fontFamily="@font/opensans_bold"
+                android:inputType="none"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
                 android:textColor="@color/grey"
                 android:textSize="16sp"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:clickable="true"
                 tools:ignore="Autofill,LabelFor" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_below="@id/subjectContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/subjectContainer"
             android:layout_marginBottom="20dp"
             android:orientation="vertical">
 
@@ -99,65 +100,68 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="@drawable/custom_input"
+                android:clickable="true"
                 android:drawableStart="@drawable/ic_books"
                 android:drawablePadding="12dp"
                 android:ems="10"
+                android:focusable="true"
+                android:focusableInTouchMode="false"
                 android:fontFamily="@font/opensans_bold"
+                android:inputType="none"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
                 android:textColor="@color/grey"
                 android:textSize="16sp"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:clickable="true"
                 tools:ignore="Autofill,LabelFor" />
+
         </LinearLayout>
+
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
         android:id="@+id/titleChart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/container"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="12dp"
         android:gravity="center"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Biểu đồ điểm trung bình của sinh viên"
-            android:textColor="@color/primaryColor"
             android:fontFamily="@font/opensans_bold"
-            android:textSize="16dp"/>
+            android:text="Biểu đồ điểm số của sinh viên"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="môn Lập trình di động"
-            android:textColor="@color/primaryColor"
             android:fontFamily="@font/opensans_bold"
-            android:textSize="16dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="học kì 1 - năm 2024 - 2025"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:fontFamily="@font/opensans_bold"
-            android:textColor="@color/primaryColor"
-            android:textSize="16dp"/>
+            android:text="môn Lập trình di động"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
     </LinearLayout>
 
     <com.github.mikephil.charting.charts.PieChart
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="50dp"
-        android:layout_below="@id/container"
         android:id="@+id/chart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_below="@id/container"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="20dp" />
 
 </RelativeLayout>

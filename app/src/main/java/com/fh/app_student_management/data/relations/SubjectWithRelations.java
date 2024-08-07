@@ -1,20 +1,20 @@
-package com.fh.app_student_management.adapters.entities;
+package com.fh.app_student_management.data.relations;
+
+import androidx.room.Embedded;
+import androidx.room.Relation;
 
 import com.fh.app_student_management.data.entities.Class;
 import com.fh.app_student_management.data.entities.Major;
 import com.fh.app_student_management.data.entities.Subject;
 
-public class SubjectItemRecycleView {
+public class SubjectWithRelations {
 
+    @Embedded
     private Subject subject;
+    @Relation(parentColumn = "major_id", entityColumn = "id")
     private Major major;
+    @Relation(parentColumn = "class_id", entityColumn = "id")
     private Class clazz;
-
-    public SubjectItemRecycleView(Subject subject, Major major, Class clazz) {
-        this.subject = subject;
-        this.major = major;
-        this.clazz = clazz;
-    }
 
     public Subject getSubject() {
         return subject;

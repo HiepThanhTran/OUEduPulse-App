@@ -16,10 +16,8 @@ import com.fh.app_student_management.R;
 import com.fh.app_student_management.adapters.SubjectRecycleViewAdapter;
 import com.fh.app_student_management.adapters.entities.SubjectItemRecycleView;
 import com.fh.app_student_management.data.AppDatabase;
-import com.fh.app_student_management.data.entities.Class;
-import com.fh.app_student_management.data.entities.Major;
 import com.fh.app_student_management.data.entities.Semester;
-import com.fh.app_student_management.data.entities.Subject;
+import com.fh.app_student_management.data.relations.SubjectWithRelations;
 import com.fh.app_student_management.utilities.Constants;
 import com.fh.app_student_management.utilities.Utils;
 
@@ -31,7 +29,6 @@ public class SubjectActivity extends AppCompatActivity {
     private AppDatabase db;
 
     private long userId;
-    private long classId;
     private long semesterId;
 
     private LinearLayout layoutSubject;
@@ -51,13 +48,13 @@ public class SubjectActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         assert bundle != null;
         userId = bundle.getLong(Constants.USER_ID, 0);
-        classId = bundle.getLong(Constants.CLASS_ID, 0);
         semesterId = bundle.getLong(Constants.SEMESTER_ID, 0);
 
         initClassView();
         handleEventListener();
     }
 
+    @SuppressLint("DefaultLocale")
     private void initClassView() {
         layoutSubject = findViewById(R.id.layoutSubject);
         btnBack = findViewById(R.id.btnBack);
@@ -67,7 +64,7 @@ public class SubjectActivity extends AppCompatActivity {
 
         Semester semester = db.semesterDAO().getById(semesterId);
         int startYear = Utils.getYearFromDate(semester.getStartDate());
-        @SuppressLint("DefaultLocale") String semesterName = String.format("%s - %d - %d", semester.getName(), startYear, startYear + 1);
+        String semesterName = String.format("%s - %d - %d", semester.getName(), startYear, startYear + 1);
         txtSemesterName.setText(semesterName);
 
         subjectRecycleViewAdapter = new SubjectRecycleViewAdapter(this, getIntent(), getSubjects());
@@ -100,10 +97,13 @@ public class SubjectActivity extends AppCompatActivity {
     }
 
     private ArrayList<SubjectItemRecycleView> getSubjects() {
-        List<Subject> subjects = db.subjectDAO().getByClassAndLecturer(classId, userId);
+        List<SubjectWithRelations> subjects = db.subjectDAO().getByLecturerAndSemester(userId, semesterId);
         ArrayList<SubjectItemRecycleView> subjectRecycleViewAdapters = new ArrayList<>();
-        for (Subject subject : subjects) {
-            SubjectItemRecycleView subjectItemRecycleView = new SubjectItemRecycleView(subject.getName(), subject.getCredits());
+
+        for (SubjectWithRelations subject : subjects) {
+            SubjectItemRecycleView subjectItemRecycleView = new SubjectItemRecycleView(
+                    subject.getSubject(), subject.getMajor(), subject.getClazz()
+            );
             subjectRecycleViewAdapters.add(subjectItemRecycleView);
         }
 

@@ -20,13 +20,10 @@ public interface AcademicYearDAO {
     @Query("SELECT * FROM academic_years WHERE id = :id")
     AcademicYear getById(Long id);
 
-    @Query("SELECT * FROM academic_years WHERE name LIKE '%' || :name || '%'")
-    List<AcademicYear> findByName(String name);
+    @Insert
+    Long insert(AcademicYear academic_year);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Long insert(AcademicYear AcademicYear);
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     void insertAll(AcademicYear... academic_years);
 
     @Update

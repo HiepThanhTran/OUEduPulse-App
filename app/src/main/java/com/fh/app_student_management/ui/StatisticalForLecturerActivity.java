@@ -1,10 +1,13 @@
 package com.fh.app_student_management.ui;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageView;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.fh.app_student_management.R;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
@@ -16,30 +19,29 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import java.util.ArrayList;
 
 public class StatisticalForLecturerActivity extends AppCompatActivity {
+
     private ImageView btnBack;
     private EditText inputSemester;
     private EditText inputSubject;
-    private PieChart chart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistical_for_lecturer);
 
-        btnBack = findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(v -> finish());
+        initStatisticalView();
+        handleEventListener();
+    }
 
+    @SuppressLint("SetTextI18n")
+    private void initStatisticalView() {
+        btnBack = findViewById(R.id.btnBack);
         inputSemester = findViewById(R.id.inputSemester);
         inputSubject = findViewById(R.id.inputSubject);
+        PieChart chart = findViewById(R.id.chart);
 
         inputSemester.setText("Học kì 1");
         inputSubject.setText("Lập trình hiện đại");
-
-        inputSemester.setOnClickListener(v -> showSemesterDialog());
-        inputSubject.setOnClickListener(v -> showSubjectDialog());
-
-
-        chart = findViewById(R.id.chart);
 
         ArrayList<PieEntry> entries = new ArrayList<>();
         entries.add(new PieEntry(10f, "1"));
@@ -69,8 +71,14 @@ public class StatisticalForLecturerActivity extends AppCompatActivity {
         chart.invalidate();
     }
 
+    private void handleEventListener() {
+        btnBack.setOnClickListener(v -> finish());
+        inputSemester.setOnClickListener(v -> showSemesterDialog());
+        inputSubject.setOnClickListener(v -> showSubjectDialog());
+    }
+
     private void showSemesterDialog() {
-        final String[] semesters = {"Học kì 1", "Học kì 2"};
+        String[] semesters = {"Học kì 1", "Học kì 2"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Chọn học kì")
                 .setItems(semesters, (dialog, which) -> inputSemester.setText(semesters[which]))
@@ -78,7 +86,7 @@ public class StatisticalForLecturerActivity extends AppCompatActivity {
     }
 
     private void showSubjectDialog() {
-        final String[] subjects = {"Lập trình hiện đại", "Lập trình di động"};
+        String[] subjects = {"Lập trình hiện đại", "Lập trình di động"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Chọn môn học")
                 .setItems(subjects, (dialog, which) -> inputSubject.setText(subjects[which]))

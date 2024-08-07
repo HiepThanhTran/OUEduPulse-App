@@ -12,8 +12,9 @@ import com.fh.app_student_management.R;
 import com.fh.app_student_management.data.converters.DateConverter;
 import com.fh.app_student_management.data.dao.AcademicYearDAO;
 import com.fh.app_student_management.data.dao.ClassDAO;
+import com.fh.app_student_management.data.dao.CrossRefDAO;
 import com.fh.app_student_management.data.dao.FacultyDAO;
-import com.fh.app_student_management.data.dao.GradeDAO;
+import com.fh.app_student_management.data.dao.ScoreDAO;
 import com.fh.app_student_management.data.dao.LecturerDAO;
 import com.fh.app_student_management.data.dao.MajorDAO;
 import com.fh.app_student_management.data.dao.SemesterDAO;
@@ -23,25 +24,27 @@ import com.fh.app_student_management.data.dao.UserDAO;
 import com.fh.app_student_management.data.entities.AcademicYear;
 import com.fh.app_student_management.data.entities.Class;
 import com.fh.app_student_management.data.entities.Faculty;
-import com.fh.app_student_management.data.entities.Grade;
+import com.fh.app_student_management.data.entities.Score;
 import com.fh.app_student_management.data.entities.Lecturer;
+import com.fh.app_student_management.data.entities.LecturerSubjectCrossRef;
 import com.fh.app_student_management.data.entities.Major;
 import com.fh.app_student_management.data.entities.Semester;
 import com.fh.app_student_management.data.entities.Student;
+import com.fh.app_student_management.data.entities.StudentSemesterCrossRef;
+import com.fh.app_student_management.data.entities.StudentSubjectCrossRef;
 import com.fh.app_student_management.data.entities.Subject;
+import com.fh.app_student_management.data.entities.SubjectSemesterCrossRef;
 import com.fh.app_student_management.data.entities.User;
-import com.fh.app_student_management.data.relations.LecturerSubjectCrossRef;
-import com.fh.app_student_management.data.relations.StudentClassCrossRef;
-import com.fh.app_student_management.data.relations.StudentSemesterCrossRef;
-import com.fh.app_student_management.data.relations.StudentSubjectCrossRef;
+import com.fh.app_student_management.data.relations.SubjectWithRelations;
 import com.fh.app_student_management.utilities.Constants;
 import com.fh.app_student_management.utilities.Utils;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 @Database(entities = {
         AcademicYear.class,
@@ -49,15 +52,15 @@ import java.util.Random;
         Faculty.class,
         Lecturer.class,
         Major.class,
-        Grade.class,
+        Score.class,
         Semester.class,
         Student.class,
         Subject.class,
         User.class,
         LecturerSubjectCrossRef.class,
         StudentSemesterCrossRef.class,
-        StudentClassCrossRef.class,
-        StudentSubjectCrossRef.class
+        StudentSubjectCrossRef.class,
+        SubjectSemesterCrossRef.class
 }, version = Constants.DATABASE_VERSION, exportSchema = false)
 @TypeConverters({DateConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
@@ -81,12 +84,17 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public static void insertDefaultValue(Context context) {
         insertAcademicYearList(context);
-        insertSemesterList(context);
         insertFacultyList(context);
+        insertSemesterList(context);
         insertMajorList(context);
-        insertUser(context);
         insertClassList(context);
+        insertUser(context);
+        insertStudentsToClass(context);
         insertSubjectList(context);
+        insertSubjectSemesterCrossRefList(context);
+        insertLecturerSubjectCrossRef(context);
+        insertStudentSubjectCrossRefList(context);
+        insertStudentSemesterCrossRefList(context);
     }
 
     private static void insertAcademicYearList(Context context) {
@@ -104,6 +112,27 @@ public abstract class AppDatabase extends RoomDatabase {
             academicYear.setEndDate(endCal.getTime());
 
             db.academicYearDAO().insert(academicYear);
+        }
+    }
+
+    private static void insertFacultyList(Context context) {
+        AppDatabase db = getInstance(context);
+
+        String[] faculties = {
+                "Khoa học máy tính",
+                "Công nghệ phần mềm",
+                "Kỹ thuật máy tính",
+                "Hệ thống thông tin",
+                "Khoa học dữ liệu",
+                "Trí tuệ nhân tạo",
+                "An toàn thông tin"
+        };
+
+        for (String facultyName : faculties) {
+            Faculty faculty = new Faculty();
+            faculty.setName(facultyName);
+
+            db.facultyDAO().insert(faculty);
         }
     }
 
@@ -141,27 +170,6 @@ public abstract class AppDatabase extends RoomDatabase {
         }
     }
 
-    private static void insertFacultyList(Context context) {
-        AppDatabase db = getInstance(context);
-
-        String[] faculties = {
-                "Khoa học máy tính",
-                "Công nghệ phần mềm",
-                "Kỹ thuật máy tính",
-                "Hệ thống thông tin",
-                "Khoa học dữ liệu",
-                "Trí tuệ nhân tạo",
-                "An toàn thông tin"
-        };
-
-        for (String facultyName : faculties) {
-            Faculty faculty = new Faculty();
-            faculty.setName(facultyName);
-
-            db.facultyDAO().insert(faculty);
-        }
-    }
-
     private static void insertMajorList(Context context) {
         AppDatabase db = getInstance(context);
 
@@ -186,63 +194,23 @@ public abstract class AppDatabase extends RoomDatabase {
 
     private static void insertClassList(Context context) {
         AppDatabase db = getInstance(context);
-        List<Semester> semesters = db.semesterDAO().getAll();
-        List<Lecturer> lecturers = db.lecturerDAO().getAll();
         List<Major> majors = db.majorDAO().getAll();
-        Random random = new Random();
+        List<AcademicYear> academicYears = db.academicYearDAO().getAll();
 
-        for (Semester semester : semesters) {
-            AcademicYear academicYear = db.academicYearDAO().getById(semester.getAcademicYearId());
+        for (AcademicYear academicYear : academicYears) {
+            for (Major major : majors) {
+                Class aClass = new Class();
+                aClass.setName(major.getName() + " - " + academicYear.getName());
+                aClass.setMajorId(major.getId());
+                aClass.setAcademicYearId(academicYear.getId());
 
-            for (Lecturer lecturer : lecturers) {
-                for (int i = 1; i <= 3; i++) {
-                    Major randomMajor = majors.get(random.nextInt(majors.size()));
-
-                    Class clazz = new Class();
-                    clazz.setName(randomMajor.getName() + " - " + academicYear.getName());
-                    clazz.setMajorId(randomMajor.getId());
-                    clazz.setAcademicYearId(academicYear.getId());
-                    clazz.setSemesterId(semester.getId());
-                    clazz.setLecturerId(lecturer.getId());
-
-                    db.classDAO().insert(clazz);
-                }
-            }
-        }
-    }
-
-    private static void insertSubjectList(Context context) {
-        AppDatabase db = getInstance(context);
-        List<Class> classes = db.classDAO().getAll();
-
-        String[] subjects = {
-                "Nhập môn Công nghệ thông tin", "Lập trình Java",
-                "Cơ sở dữ liệu", "Mạng máy tính",
-                "Hệ điều hành", "Kỹ thuật phần mềm",
-                "Cấu trúc dữ liệu và Giải thuật", "An ninh mạng",
-                "Trí tuệ nhân tạo", "Khoa học dữ liệu"
-        };
-        int[] credits = {3, 4, 3, 3, 3, 4, 4, 3, 4, 3};
-
-        for (int i = 0; i < subjects.length; i++) {
-            for(Class aclass : classes) {
-                Subject subject = new Subject();
-                subject.setName(subjects[i]);
-                subject.setCredits(credits[i]);
-                subject.setMajorId(aclass.getMajorId());
-                subject.setClassId(aclass.getId());
-
-                db.subjectDAO().insert(subject);
+                db.classDAO().insert(aClass);
             }
         }
     }
 
     private static void insertUser(Context context) {
-        AcademicYearDAO academicYearDAO = getInstance(context).academicYearDAO();
-        LecturerDAO lecturerDAO = getInstance(context).lecturerDAO();
-        StudentDAO studentDAO = getInstance(context).studentDAO();
-        MajorDAO majorDAO = getInstance(context).majorDAO();
-        UserDAO userDAO = getInstance(context).userDAO();
+        AppDatabase db = getInstance(context);
 
         User admin = new User();
         admin.setFullName("Administrator");
@@ -250,7 +218,7 @@ public abstract class AppDatabase extends RoomDatabase {
         admin.setPassword(Utils.hashPassword("admin@123"));
         admin.setAvatar(Utils.getBytesFromDrawable(context, R.drawable.default_avatar));
         admin.setRole(Constants.Role.ADMIN);
-        userDAO.insert(admin);
+        db.userDAO().insert(admin);
 
         String[] lecturerEmails = {
                 "lecturer1@gmail.com", "lecturer2@gmail.com",
@@ -263,9 +231,10 @@ public abstract class AppDatabase extends RoomDatabase {
                 "John Doe", "Jane Smith", "Robert Brown", "Emily Jones", "Michael White",
                 "Susan Davis", "William Miller", "Olivia Garcia", "James Martin", "Isabella Wilson"
         };
+
         for (int i = 0; i < lecturerEmails.length; i++) {
             User user = getUser(context, lecturerNames[i], lecturerEmails[i], Constants.Role.LECTURER, i);
-            long userId = userDAO.insert(user);
+            long userId = db.userDAO().insert(user);
 
             Lecturer lecturer = new Lecturer();
             lecturer.setSpecialization("Chuyên ngành " + (i + 1));
@@ -273,8 +242,11 @@ public abstract class AppDatabase extends RoomDatabase {
             lecturer.setCertificate("Chứng chỉ " + (i + 1));
             lecturer.setUserId(userId);
 
-            lecturerDAO.insert(lecturer);
+            db.lecturerDAO().insert(lecturer);
         }
+
+        List<AcademicYear> academicYears = db.academicYearDAO().getAll();
+        List<Major> majors = db.majorDAO().getAll();
 
         String[] studentEmails = {
                 "student1@gmail.com", "student2@gmail.com",
@@ -288,15 +260,12 @@ public abstract class AppDatabase extends RoomDatabase {
                 "Nguyễn Thị F", "Lê Thị G", "Trương Văn H", "Bùi Thị I", "Đỗ Văn J"
         };
 
-        List<AcademicYear> academicYears = academicYearDAO.getAll();
-        List<Major> majors = majorDAO.getAll();
-
         for (int i = 0; i < studentNames.length; i++) {
             User user = getUser(context, studentNames[i], studentEmails[i], Constants.Role.STUDENT, i);
             Calendar calendar = Calendar.getInstance();
             calendar.set(2000 + i, i % 12, 1);
             user.setDob(calendar.getTime());
-            long userId = userDAO.insert(user);
+            long userId = db.userDAO().insert(user);
 
             Student student = new Student();
             student.setSpecialization("Chuyên ngành " + (i + 1));
@@ -304,11 +273,117 @@ public abstract class AppDatabase extends RoomDatabase {
             student.setAcademicYearId(academicYears.get(i % academicYears.size()).getId());
             student.setUserId(userId);
 
-            studentDAO.insert(student);
+            db.studentDAO().insert(student);
         }
     }
 
-    private static @NonNull User getUser(Context context, String name, String email, Constants.Role role, int i) {
+    private static void insertStudentsToClass(Context context) {
+        AppDatabase db = getInstance(context);
+        List<Student> students = db.studentDAO().getAll();
+
+        for (int i = 0; i < students.size(); i++) {
+            long classId = (i / 2) + 1;
+            Student student = students.get(i);
+            student.setClassId(classId);
+            db.studentDAO().update(student);
+        }
+    }
+
+    private static void insertSubjectList(Context context) {
+        AppDatabase db = getInstance(context);
+        List<Class> classes = db.classDAO().getAll();
+        Random random = new Random();
+
+        String[] subjects = {
+                "Nhập môn Công nghệ thông tin", "Lập trình Java",
+                "Cơ sở dữ liệu", "Mạng máy tính",
+                "Hệ điều hành", "Kỹ thuật phần mềm",
+                "Cấu trúc dữ liệu và Giải thuật", "An ninh mạng",
+                "Trí tuệ nhân tạo", "Khoa học dữ liệu"
+        };
+        int[] credits = {3, 4, 3, 3, 3, 4, 4, 3, 4, 3};
+
+        for (Class aClass : classes) {
+            Set<Integer> selectedIndexes = new HashSet<>();
+            while (selectedIndexes.size() < 3) {
+                selectedIndexes.add(random.nextInt(subjects.length));
+            }
+
+            for (Integer index : selectedIndexes) {
+                Subject subject = new Subject();
+                subject.setName(subjects[index]);
+                subject.setCredits(credits[index]);
+                subject.setMajorId(aClass.getMajorId());
+                subject.setClassId(aClass.getId());
+
+                db.subjectDAO().insert(subject);
+            }
+        }
+    }
+
+    private static void insertSubjectSemesterCrossRefList(Context context) {
+        AppDatabase db = getInstance(context);
+
+        long[][] subjectSemesterPairs = {
+                {1L, 1L}, {3L, 1L}, {4L, 1L}, {2L, 1L},
+                {3L, 2L}, {6L, 2L}, {7L, 2L},
+                {4L, 3L}, {1L, 3L}, {5L, 3L}
+        };
+
+        for (long[] pair : subjectSemesterPairs) {
+            SubjectSemesterCrossRef crossRef = new SubjectSemesterCrossRef();
+            crossRef.setSubjectId(pair[0]);
+            crossRef.setSemesterId(pair[1]);
+            db.crossRefDAO().insertSubjectSemesterCrossRef(crossRef);
+        }
+    }
+
+    private static void insertLecturerSubjectCrossRef(Context context) {
+        AppDatabase db = getInstance(context);
+
+        long[] subjectIds = {1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L};
+
+        for (long subjectId : subjectIds) {
+            LecturerSubjectCrossRef crossRef = new LecturerSubjectCrossRef();
+            crossRef.setLecturerId(1);
+            crossRef.setSubjectId(subjectId);
+            db.crossRefDAO().insertLecturerSubjectCrossRef(crossRef);
+        }
+    }
+
+    private static void insertStudentSubjectCrossRefList(Context context) {
+        AppDatabase db = getInstance(context);
+        List<Student> students = db.studentDAO().getAll();
+        List<Subject> subjects = db.subjectDAO().getAll();
+
+        for (Student student : students) {
+            for (Subject subject : subjects) {
+                StudentSubjectCrossRef crossRef = new StudentSubjectCrossRef();
+                crossRef.setStudentId(student.getId());
+                crossRef.setSubjectId(subject.getId());
+
+                db.crossRefDAO().insertStudentSubjectCrossRef(crossRef);
+            }
+        }
+    }
+
+    private static void insertStudentSemesterCrossRefList(Context context) {
+        AppDatabase db = getInstance(context);
+        List<Student> students = db.studentDAO().getAll();
+        List<Semester> semesters = db.semesterDAO().getAll();
+
+        for (Semester semester : semesters) {
+            for (Student student : students) {
+                StudentSemesterCrossRef crossRef = new StudentSemesterCrossRef();
+                crossRef.setStudentId(student.getId());
+                crossRef.setSemesterId(semester.getId());
+                db.crossRefDAO().insertStudentSemesterCrossRef(crossRef);
+            }
+        }
+    }
+
+    @NonNull
+    private static User getUser(Context context, String name, String email, Constants.Role role, int i) {
         User user = new User();
         user.setFullName(name);
         user.setDob(new Date());
@@ -333,7 +408,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract MajorDAO majorDAO();
 
-    public abstract GradeDAO pointDAO();
+    public abstract ScoreDAO gradeDAO();
 
     public abstract SemesterDAO semesterDAO();
 
@@ -342,4 +417,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract SubjectDAO subjectDAO();
 
     public abstract UserDAO userDAO();
+
+    public abstract CrossRefDAO crossRefDAO();
 }

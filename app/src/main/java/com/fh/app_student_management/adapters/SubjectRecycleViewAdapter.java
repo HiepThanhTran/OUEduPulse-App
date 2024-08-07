@@ -3,6 +3,7 @@ package com.fh.app_student_management.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +15,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fh.app_student_management.R;
-import com.fh.app_student_management.adapters.entities.ClassItemRecycleView;
 import com.fh.app_student_management.adapters.entities.SubjectItemRecycleView;
 import com.fh.app_student_management.adapters.listener.ItemClickListener;
-import com.fh.app_student_management.data.AppDatabase;
-import com.fh.app_student_management.data.entities.Class;
-import com.fh.app_student_management.data.entities.Major;
-import com.fh.app_student_management.data.entities.Subject;
+import com.fh.app_student_management.ui.ScoreActivity;
+import com.fh.app_student_management.utilities.Constants;
 import com.fh.app_student_management.utilities.Utils;
 
 import java.util.ArrayList;
@@ -50,12 +48,23 @@ public class SubjectRecycleViewAdapter extends RecyclerView.Adapter<SubjectRecyc
 
     @Override
     public void onBindViewHolder(@NonNull SubjectViewHolder holder, int position) {
-        SubjectItemRecycleView subject = filteredList.get(position);
-        holder.txtSubjectName.setText(subject.getSubjectName());
-        holder.txtCredits.setText(String.valueOf(subject.getCredits()));
+        SubjectItemRecycleView subjectItemRecycleView = filteredList.get(position);
+        holder.txtSubjectName.setText(subjectItemRecycleView.getSubject().getName());
+        holder.txtClassName.setText(subjectItemRecycleView.getClazz().getName());
+        holder.txtMajorName.setText(subjectItemRecycleView.getMajor().getName());
+        holder.txtCredits.setText(String.valueOf(subjectItemRecycleView.getSubject().getCredits()));
 
         holder.setItemClickListener((view, position1, isLongClick) -> {
-
+            Bundle bundle = intent.getExtras();
+            assert bundle != null;
+            long semesterId = bundle.getLong(Constants.SEMESTER_ID, 0);
+            long subjectId = filteredList.get(position1).getSubject().getId();
+            String className = filteredList.get(position1).getClazz().getName();
+            Intent intent = new Intent(context, ScoreActivity.class);
+            intent.putExtra(Constants.SEMESTER_ID, semesterId);
+            intent.putExtra(Constants.SUBJECT_ID, subjectId);
+            intent.putExtra("className", className);
+            context.startActivity(intent);
         });
     }
 
@@ -75,11 +84,11 @@ public class SubjectRecycleViewAdapter extends RecyclerView.Adapter<SubjectRecyc
                     filteredList = originalList;
                 } else {
                     ArrayList<SubjectItemRecycleView> filtered = new ArrayList<>();
-                    for (SubjectItemRecycleView aClass : originalList) {
-                        String subjectName = Utils.removeVietnameseAccents(aClass.getSubjectName().toLowerCase(Locale.getDefault()));
+                    for (SubjectItemRecycleView itemRecycleView : originalList) {
+                        String subjectName = Utils.removeVietnameseAccents(itemRecycleView.getSubject().getName().toLowerCase(Locale.getDefault()));
 
                         if (subjectName.contains(query)) {
-                            filtered.add(aClass);
+                            filtered.add(itemRecycleView);
                         }
                     }
                     filteredList = filtered;
@@ -104,12 +113,16 @@ public class SubjectRecycleViewAdapter extends RecyclerView.Adapter<SubjectRecyc
     public static class SubjectViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         private final TextView txtSubjectName;
+        private final TextView txtClassName;
+        private final TextView txtMajorName;
         private final TextView txtCredits;
         private ItemClickListener itemClickListener;
 
         public SubjectViewHolder(View itemView) {
             super(itemView);
             txtSubjectName = itemView.findViewById(R.id.txtSubjectName);
+            txtClassName = itemView.findViewById(R.id.txtClassName);
+            txtMajorName = itemView.findViewById(R.id.txtMajorName);
             txtCredits = itemView.findViewById(R.id.txtCredits);
 
             itemView.setOnClickListener(this);

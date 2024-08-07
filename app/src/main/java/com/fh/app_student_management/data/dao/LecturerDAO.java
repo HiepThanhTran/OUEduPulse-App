@@ -23,7 +23,7 @@ public interface LecturerDAO {
     Lecturer getByUserId(Long userId);
 
     @Insert
-    Long insert(Lecturer Lecturer);
+    Long insert(Lecturer lecturer);
 
     @Insert
     void insertAll(Lecturer... lecturers);

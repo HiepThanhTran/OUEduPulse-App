@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey;
 
 import java.util.Objects;
 
-@Entity(tableName = "grades", foreignKeys = {
+@Entity(tableName = "scores", foreignKeys = {
         @ForeignKey(
                 entity = Student.class,
                 parentColumns = "id",
@@ -20,12 +20,12 @@ import java.util.Objects;
                 childColumns = "subject_id"
         )
 })
-public class Grade {
+public class Score {
 
     @PrimaryKey(autoGenerate = true)
     private long id;
     private String type;
-    private float score;
+    private float point;
     @ColumnInfo(name = "student_id")
     private long studentId;
     @ColumnInfo(name = "subject_id")
@@ -47,12 +47,12 @@ public class Grade {
         this.type = type;
     }
 
-    public float getScore() {
-        return score;
+    public float getPoint() {
+        return point;
     }
 
-    public void setScore(float score) {
-        this.score = score;
+    public void setPoint(float point) {
+        this.point = point;
     }
 
     public long getStudentId() {
@@ -86,7 +86,7 @@ public class Grade {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Grade grade = (Grade) o;
-        return id == grade.id && Objects.equals(type, grade.type);
+        Score score = (Score) o;
+        return id == score.id && Objects.equals(type, score.type);
     }
 }

@@ -23,18 +23,6 @@ public interface UserDAO {
     @Query("SELECT * FROM users WHERE email = :email")
     User getByEmail(String email);
 
-    @Query("SELECT * FROM users WHERE full_name LIKE '%' || :name || '%'")
-    List<User> findByName(String name);
-
-    @Query("SELECT * FROM users WHERE role = :role")
-    List<User> findByRole(Constants.Role role);
-
-    @Query("SELECT COUNT(*) FROM users")
-    int count();
-
-    @Query("SELECT COUNT(*) FROM users WHERE role = :role")
-    int countByRole(Constants.Role role);
-
     @Insert
     Long insert(User user);
 

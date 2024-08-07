@@ -20,6 +20,11 @@ import androidx.room.PrimaryKey;
                 entity = AcademicYear.class,
                 parentColumns = "id",
                 childColumns = "academic_year_id"
+        ),
+        @ForeignKey(
+                entity = Class.class,
+                parentColumns = "id",
+                childColumns = "class_id"
         )
 })
 public class Student {
@@ -33,6 +38,8 @@ public class Student {
     private long academicYearId;
     @ColumnInfo(name = "user_id")
     private long userId;
+    @ColumnInfo(name = "class_id")
+    private Long classId;
 
     public long getId() {
         return id;
@@ -72,5 +79,13 @@ public class Student {
 
     public void setUserId(long userId) {
         this.userId = userId;
+    }
+
+    public Long getClassId() {
+        return classId;
+    }
+
+    public void setClassId(Long classId) {
+        this.classId = classId;
     }
 }
