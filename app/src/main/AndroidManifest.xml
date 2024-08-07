@@ -13,6 +13,12 @@
         android:theme="@style/Theme.AppStudentManagement"
         tools:targetApi="31">
         <activity
+            android:name=".ui.AddStudentForAdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PointManagementAdminActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.SemesterAdminActivity"
             android:exported="false" />
         <activity
@@ -67,4 +73,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>

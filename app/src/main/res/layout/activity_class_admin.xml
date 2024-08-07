@@ -45,7 +45,7 @@
         android:background="@drawable/search_view_bg"
         app:closeIcon="@drawable/ic_close"
         app:iconifiedByDefault="false"
-        app:queryHint="Nhập từ khóa..."
+        app:queryHint="Nhập tên lớp..."
         app:searchIcon="@drawable/ic_search" />
 
     <androidx.appcompat.widget.AppCompatButton
