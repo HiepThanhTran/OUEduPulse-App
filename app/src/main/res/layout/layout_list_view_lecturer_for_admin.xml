@@ -19,7 +19,7 @@
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/txtNameClass"
+        android:id="@+id/txtClassName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="2"
@@ -29,22 +29,12 @@
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/txtFaculty"
+        android:id="@+id/txtNameSubject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:gravity="center"
-        android:text="CNTT"
-        android:textColor="@color/white"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/txtMajor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:gravity="center"
-        android:text="IT"
+        android:text="Lập trình di động"
         android:textColor="@color/white"
         android:textSize="16sp" />
 
@@ -54,7 +44,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:gravity="center"
-        android:text="2023 - 2024"
+        android:text="2024 - 2024"
         android:textColor="@color/white"
         android:textSize="16sp" />
+
 </LinearLayout>

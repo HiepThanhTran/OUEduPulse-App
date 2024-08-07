@@ -13,6 +13,9 @@
         android:theme="@style/Theme.AppStudentManagement"
         tools:targetApi="31">
         <activity
+            android:name=".ui.StatisticalLecturerForAdminActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.StatisticalScoreForAdminActivity"
             android:exported="false" />
         <activity
