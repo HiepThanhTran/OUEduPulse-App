@@ -15,7 +15,7 @@ import com.fh.app_student_management.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 public class SubjectAdminActivity extends AppCompatActivity {
-    private AppCompatButton btnAddSubject
+    private AppCompatButton btnAddSubject;
     private AppCompatButton btnEditSubject = findViewById(R.id.btnEditSubject);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
