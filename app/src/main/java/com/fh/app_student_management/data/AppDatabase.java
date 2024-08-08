@@ -407,7 +407,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract MajorDAO majorDAO();
 
-    public abstract ScoreDAO gradeDAO();
+    public abstract ScoreDAO scoreDAO();
 
     public abstract SemesterDAO semesterDAO();
 

@@ -3,21 +3,19 @@ package com.fh.app_student_management.ui;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.fh.app_student_management.R;
-import com.fh.app_student_management.adapters.ScoreListViewAdapter;
+import com.fh.app_student_management.adapters.ScoreRecycleViewAdapter;
 import com.fh.app_student_management.data.AppDatabase;
 import com.fh.app_student_management.data.relations.StudentWithScores;
 import com.fh.app_student_management.utilities.Constants;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
 
@@ -25,11 +23,9 @@ public class ScoreActivity extends AppCompatActivity {
 
     private long semesterId;
     private long subjectId;
-    private String className;
+    private String subjectName;
 
     private ImageView btnBack;
-    private Button btnSave;
-    private ListView lvScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +35,7 @@ public class ScoreActivity extends AppCompatActivity {
         Intent intent = getIntent();
         semesterId = intent.getLongExtra(Constants.SEMESTER_ID, 0);
         subjectId = intent.getLongExtra(Constants.SUBJECT_ID, 0);
-        className = intent.getStringExtra("className");
+        subjectName = intent.getStringExtra("subjectName");
 
         initScoreView();
         handleEventListener();
@@ -47,31 +43,20 @@ public class ScoreActivity extends AppCompatActivity {
 
     private void initScoreView() {
         btnBack = findViewById(R.id.btnBack);
-        btnSave = findViewById(R.id.btnSave);
-        lvScore = findViewById(R.id.lvScore);
-        TextView txtClassName = findViewById(R.id.txtClassName);
+        RecyclerView rvScore = findViewById(R.id.lvScore);
+        TextView txtSubjectName = findViewById(R.id.txtSubjectName);
 
-        txtClassName.setText(className);
-        ScoreListViewAdapter scoreListViewAdapter = new ScoreListViewAdapter(
-                this, R.layout.lecturer_layout_list_view_score, getStudents()
+        txtSubjectName.setText(subjectName);
+        ScoreRecycleViewAdapter scoreRecycleViewAdapter = new ScoreRecycleViewAdapter(
+                this, getIntent(), getStudents()
         );
-        lvScore.setAdapter(scoreListViewAdapter);
+        rvScore.setLayoutManager(new LinearLayoutManager(this));
+        rvScore.setAdapter(scoreRecycleViewAdapter);
     }
 
     @SuppressLint("InflateParams")
     private void handleEventListener() {
         btnBack.setOnClickListener(v -> finish());
-
-        lvScore.setOnItemClickListener((parent, view, position, id) -> {
-            BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(ScoreActivity.this);
-            View view1 = LayoutInflater.from(ScoreActivity.this).inflate(R.layout.lecturer_bottom_sheet_add_score, null);
-            bottomSheetDialog.setContentView(view1);
-            bottomSheetDialog.show();
-        });
-
-        btnSave.setOnClickListener(v -> {
-
-        });
     }
 
     private ArrayList<StudentWithScores> getStudents() {

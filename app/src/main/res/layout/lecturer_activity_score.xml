@@ -22,12 +22,12 @@
             android:src="@drawable/ic_back" />
 
         <TextView
-            android:id="@+id/txtClassName"
+            android:id="@+id/txtSubjectName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:fontFamily="@font/opensans_bold"
-            android:text="DH21IT01"
+            android:text="Lập trình Java"
             android:textColor="@color/white"
             android:textSize="20sp" />
 
@@ -38,24 +38,6 @@
         android:id="@+id/center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnSave"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/round_button_edit"
-            android:backgroundTint="@color/primaryColor"
-            android:fontFamily="@font/opensans_bold"
-            android:paddingStart="30dp"
-            android:paddingEnd="30dp"
-            android:text="Lưu"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
 
     </RelativeLayout>
 
@@ -121,13 +103,13 @@
 
     </TableLayout>
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lvScore"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/titleTable"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        tools:listitem="@layout/lecturer_layout_list_view_score" />
+        tools:listitem="@layout/lecturer_layout_recycle_view_score" />
 
 </RelativeLayout>

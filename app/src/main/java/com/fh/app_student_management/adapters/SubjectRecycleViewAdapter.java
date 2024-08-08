@@ -59,11 +59,11 @@ public class SubjectRecycleViewAdapter extends RecyclerView.Adapter<SubjectRecyc
             assert bundle != null;
             long semesterId = bundle.getLong(Constants.SEMESTER_ID, 0);
             long subjectId = filteredList.get(position1).getSubject().getId();
-            String className = filteredList.get(position1).getClazz().getName();
+            String subjectName = filteredList.get(position1).getSubject().getName();
             Intent intent = new Intent(context, ScoreActivity.class);
             intent.putExtra(Constants.SEMESTER_ID, semesterId);
             intent.putExtra(Constants.SUBJECT_ID, subjectId);
-            intent.putExtra("className", className);
+            intent.putExtra("subjectName", subjectName);
             context.startActivity(intent);
         });
     }

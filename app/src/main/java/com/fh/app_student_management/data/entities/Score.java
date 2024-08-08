@@ -18,6 +18,11 @@ import java.util.Objects;
                 entity = Subject.class,
                 parentColumns = "id",
                 childColumns = "subject_id"
+        ),
+        @ForeignKey(
+                entity = Semester.class,
+                parentColumns = "id",
+                childColumns = "semester_id"
         )
 })
 public class Score {
@@ -30,6 +35,16 @@ public class Score {
     private long studentId;
     @ColumnInfo(name = "subject_id")
     private long subjectId;
+    @ColumnInfo(name = "semester_id")
+    private long semesterId;
+
+    public Score(String type, float point, long studentId, long subjectId, long semesterId) {
+        this.type = type;
+        this.point = point;
+        this.studentId = studentId;
+        this.subjectId = subjectId;
+        this.semesterId = semesterId;
+    }
 
     public long getId() {
         return id;
@@ -69,6 +84,14 @@ public class Score {
 
     public void setSubjectId(long subjectId) {
         this.subjectId = subjectId;
+    }
+
+    public long getSemesterId() {
+        return semesterId;
+    }
+
+    public void setSemesterId(long semesterId) {
+        this.semesterId = semesterId;
     }
 
     @NonNull

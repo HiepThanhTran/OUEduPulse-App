@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@color/grey"
     android:orientation="horizontal"
-    android:padding="8dp"
+    android:paddingVertical="30dp"
     tools:ignore="HardcodedText">
 
     <TextView
@@ -28,37 +28,40 @@
         android:textColor="@color/white"
         android:textSize="16sp" />
 
-    <EditText
-        android:id="@+id/edtGK"
+    <TextView
+        android:id="@+id/txtGK"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:clickable="false"
+        android:focusable="false"
         android:gravity="center"
-        android:inputType="numberDecimal"
         android:text="10"
         android:textColor="@color/white"
         android:textSize="16sp"
         tools:ignore="Autofill,LabelFor" />
 
-    <EditText
-        android:id="@+id/edtCK"
+    <TextView
+        android:id="@+id/txtCK"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:clickable="false"
+        android:focusable="false"
         android:gravity="center"
-        android:inputType="numberDecimal"
         android:text="10"
         android:textColor="@color/white"
         android:textSize="16sp"
         tools:ignore="Autofill,LabelFor" />
 
-    <EditText
-        android:id="@+id/edtTB"
+    <TextView
+        android:id="@+id/txtTB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:clickable="false"
+        android:focusable="false"
         android:gravity="center"
-        android:inputType="numberDecimal"
         android:text="10"
         android:textColor="@color/white"
         android:textSize="16sp"

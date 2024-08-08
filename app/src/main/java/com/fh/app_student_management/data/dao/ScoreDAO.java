@@ -19,6 +19,12 @@ public interface ScoreDAO {
     @Query("SELECT * FROM scores WHERE id = :id")
     Score getById(Long id);
 
+    @Query("SELECT * FROM scores " +
+            "WHERE student_id = :studentId " +
+            "AND subject_id = :subjectId " +
+            "AND semester_id = :semesterId")
+    List<Score> getByStudentId(Long studentId, Long subjectId, Long semesterId);
+
     @Insert
     Long insert(Score score);
 
