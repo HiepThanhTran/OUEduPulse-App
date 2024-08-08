@@ -2,8 +2,10 @@ package com.fh.app_student_management.ui.admin;
 
 import android.os.Bundle;
 import android.widget.EditText;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.fh.app_student_management.R;
 
 public class StatisticalClassActivity extends AppCompatActivity {
@@ -16,9 +18,16 @@ public class StatisticalClassActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_activity_statistical_class);
 
+        initStatisticalClassView();
+        handleEventListener();
+    }
+
+    private void initStatisticalClassView() {
         inputSemester = findViewById(R.id.inputSemester);
         inputSubject = findViewById(R.id.inputSubject);
+    }
 
+    private void handleEventListener() {
         inputSemester.setOnClickListener(v -> showSemesterDialog());
         inputSubject.setOnClickListener(v -> showSubjectDialog());
     }

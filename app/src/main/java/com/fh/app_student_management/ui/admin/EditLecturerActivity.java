@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.fh.app_student_management.R;
 
 public class EditLecturerActivity extends AppCompatActivity {
+
     private ImageView btnBack;
     private EditText inputRole;
 
@@ -20,17 +21,23 @@ public class EditLecturerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_activity_edit_lecturer);
 
+        initEditLecturerView();
+        handleEventListener();
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void initEditLecturerView() {
         btnBack = findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(v -> finish());
-
-
         inputRole = findViewById(R.id.inputRole);
 
         inputRole.setText("Giảng viên");
-
         inputRole.setFocusable(false);
         inputRole.setFocusableInTouchMode(false);
         inputRole.setClickable(true);
+    }
+
+    private void handleEventListener() {
+        btnBack.setOnClickListener(v -> finish());
 
         inputRole.setOnClickListener(v -> showRoleSelectionDialog());
     }
