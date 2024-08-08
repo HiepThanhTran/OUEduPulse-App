@@ -8,12 +8,12 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.cardview.widget.CardView;
 
 import com.fh.app_student_management.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 public class LecturerListActivity extends AppCompatActivity {
-
     private ImageView btnBack;
     private AppCompatButton btnToAddLecturer;
 
@@ -24,11 +24,12 @@ public class LecturerListActivity extends AppCompatActivity {
 
         initLecturerListView();
         handleEventListener();
+
     }
 
     private void initLecturerListView() {
         btnBack = findViewById(R.id.btnBack);
-        btnToAddLecturer = findViewById(R.id.btnAddLecturer);
+
     }
 
     @SuppressLint("InflateParams")

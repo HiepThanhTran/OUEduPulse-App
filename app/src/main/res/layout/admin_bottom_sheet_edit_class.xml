@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:layout_marginStart="20dp"
     android:layout_marginEnd="20dp"
-    android:orientation="vertical"
     tools:ignore="HardcodedText">
 
     <com.google.android.material.bottomsheet.BottomSheetDragHandleView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -51,6 +52,41 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:hint="Lớp"
+        app:boxStrokeColor="@color/grey"
+        app:endIconMode="clear_text"
+        app:hintTextAppearance="@style/CustomHintTextAppearance"
+        app:hintTextColor="@color/black">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtClassName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="Giáo viên giảng dạy"
+        app:boxStrokeColor="@color/grey"
+        app:endIconMode="clear_text"
+        app:hintTextAppearance="@style/CustomHintTextAppearance"
+        app:hintTextColor="@color/black">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtLecturerName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:hint="Năm học"
         app:boxStrokeColor="@color/grey"
         app:endIconMode="clear_text"
@@ -58,7 +94,7 @@
         app:hintTextColor="@color/black">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edtAcademicYearName"
+            android:id="@+id/edt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -69,9 +105,9 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="20dp"
-        android:backgroundTint="@color/primaryColor"
+        android:text="Thêm"
+        android:textSize="20sp"
         android:fontFamily="@font/opensans_bold"
-        android:text="Cập nhập"
-        android:textSize="20sp" />
+        android:backgroundTint="@color/primaryColor" />
 
 </LinearLayout>
