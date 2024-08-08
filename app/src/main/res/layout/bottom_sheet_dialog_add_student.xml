@@ -16,14 +16,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:hint="Khoa"
+        android:hint="2151050111"
         app:boxStrokeColor="@color/grey"
         app:endIconMode="clear_text"
         app:hintTextAppearance="@style/CustomHintTextAppearance"
         app:hintTextColor="@color/black">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tpFaculty"
+            android:id="@+id/tpId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -33,14 +33,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:hint="Ngành"
+        android:hint="Nguyen Van A"
         app:boxStrokeColor="@color/grey"
         app:endIconMode="clear_text"
         app:hintTextAppearance="@style/CustomHintTextAppearance"
         app:hintTextColor="@color/black">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tpMajor"
+            android:id="@+id/tpNameStudent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -49,20 +49,69 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:hint="Năm học"
+        android:hint="Lập trình di động"
         app:boxStrokeColor="@color/grey"
         app:endIconMode="clear_text"
         app:hintTextAppearance="@style/CustomHintTextAppearance"
         app:hintTextColor="@color/black">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tpAcademicYear"
+            android:id="@+id/tpNameSubject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="Điểm giữa kì"
+        app:boxStrokeColor="@color/grey"
+        app:endIconMode="clear_text"
+        app:hintTextAppearance="@style/CustomHintTextAppearance"
+        app:hintTextColor="@color/black">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tpGK"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="Điểm cuối kì"
+        app:boxStrokeColor="@color/grey"
+        app:endIconMode="clear_text"
+        app:hintTextAppearance="@style/CustomHintTextAppearance"
+        app:hintTextColor="@color/black">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tpCK"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="Trung bình"
+        app:boxStrokeColor="@color/grey"
+        app:endIconMode="clear_text"
+        app:hintTextAppearance="@style/CustomHintTextAppearance"
+        app:hintTextColor="@color/black">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tpTB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnAddClass"
+        android:id="@+id/btnAddPoint"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="20dp"
