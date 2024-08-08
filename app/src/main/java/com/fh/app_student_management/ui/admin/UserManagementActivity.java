@@ -1,7 +1,6 @@
-package com.fh.app_student_management.ui;
+package com.fh.app_student_management.ui.admin;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +13,7 @@ public class UserManagementActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_management);
+        setContentView(R.layout.admin_activity_list_lecturer);
 
         btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());

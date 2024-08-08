@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.StatisticalSubjectForAdminActivity"
+    tools:context=".ui.admin.StatisticalSubjectForAdminActivity"
     android:background="@color/grey">
 
     <RelativeLayout
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:fontFamily="@font/opensans_bold"
-            android:text="Thống kê môn học"
+            android:text="Thống kê giảng viên"
             android:textColor="@color/white"
             android:textSize="20sp" />
     </RelativeLayout>
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/opensans_bold"
-            android:text="Học kì"
+            android:text="Giảng viên"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
@@ -58,7 +58,7 @@
             android:layout_height="56dp"
             android:background="@drawable/custom_input"
             android:clickable="true"
-            android:drawableStart="@drawable/ic_clock"
+            android:drawableStart="@drawable/ic_lecturer"
             android:drawablePadding="12dp"
             android:ems="10"
             android:focusable="true"
@@ -88,7 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/opensans_bold"
-            android:text="Bảng thống kê môn học trong"
+            android:text="Bảng thống kê kết quả giảng dạy của giảng viên"
             android:textColor="@color/white"
             android:textSize="16sp" />
 
@@ -97,7 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/opensans_bold"
-            android:text="học kì 1 - năm 2024 - 2025"
+            android:text="Nguyễn Văn A"
             android:textColor="@color/white"
             android:textSize="16sp" />
     </LinearLayout>
@@ -131,7 +131,7 @@
                 android:fontFamily="@font/opensans_bold"
                 android:gravity="center"
                 android:padding="8dp"
-                android:text="Tên môn học"
+                android:text="Lớp giảng dạy"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
@@ -141,7 +141,19 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/opensans_bold"
                 android:padding="8dp"
-                android:text="Số tín chỉ"
+                android:text="Môn"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/opensans_bold"
+                android:padding="8dp"
+                android:text="Học kì"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -155,5 +167,5 @@
         android:layout_below="@id/table"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        tools:listitem="@layout/layout_list_view_subject_for_admin" />
+        tools:listitem="@layout/admin_layout_list_view_statistical_lecturer" />
 </RelativeLayout>

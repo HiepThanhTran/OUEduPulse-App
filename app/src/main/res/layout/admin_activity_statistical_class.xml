@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.StatisticalSubjectForAdminActivity"
+    tools:context=".ui.admin.StatisticalSubjectForAdminActivity"
     android:background="@color/grey">
 
     <RelativeLayout
@@ -231,5 +231,5 @@
         android:layout_below="@id/table"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        tools:listitem="@layout/layout_list_view_class_for_admin" />
+        tools:listitem="@layout/admin_layout_list_view_statistical_class" />
 </RelativeLayout>

@@ -1,4 +1,4 @@
-package com.fh.app_student_management.ui;
+package com.fh.app_student_management.ui.admin;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,7 +17,7 @@ public class ClassAdminActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_class_admin);
+        setContentView(R.layout.admin_activity_list_class);
 
         btnAddClass = findViewById(R.id.btnAddClass);
         btnAddClass.setOnClickListener(new View.OnClickListener() {

@@ -1,8 +1,7 @@
-package com.fh.app_student_management.ui;
+package com.fh.app_student_management.ui.admin;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -19,7 +18,7 @@ public class EditLecturerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_lecturer);
+        setContentView(R.layout.admin_activity_edit_lecturer);
 
         btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());

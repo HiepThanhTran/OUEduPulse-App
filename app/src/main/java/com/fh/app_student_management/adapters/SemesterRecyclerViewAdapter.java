@@ -41,7 +41,7 @@ public class SemesterRecyclerViewAdapter extends RecyclerView.Adapter<SemesterRe
     @NonNull
     @Override
     public SemesterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.layout_recycle_view_semester, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_recycle_view_semesters, parent, false);
 
         return new SemesterViewHolder(view);
     }

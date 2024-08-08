@@ -1,4 +1,4 @@
-package com.fh.app_student_management.ui;
+package com.fh.app_student_management.ui.admin;
 
 import android.os.Bundle;
 import android.widget.EditText;
@@ -15,7 +15,7 @@ public class StatisticalSubjectForAdminActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_statistical_subject_for_admin);
+        setContentView(R.layout.admin_activity_statistical_subject);
 
         btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());

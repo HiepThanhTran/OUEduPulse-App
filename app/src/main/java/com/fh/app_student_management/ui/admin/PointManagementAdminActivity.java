@@ -1,4 +1,4 @@
-package com.fh.app_student_management.ui;
+package com.fh.app_student_management.ui.admin;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +16,7 @@ public class PointManagementAdminActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_score_management_admin);
+        setContentView(R.layout.admin_activity_scores);
 
         btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());

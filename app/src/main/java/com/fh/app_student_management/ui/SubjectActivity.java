@@ -40,7 +40,7 @@ public class SubjectActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_subject);
+        setContentView(R.layout.lecturer_activity_subjects);
 
         db = AppDatabase.getInstance(this);
 

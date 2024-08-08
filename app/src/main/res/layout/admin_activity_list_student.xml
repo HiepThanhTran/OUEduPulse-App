@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.AddStudentForAdminActivity"
+    tools:context=".ui.admin.AddStudentForAdminActivity"
     android:background="@color/grey">
 
     <RelativeLayout
@@ -68,12 +68,12 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:background="@color/grey_sub"
-        android:stretchColumns="1,2,3,4,5">
+        android:stretchColumns="1">
 
         <TableRow tools:ignore="UselessParent">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/opensans_bold"
                 android:padding="8dp"
@@ -82,40 +82,13 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/opensans_bold"
                 android:padding="8dp"
                 android:text="Họ và tên"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/opensans_bold"
-                android:padding="8dp"
-                android:text="GK"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/opensans_bold"
-                android:padding="8dp"
-                android:text="CK"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TB"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textStyle="bold" />
 
         </TableRow>
     </TableLayout>
@@ -127,5 +100,5 @@
         android:layout_below="@id/titleTable"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        tools:listitem="@layout/list_add_student_for_admin" />
+        tools:listitem="@layout/admin_layout_list_view_list_student" />
 </RelativeLayout>

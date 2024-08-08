@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.StatisticalForAdminActivity"
+    tools:context=".ui.admin.StatisticalForAdminActivity"
     android:background="@color/grey">
 
     <RelativeLayout
@@ -34,12 +34,13 @@
     </RelativeLayout>
 
     <GridLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/top"
         android:columnCount="2"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:textAlignment="textEnd">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/btnToStatisticalSubject"

@@ -30,7 +30,7 @@ public class ScoreActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_score);
+        setContentView(R.layout.lecturer_activity_score);
 
         Intent intent = getIntent();
         semesterId = intent.getLongExtra(Constants.SEMESTER_ID, 0);
@@ -49,7 +49,7 @@ public class ScoreActivity extends AppCompatActivity {
 
         txtClassName.setText(className);
         ScoreListViewAdapter scoreListViewAdapter = new ScoreListViewAdapter(
-                this, R.layout.layout_list_view_score, getStudents()
+                this, R.layout.lecturer_layout_list_view_scores, getStudents()
         );
         lvScore.setAdapter(scoreListViewAdapter);
     }

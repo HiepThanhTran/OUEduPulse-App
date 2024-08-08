@@ -1,15 +1,11 @@
-package com.fh.app_student_management.ui;
+package com.fh.app_student_management.ui.admin;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.fh.app_student_management.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -20,7 +16,7 @@ public class SubjectAdminActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_subject_admin);
+        setContentView(R.layout.admin_activity_list_subject);
 
         btnAddSubject = findViewById(R.id.btnAddSubject);
         btnAddSubject.setOnClickListener(new View.OnClickListener() {

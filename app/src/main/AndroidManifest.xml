@@ -4,8 +4,6 @@
 
     <application
         android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -13,43 +11,43 @@
         android:theme="@style/Theme.AppStudentManagement"
         tools:targetApi="31">
         <activity
-            android:name=".ui.StatisticalLecturerForAdminActivity"
+            android:name=".ui.admin.StatisticalLecturerForAdminActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.StatisticalScoreForAdminActivity"
+            android:name=".ui.admin.StatisticalScoreForAdminActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.StatisticalClassForAdminActivity"
+            android:name=".ui.admin.StatisticalClassForAdminActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.StatisticalSubjectForAdminActivity"
+            android:name=".ui.admin.StatisticalSubjectForAdminActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.StatisticalForAdminActivity"
+            android:name=".ui.admin.StatisticalForAdminActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.AddStudentForAdminActivity"
+            android:name=".ui.admin.AddStudentForAdminActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.PointManagementAdminActivity"
+            android:name=".ui.admin.PointManagementAdminActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.SemesterAdminActivity"
+            android:name=".ui.admin.SemesterAdminActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.ClassAdminActivity"
+            android:name=".ui.admin.ClassAdminActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.SubjectAdminActivity"
+            android:name=".ui.admin.SubjectAdminActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.AddLecturerActivity"
+            android:name=".ui.admin.AddLecturerActivity"
             android:exported="false" />
         <activity
             android:name=".ui.BottomNavigation"
             android:exported="false" />
         <activity
-            android:name=".ui.EditLecturerActivity"
+            android:name=".ui.admin.EditLecturerActivity"
             android:exported="false" />
         <activity
             android:name=".ui.EditProfileActivity"
@@ -76,7 +74,7 @@
             android:name=".ui.SubjectActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.UserManagementActivity"
+            android:name=".ui.admin.UserManagementActivity"
             android:exported="false" />
         <activity
             android:name=".ui.SplashActivity"
