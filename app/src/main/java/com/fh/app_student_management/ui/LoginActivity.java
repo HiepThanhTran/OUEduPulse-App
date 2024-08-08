@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
             editor.apply();
         }
 
-        Intent intent = new Intent(LoginActivity.this, BottomNavigation.class);
+        Intent intent = new Intent(LoginActivity.this, BottomNavigationActivity.class);
         Bundle bundle = new Bundle();
         bundle.putLong(Constants.USER_ID, user.getId());
         intent.putExtras(bundle);

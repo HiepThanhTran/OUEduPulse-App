@@ -10,7 +10,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import com.fh.app_student_management.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
-public class SubjectAdminActivity extends AppCompatActivity {
+public class SubjectListActivity extends AppCompatActivity {
     private AppCompatButton btnAddSubject;
     private AppCompatButton btnEditSubject = findViewById(R.id.btnEditSubject);
     @Override
@@ -22,8 +22,8 @@ public class SubjectAdminActivity extends AppCompatActivity {
         btnAddSubject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(SubjectAdminActivity.this);
-                View view1 = LayoutInflater.from(SubjectAdminActivity.this).inflate(R.layout.bottom_sheet_dialog_add_subject,null);
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(SubjectListActivity.this);
+                View view1 = LayoutInflater.from(SubjectListActivity.this).inflate(R.layout.admin_bottom_sheet_add_subject,null);
                 bottomSheetDialog.setContentView(view1);
                 bottomSheetDialog.show();
             }
@@ -32,8 +32,8 @@ public class SubjectAdminActivity extends AppCompatActivity {
         btnEditSubject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(SubjectAdminActivity.this);
-                View view1 = LayoutInflater.from(SubjectAdminActivity.this).inflate(R.layout.bottom_sheet_dialog_edit_subject,null);
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(SubjectListActivity.this);
+                View view1 = LayoutInflater.from(SubjectListActivity.this).inflate(R.layout.admin_bottom_sheet_edit_subject,null);
                 bottomSheetDialog.setContentView(view1);
                 bottomSheetDialog.show();
             }

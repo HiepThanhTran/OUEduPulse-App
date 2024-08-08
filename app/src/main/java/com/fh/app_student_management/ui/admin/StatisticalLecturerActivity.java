@@ -6,11 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.fh.app_student_management.R;
 
-public class SemesterAdminActivity extends AppCompatActivity {
+public class StatisticalLecturerActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_semester_admin);
+        setContentView(R.layout.admin_activity_statistical_lecturer);
+
+
     }
 }

@@ -49,7 +49,7 @@ public class ScoreActivity extends AppCompatActivity {
 
         txtClassName.setText(className);
         ScoreListViewAdapter scoreListViewAdapter = new ScoreListViewAdapter(
-                this, R.layout.lecturer_layout_list_view_scores, getStudents()
+                this, R.layout.lecturer_layout_list_view_score, getStudents()
         );
         lvScore.setAdapter(scoreListViewAdapter);
     }

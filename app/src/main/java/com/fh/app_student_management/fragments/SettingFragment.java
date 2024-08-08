@@ -23,7 +23,6 @@ import androidx.fragment.app.Fragment;
 
 import com.fh.app_student_management.R;
 import com.fh.app_student_management.data.AppDatabase;
-import com.fh.app_student_management.data.dao.UserDAO;
 import com.fh.app_student_management.data.entities.User;
 import com.fh.app_student_management.ui.EditProfileActivity;
 import com.fh.app_student_management.ui.LoginActivity;
@@ -81,7 +80,7 @@ public class SettingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_setting, container, false);
+        View view = inflater.inflate(R.layout.z_fragment_settings, container, false);
 
         Window window = requireActivity().getWindow();
         window.setStatusBarColor(getResources().getColor(R.color.grey,

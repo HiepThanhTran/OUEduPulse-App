@@ -14,7 +14,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.fh.app_student_management.R;
 import com.fh.app_student_management.data.AppDatabase;
-import com.fh.app_student_management.data.entities.Lecturer;
 import com.fh.app_student_management.data.entities.User;
 import com.fh.app_student_management.utilities.Constants;
 import com.fh.app_student_management.utilities.Utils;
@@ -51,7 +50,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.z_fragment_home, container, false);
 
         Window window = Objects.requireNonNull(requireActivity()).getWindow();
         window.setStatusBarColor(getResources().getColor(R.color.grey_sub,

@@ -6,7 +6,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.fh.app_student_management.R;
 
-public class StatisticalClassForAdminActivity extends AppCompatActivity {
+public class StatisticalClassActivity extends AppCompatActivity {
 
     private EditText inputSemester;
     private EditText inputSubject;

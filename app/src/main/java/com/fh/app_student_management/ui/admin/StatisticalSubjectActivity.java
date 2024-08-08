@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.fh.app_student_management.R;
 
-public class StatisticalSubjectForAdminActivity extends AppCompatActivity {
+public class StatisticalSubjectActivity extends AppCompatActivity {
     private ImageView btnBack;
     private EditText inputSemester;
 

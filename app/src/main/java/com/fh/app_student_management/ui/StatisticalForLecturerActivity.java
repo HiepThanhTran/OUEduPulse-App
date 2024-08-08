@@ -27,7 +27,7 @@ public class StatisticalForLecturerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.lecturer_activity_statistical);
+        setContentView(R.layout.lecturer_activity_statistical_score);
 
         initStatisticalView();
         handleEventListener();

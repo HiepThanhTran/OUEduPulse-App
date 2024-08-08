@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".ui.BottomNavigation">
+    tools:context=".ui.BottomNavigationActivity">
 
     <FrameLayout
         android:id="@+id/frameLayout"

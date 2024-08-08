@@ -41,7 +41,7 @@ public class SubjectRecycleViewAdapter extends RecyclerView.Adapter<SubjectRecyc
     @NonNull
     @Override
     public SubjectViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.lecturer_layout_recycle_view_subjects, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.lecturer_layout_recycle_view_subject, parent, false);
 
         return new SubjectViewHolder(view);
     }

@@ -38,7 +38,7 @@ public class SplashActivity extends AppCompatActivity {
             Class<?> targetActivity = LoginActivity.class;
 
             targetActivity = !isOnboarding ? OnboardingActivity.class : targetActivity;
-            targetActivity = userId > 0 ? BottomNavigation.class : targetActivity;
+            targetActivity = userId > 0 ? BottomNavigationActivity.class : targetActivity;
 
             Intent intent = new Intent(SplashActivity.this, targetActivity);
 
