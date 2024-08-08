@@ -73,7 +73,7 @@
                     android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/inputEmail"
+                    android:id="@+id/edtEmail"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:autofillHints="name"
@@ -89,7 +89,6 @@
                     android:textColor="@color/grey"
                     android:textSize="16sp"
                     tools:ignore="LabelFor" />
-
 
             </LinearLayout>
 
@@ -110,7 +109,7 @@
                     android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/inputFullName"
+                    android:id="@+id/edtFullName"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:autofillHints="name"
@@ -199,9 +198,8 @@
                     android:textColor="@color/white"
                     android:textSize="18sp" />
 
-
                 <TextView
-                    android:id="@+id/inputDob"
+                    android:id="@+id/edtDob"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="@drawable/custom_input"
@@ -238,7 +236,7 @@
                     android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/inputAddress"
+                    android:id="@+id/edtAddress"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:autofillHints="postalAddress"
@@ -274,7 +272,7 @@
                     android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/inputSpecialization"
+                    android:id="@+id/edtSpecialization"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="@drawable/custom_input"
@@ -309,7 +307,7 @@
                     android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/inputDegree"
+                    android:id="@+id/edtDegree"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="@drawable/custom_input"
@@ -344,7 +342,7 @@
                     android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/inputCertificate"
+                    android:id="@+id/edtCertificate"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="@drawable/custom_input"
@@ -374,10 +372,11 @@
                 android:fontFamily="@font/opensans_bold"
                 android:paddingStart="30dp"
                 android:paddingEnd="30dp"
-                android:text="Cập nhập"
+                android:text="Thêm"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
+
         </LinearLayout>
 
     </ScrollView>

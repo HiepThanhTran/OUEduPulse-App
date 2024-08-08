@@ -93,7 +93,7 @@
                     android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/inputEmail"
+                    android:id="@+id/edtEmail"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:layout_marginBottom="20dp"
@@ -132,7 +132,7 @@
                     android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/inputFullName"
+                    android:id="@+id/edtFullName"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:autofillHints="name"
@@ -222,7 +222,7 @@
 
 
                 <TextView
-                    android:id="@+id/inputDob"
+                    android:id="@+id/edtDob"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="@drawable/custom_input"
@@ -258,7 +258,7 @@
                     android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/inputAddress"
+                    android:id="@+id/edtAddress"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:autofillHints="postalAddress"
@@ -293,7 +293,7 @@
                     android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/inputSpecialization"
+                    android:id="@+id/edtSpecialization"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="@drawable/custom_input"
@@ -327,7 +327,7 @@
                     android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/inputDegree"
+                    android:id="@+id/edtDegree"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="@drawable/custom_input"
@@ -361,7 +361,7 @@
                     android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/inputCertificate"
+                    android:id="@+id/edtCertificate"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="@drawable/custom_input"

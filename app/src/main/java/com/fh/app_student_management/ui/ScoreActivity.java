@@ -64,7 +64,7 @@ public class ScoreActivity extends AppCompatActivity {
 
         lvScore.setOnItemClickListener((parent, view, position, id) -> {
             BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(ScoreActivity.this);
-            View view1 = LayoutInflater.from(ScoreActivity.this).inflate(R.layout.bottom_sheet_dialog_add_point_student, null);
+            View view1 = LayoutInflater.from(ScoreActivity.this).inflate(R.layout.lecturer_bottom_sheet_add_score, null);
             bottomSheetDialog.setContentView(view1);
             bottomSheetDialog.show();
         });

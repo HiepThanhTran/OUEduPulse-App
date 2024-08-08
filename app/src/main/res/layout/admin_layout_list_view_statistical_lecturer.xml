@@ -9,7 +9,7 @@
     tools:ignore="HardcodedText">
 
     <TextView
-        android:id="@+id/txtSTT"
+        android:id="@+id/txtLecturerId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -29,7 +29,7 @@
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/txtNameSubject"
+        android:id="@+id/txtSubjectName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="2"

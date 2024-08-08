@@ -2,36 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layoutEditProfile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey"
     android:orientation="vertical"
-    tools:context=".ui.EditProfileActivity"
     tools:ignore="HardcodedText">
 
-    <RelativeLayout
-        android:id="@+id/top"
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/btnBack"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:contentDescription="ic_back"
-            android:padding="14dp"
-            android:src="@drawable/ic_back" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:fontFamily="@font/opensans_bold"
-            android:text="Sửa thông tin giảng viên"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
-    </RelativeLayout>
+        android:layout_height="wrap_content" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -80,9 +59,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:layout_marginBottom="20dp">
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -94,7 +73,7 @@
                     android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/inputEmail"
+                    android:id="@+id/edtEmail"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:autofillHints="name"
@@ -110,7 +89,6 @@
                     android:textColor="@color/grey"
                     android:textSize="16sp"
                     tools:ignore="LabelFor" />
-
 
             </LinearLayout>
 
@@ -131,7 +109,7 @@
                     android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/inputFullName"
+                    android:id="@+id/edtFullName"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:autofillHints="name"
@@ -220,10 +198,8 @@
                     android:textColor="@color/white"
                     android:textSize="18sp" />
 
-
                 <TextView
-                    android:gravity="center_vertical"
-                    android:id="@+id/inputDob"
+                    android:id="@+id/edtDob"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="@drawable/custom_input"
@@ -232,6 +208,7 @@
                     android:ems="10"
                     android:focusable="true"
                     android:fontFamily="@font/opensans_bold"
+                    android:gravity="center_vertical"
                     android:inputType="none"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
@@ -259,7 +236,7 @@
                     android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/inputAddress"
+                    android:id="@+id/edtAddress"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:autofillHints="postalAddress"
@@ -295,7 +272,7 @@
                     android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/inputSpecialization"
+                    android:id="@+id/edtSpecialization"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="@drawable/custom_input"
@@ -330,7 +307,7 @@
                     android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/inputDegree"
+                    android:id="@+id/edtDegree"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="@drawable/custom_input"
@@ -365,7 +342,7 @@
                     android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/inputCertificate"
+                    android:id="@+id/edtCertificate"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="@drawable/custom_input"
@@ -383,44 +360,8 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:fontFamily="@font/opensans_bold"
-                    android:text="Vai trò"
-                    android:textColor="@color/white"
-                    android:textSize="18sp" />
-
-                <EditText
-                    android:id="@+id/inputRole"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="@drawable/custom_input"
-                    android:drawableStart="@drawable/ic_role"
-                    android:drawablePadding="12dp"
-                    android:ems="10"
-                    android:fontFamily="@font/opensans_bold"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:textColor="@color/grey"
-                    android:textSize="16sp"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:clickable="true"
-                    tools:ignore="Autofill,LabelFor" />
-
-            </LinearLayout>
-
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnEditLecturer"
+                android:id="@+id/btnAddLecturer"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
@@ -435,6 +376,9 @@
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
+
         </LinearLayout>
+
     </ScrollView>
+
 </LinearLayout>

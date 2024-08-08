@@ -32,6 +32,7 @@
                 android:src="@drawable/ic_back" />
 
             <TextView
+                android:id="@+id/txtClassName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -85,15 +86,14 @@
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvClass"
+                android:id="@+id/rvSubject"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="vertical"
-                tools:listitem="@layout/admin_layout_list_view_list_subject" />
+                tools:listitem="@layout/admin_layout_recycle_view_list_subject" />
 
         </LinearLayout>
 
     </RelativeLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

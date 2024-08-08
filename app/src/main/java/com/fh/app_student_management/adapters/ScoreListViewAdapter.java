@@ -36,8 +36,8 @@ public class ScoreListViewAdapter extends ArrayAdapter<StudentWithScores> {
         LayoutInflater inflater = context.getLayoutInflater();
         convertView = inflater.inflate(layoutId, null);
 
-        TextView txtId = convertView.findViewById(R.id.txtId);
-        TextView txtName = convertView.findViewById(R.id.txtName);
+        TextView txtId = convertView.findViewById(R.id.txtStudentId);
+        TextView txtName = convertView.findViewById(R.id.txtStudentName);
         TextView edtGK = convertView.findViewById(R.id.edtGK);
         TextView edtCK = convertView.findViewById(R.id.edtCK);
         TextView edtTB = convertView.findViewById(R.id.edtTB);

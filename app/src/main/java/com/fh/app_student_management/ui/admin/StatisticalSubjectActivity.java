@@ -41,9 +41,7 @@ public class StatisticalSubjectActivity extends AppCompatActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Chọn học kì");
-        builder.setItems(semesters, (dialog, which) -> {
-            inputSemester.setText(semesters[which]);
-        });
+        builder.setItems(semesters, (dialog, which) -> inputSemester.setText(semesters[which]));
 
         AlertDialog dialog = builder.create();
         dialog.show();

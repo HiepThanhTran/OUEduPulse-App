@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:fontFamily="@font/opensans_bold"
-            android:text="Danh sách học kì"
+            android:text="Thống kê điểm số sinh viên"
             android:textColor="@color/white"
             android:textSize="20sp" />
 

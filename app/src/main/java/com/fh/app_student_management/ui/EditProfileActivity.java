@@ -83,16 +83,16 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void initEditProfileView() {
         layoutEditProfile = findViewById(R.id.layoutEditProfile);
-        inputEmail = findViewById(R.id.inputEmail);
+        inputEmail = findViewById(R.id.edtEmail);
         avatar = findViewById(R.id.avatar);
         iconCamera = findViewById(R.id.iconCamera);
         btnBack = findViewById(R.id.btnBack);
-        inputFullName = findViewById(R.id.inputFullName);
-        inputDob = findViewById(R.id.inputDob);
-        inputAddress = findViewById(R.id.inputAddress);
-        inputSpecialization = findViewById(R.id.inputSpecialization);
-        inputDegree = findViewById(R.id.inputDegree);
-        inputCertificate = findViewById(R.id.inputCertificate);
+        inputFullName = findViewById(R.id.edtFullName);
+        inputDob = findViewById(R.id.edtDob);
+        inputAddress = findViewById(R.id.edtAddress);
+        inputSpecialization = findViewById(R.id.edtSpecialization);
+        inputDegree = findViewById(R.id.edtDegree);
+        inputCertificate = findViewById(R.id.edtCertificate);
         radioGroupGender = findViewById(R.id.radioGroupGender);
         btnSaveProfile = findViewById(R.id.btnSaveProfile);
 

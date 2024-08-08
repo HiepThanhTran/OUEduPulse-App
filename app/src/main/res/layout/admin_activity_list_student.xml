@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.admin.AddStudentActivity"
-    android:background="@color/grey">
+    android:background="@color/grey"
+    tools:context=".ui.admin.StudentListActivity"
+    tools:ignore="HardcodedText">
 
     <RelativeLayout
         android:id="@+id/top"
@@ -30,23 +29,23 @@
             android:text="Thêm Sinh Viên"
             android:textColor="@color/white"
             android:textSize="20sp" />
+
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_below="@id/top"
         android:id="@+id/center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top">
 
-<!--        Nut them dong-->
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnAddRow"
+            android:id="@+id/btnAddStudent"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/round_button_edit"
             android:backgroundTint="@color/primaryColor"
             android:fontFamily="@font/opensans_bold"
@@ -91,14 +90,16 @@
                 android:textSize="16sp" />
 
         </TableRow>
+
     </TableLayout>
 
-    <ListView
-        android:id="@+id/lvScore"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvStudent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/titleTable"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        tools:listitem="@layout/admin_layout_list_view_list_student" />
+        tools:listitem="@layout/admin_layout_recycle_view_list_student" />
+
 </RelativeLayout>

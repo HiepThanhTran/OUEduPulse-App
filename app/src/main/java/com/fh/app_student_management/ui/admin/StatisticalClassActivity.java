@@ -37,9 +37,7 @@ public class StatisticalClassActivity extends AppCompatActivity {
 
         new AlertDialog.Builder(this)
                 .setTitle("Chọn học kì")
-                .setItems(semesters, (dialog, which) -> {
-                    inputSemester.setText(semesters[which]);
-                })
+                .setItems(semesters, (dialog, which) -> inputSemester.setText(semesters[which]))
                 .show();
     }
 
@@ -48,9 +46,7 @@ public class StatisticalClassActivity extends AppCompatActivity {
 
         new AlertDialog.Builder(this)
                 .setTitle("Chọn môn")
-                .setItems(subjects, (dialog, which) -> {
-                    inputSubject.setText(subjects[which]);
-                })
+                .setItems(subjects, (dialog, which) -> inputSubject.setText(subjects[which]))
                 .show();
     }
 }

@@ -29,7 +29,7 @@
                 android:src="@drawable/ic_sesmester" />
 
             <TextView
-                android:id="@+id/semesterName"
+                android:id="@+id/txtSemesterName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"

@@ -10,7 +10,7 @@
     tools:ignore="HardcodedText">
 
     <EditText
-        android:id="@+id/edtId"
+        android:id="@+id/edtStudentId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -22,7 +22,7 @@
         tools:ignore="Autofill,LabelFor" />
 
     <EditText
-        android:id="@+id/edtFullName"
+        android:id="@+id/edtStudentName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -32,4 +32,5 @@
         android:textColor="@color/white"
         android:textSize="16sp"
         tools:ignore="Autofill,LabelFor" />
+
 </LinearLayout>

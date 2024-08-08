@@ -123,7 +123,7 @@ public class SubjectRecycleViewAdapter extends RecyclerView.Adapter<SubjectRecyc
             txtSubjectName = itemView.findViewById(R.id.txtSubjectName);
             txtClassName = itemView.findViewById(R.id.txtClassName);
             txtMajorName = itemView.findViewById(R.id.txtMajorName);
-            txtCredits = itemView.findViewById(R.id.txtCredits);
+            txtCredits = itemView.findViewById(R.id.txtSubjectCredits);
 
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);

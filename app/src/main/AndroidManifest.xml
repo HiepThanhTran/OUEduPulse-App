@@ -26,7 +26,7 @@
             android:name=".ui.admin.StatisticalActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.admin.AddStudentActivity"
+            android:name=".ui.admin.StudentListActivity"
             android:exported="false" />
         <activity
             android:name=".ui.admin.ClassListActivity"
@@ -35,13 +35,7 @@
             android:name=".ui.admin.SubjectListActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.admin.AddLecturerActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.BottomNavigationActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.admin.EditLecturerActivity"
             android:exported="false" />
         <activity
             android:name=".ui.EditProfileActivity"

@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/grey"
     tools:context=".ui.admin.StatisticalSubjectActivity"
-    android:background="@color/grey">
+    tools:ignore="HardcodedText">
 
     <RelativeLayout
         android:id="@+id/top"
@@ -30,16 +29,17 @@
             android:text="Thống kê giảng viên"
             android:textColor="@color/white"
             android:textSize="20sp" />
+
     </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/edSemester"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/top"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         android:orientation="vertical">
 
@@ -74,10 +74,10 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_below="@id/edSemester"
         android:id="@+id/titleTable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/edSemester"
         android:layout_marginStart="12dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="12dp"
@@ -93,9 +93,9 @@
             android:textSize="16sp" />
 
         <TextView
-            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/opensans_bold"
             android:text="Nguyễn Văn A"
             android:textColor="@color/white"
@@ -104,9 +104,9 @@
 
     <TableLayout
         android:id="@+id/table"
-        android:layout_below="@id/titleTable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/titleTable"
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
@@ -136,10 +136,10 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/opensans_bold"
+                android:gravity="center"
                 android:padding="8dp"
                 android:text="Môn"
                 android:textColor="@color/white"
@@ -148,10 +148,10 @@
 
 
             <TextView
-                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/opensans_bold"
+                android:gravity="center"
                 android:padding="8dp"
                 android:text="Học kì"
                 android:textColor="@color/white"

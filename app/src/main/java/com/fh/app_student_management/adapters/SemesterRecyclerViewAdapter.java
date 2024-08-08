@@ -120,7 +120,7 @@ public class SemesterRecyclerViewAdapter extends RecyclerView.Adapter<SemesterRe
 
         public SemesterViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtSemesterName = itemView.findViewById(R.id.semesterName);
+            txtSemesterName = itemView.findViewById(R.id.txtSemesterName);
 
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
