@@ -2,6 +2,7 @@ package com.fh.app_student_management.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ public class ScoreActivity extends AppCompatActivity {
     private String className;
 
     private ImageView btnBack;
+    private Button btnSave;
     private ListView lvScore;
 
     @Override
@@ -41,6 +43,7 @@ public class ScoreActivity extends AppCompatActivity {
 
     private void initScoreView() {
         btnBack = findViewById(R.id.btnBack);
+        btnSave = findViewById(R.id.btnSave);
         lvScore = findViewById(R.id.lvScore);
         TextView txtClassName = findViewById(R.id.txtClassName);
 
@@ -53,6 +56,14 @@ public class ScoreActivity extends AppCompatActivity {
 
     private void handleEventListener() {
         btnBack.setOnClickListener(v -> finish());
+
+        lvScore.setOnItemClickListener((parent, view, position, id) -> {
+
+        });
+
+        btnSave.setOnClickListener(v -> {
+
+        });
     }
 
     private ArrayList<StudentWithScores> getStudents() {
