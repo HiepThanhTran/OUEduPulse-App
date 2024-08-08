@@ -13,6 +13,7 @@ import com.fh.app_student_management.R;
 import com.fh.app_student_management.data.AppDatabase;
 import com.fh.app_student_management.data.entities.User;
 import com.fh.app_student_management.ui.SemesterActivity;
+import com.fh.app_student_management.ui.lecturer.StatisticalScoreActivity;
 import com.fh.app_student_management.utilities.Constants;
 
 import java.util.Map;
@@ -23,6 +24,7 @@ public class LecturerFragment extends Fragment {
     private User user;
 
     private CardView btnToSemester;
+    private CardView btnToStatistical;
 
     public static LecturerFragment newInstance(Map<String, String> params) {
         LecturerFragment fragment = new LecturerFragment();
@@ -58,13 +60,21 @@ public class LecturerFragment extends Fragment {
 
     private void initLecturerView(View view) {
         btnToSemester = view.findViewById(R.id.btnToSemester);
+        btnToStatistical = view.findViewById(R.id.btnToStatistical);
     }
 
     private void handleEventListener() {
+        Bundle bundle = new Bundle();
+        bundle.putLong(Constants.USER_ID, user.getId());
+
         btnToSemester.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), SemesterActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putLong(Constants.USER_ID, user.getId());
+            intent.putExtras(bundle);
+            startActivity(intent);
+        });
+
+        btnToStatistical.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), StatisticalScoreActivity.class);
             intent.putExtras(bundle);
             startActivity(intent);
         });

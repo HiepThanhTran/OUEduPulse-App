@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import com.fh.app_student_management.data.entities.Score;
 import com.fh.app_student_management.data.entities.Subject;
 import com.fh.app_student_management.data.relations.StudentWithScores;
 import com.fh.app_student_management.utilities.Constants;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
@@ -122,6 +124,14 @@ public class ScoreRecycleViewAdapter extends RecyclerView.Adapter<ScoreRecycleVi
             });
 
             bottomSheetDialog.setContentView(view1);
+
+            FrameLayout bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+            assert bottomSheet != null;
+            BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
+
+            behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            behavior.setSkipCollapsed(true);
+
             bottomSheetDialog.show();
         });
     }

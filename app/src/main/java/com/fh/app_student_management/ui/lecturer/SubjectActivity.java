@@ -1,4 +1,4 @@
-package com.fh.app_student_management.ui;
+package com.fh.app_student_management.ui.lecturer;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;

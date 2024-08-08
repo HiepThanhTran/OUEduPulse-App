@@ -1,9 +1,8 @@
-package com.fh.app_student_management.ui;
+package com.fh.app_student_management.ui.lecturer;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 

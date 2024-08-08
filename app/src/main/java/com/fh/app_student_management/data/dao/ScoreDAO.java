@@ -7,6 +7,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.fh.app_student_management.data.entities.Score;
+import com.fh.app_student_management.data.relations.ScoreDistribution;
 
 import java.util.List;
 
@@ -24,6 +25,15 @@ public interface ScoreDAO {
             "AND subject_id = :subjectId " +
             "AND semester_id = :semesterId")
     List<Score> getByStudentId(Long studentId, Long subjectId, Long semesterId);
+
+    @Query("SELECT " +
+            "COUNT(CASE WHEN point >= 9 THEN 1 END) AS excellent, " +
+            "COUNT(CASE WHEN point >= 7 AND point < 9 THEN 1 END) AS good, " +
+            "COUNT(CASE WHEN point >= 5 AND point < 7 THEN 1 END) AS average, " +
+            "COUNT(CASE WHEN point < 5 THEN 1 END) AS poor " +
+            "FROM scores " +
+            "WHERE type = 'TB' AND subject_id = :subjectId AND semester_id = :semesterId")
+    ScoreDistribution getScoreDistribution(long subjectId, long semesterId);
 
     @Insert
     Long insert(Score score);

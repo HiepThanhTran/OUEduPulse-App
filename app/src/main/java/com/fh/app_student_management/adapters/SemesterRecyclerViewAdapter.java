@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fh.app_student_management.R;
 import com.fh.app_student_management.adapters.listener.ItemClickListener;
 import com.fh.app_student_management.data.entities.Semester;
-import com.fh.app_student_management.ui.SubjectActivity;
+import com.fh.app_student_management.ui.lecturer.SubjectActivity;
 import com.fh.app_student_management.utilities.Constants;
 import com.fh.app_student_management.utilities.Utils;
 

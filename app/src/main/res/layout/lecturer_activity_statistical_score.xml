@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:background="@color/grey"
-    tools:context=".ui.StatisticalForLecturerActivity"
+    tools:context=".ui.lecturer.StatisticalScoreActivity"
     tools:ignore="HardcodedText">
 
     <RelativeLayout
@@ -73,6 +73,7 @@
                 android:inputType="none"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
+                android:hint="--- Chọn học kì ---"
                 android:textColor="@color/grey"
                 android:textSize="16sp"
                 tools:ignore="Autofill,LabelFor" />
@@ -110,6 +111,7 @@
                 android:inputType="none"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
+                android:hint="--- Chọn môn học ---"
                 android:textColor="@color/grey"
                 android:textSize="16sp"
                 tools:ignore="Autofill,LabelFor" />
@@ -138,18 +140,18 @@
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/txtSemesterName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/opensans_bold"
-            android:text="học kì 1 - năm 2024 - 2025"
             android:textColor="@color/white"
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/txtSubjectName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/opensans_bold"
-            android:text="môn Lập trình di động"
             android:textColor="@color/white"
             android:textSize="16sp" />
 
