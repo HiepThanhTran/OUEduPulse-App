@@ -26,11 +26,12 @@ public class LecturerListActivity extends AppCompatActivity {
 
         initLecturerListView();
         handleEventListener();
+
     }
 
     private void initLecturerListView() {
         btnBack = findViewById(R.id.btnBack);
-        btnToAddLecturer = findViewById(R.id.btnAddLecturer);
+
     }
 
     @SuppressLint("InflateParams")

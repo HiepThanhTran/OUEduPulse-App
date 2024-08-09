@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -26,17 +27,151 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:fontFamily="@font/opensans_bold"
-            android:text="Thêm Sinh Viên"
+            android:text="Danh sách sinh viên"
             android:textColor="@color/white"
             android:textSize="20sp" />
 
     </RelativeLayout>
 
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchViewStudent"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@id/top"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="18dp"
+        android:background="@drawable/search_view_bg"
+        app:closeIcon="@drawable/ic_close"
+        app:iconifiedByDefault="false"
+        app:queryHint="Nhập tên sinh viên..."
+        app:searchIcon="@drawable/ic_search" />
+
+    <LinearLayout
+        android:id="@+id/choose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/searchViewStudent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/subjectContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/opensans_bold"
+                android:text="Học kì"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/inputSemester"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/custom_input"
+                android:clickable="true"
+                android:drawableStart="@drawable/ic_clock"
+                android:drawablePadding="12dp"
+                android:ems="10"
+                android:focusable="true"
+                android:focusableInTouchMode="false"
+                android:fontFamily="@font/opensans_bold"
+                android:inputType="none"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textColor="@color/grey"
+                android:textSize="16sp"
+                tools:ignore="Autofill,LabelFor" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/opensans_bold"
+                android:text="Môn"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/inputSubject"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/custom_input"
+                android:clickable="true"
+                android:drawableStart="@drawable/ic_books"
+                android:drawablePadding="12dp"
+                android:ems="10"
+                android:focusable="true"
+                android:focusableInTouchMode="false"
+                android:fontFamily="@font/opensans_bold"
+                android:inputType="none"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textColor="@color/grey"
+                android:textSize="16sp"
+                tools:ignore="Autofill,LabelFor" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/opensans_bold"
+                android:text="Lớp"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/inputClass"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/custom_input"
+                android:clickable="true"
+                android:drawableStart="@drawable/ic_class"
+                android:drawablePadding="12dp"
+                android:ems="10"
+                android:focusable="true"
+                android:focusableInTouchMode="false"
+                android:fontFamily="@font/opensans_bold"
+                android:inputType="none"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textColor="@color/grey"
+                android:textSize="16sp"
+                tools:ignore="Autofill,LabelFor" />
+
+        </LinearLayout>
+    </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/top">
+        android:layout_below="@id/choose">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnAddStudent"
@@ -72,7 +207,8 @@
         <TableRow tools:ignore="UselessParent">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="135dp"
+                android:gravity="center"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/opensans_bold"
                 android:padding="8dp"
@@ -81,6 +217,7 @@
                 android:textSize="16sp" />
 
             <TextView
+                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/opensans_bold"
