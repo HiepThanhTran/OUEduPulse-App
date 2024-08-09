@@ -12,12 +12,14 @@ import java.util.Objects;
         @ForeignKey(
                 entity = Major.class,
                 parentColumns = "id",
-                childColumns = "major_id"
+                childColumns = "major_id",
+                onDelete = ForeignKey.CASCADE
         ),
         @ForeignKey(
                 entity = AcademicYear.class,
                 parentColumns = "id",
-                childColumns = "academic_year_id"
+                childColumns = "academic_year_id",
+                onDelete = ForeignKey.SET_NULL
         )
 })
 public class Class {
@@ -26,9 +28,9 @@ public class Class {
     private long id;
     private String name;
     @ColumnInfo(name = "major_id")
-    private long majorId;
+    private Long majorId;
     @ColumnInfo(name = "academic_year_id")
-    private long academicYearId;
+    private Long academicYearId;
 
     public long getId() {
         return id;
@@ -46,19 +48,19 @@ public class Class {
         this.name = name;
     }
 
-    public long getMajorId() {
+    public Long getMajorId() {
         return majorId;
     }
 
-    public void setMajorId(long majorId) {
+    public void setMajorId(Long majorId) {
         this.majorId = majorId;
     }
 
-    public long getAcademicYearId() {
+    public Long getAcademicYearId() {
         return academicYearId;
     }
 
-    public void setAcademicYearId(long academicYearId) {
+    public void setAcademicYearId(Long academicYearId) {
         this.academicYearId = academicYearId;
     }
 

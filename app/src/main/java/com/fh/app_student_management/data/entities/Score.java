@@ -12,17 +12,20 @@ import java.util.Objects;
         @ForeignKey(
                 entity = Student.class,
                 parentColumns = "id",
-                childColumns = "student_id"
+                childColumns = "student_id",
+                onDelete = ForeignKey.CASCADE
         ),
         @ForeignKey(
                 entity = Subject.class,
                 parentColumns = "id",
-                childColumns = "subject_id"
+                childColumns = "subject_id",
+                onDelete = ForeignKey.CASCADE
         ),
         @ForeignKey(
                 entity = Semester.class,
                 parentColumns = "id",
-                childColumns = "semester_id"
+                childColumns = "semester_id",
+                onDelete = ForeignKey.CASCADE
         )
 })
 public class Score {

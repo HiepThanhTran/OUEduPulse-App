@@ -7,6 +7,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.fh.app_student_management.data.entities.Class;
+import com.fh.app_student_management.data.relations.ClassWithRelations;
 
 import java.util.List;
 
@@ -15,6 +16,9 @@ public interface ClassDAO {
 
     @Query("SELECT * FROM classes ORDER BY id DESC")
     List<Class> getAll();
+
+    @Query("SELECT * FROM classes ORDER BY id DESC")
+    List<ClassWithRelations> getAllWithRelations();
 
     @Query("SELECT * FROM classes WHERE id = :id")
     Class getById(Long id);

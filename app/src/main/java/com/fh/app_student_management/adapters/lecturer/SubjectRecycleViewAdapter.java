@@ -52,7 +52,7 @@ public class SubjectRecycleViewAdapter extends RecyclerView.Adapter<SubjectRecyc
         holder.txtSubjectName.setText(subjectWithRelations.getSubject().getName());
         holder.txtClassName.setText(subjectWithRelations.getClazz().getName());
         holder.txtMajorName.setText(subjectWithRelations.getMajor().getName());
-        holder.txtCredits.setText(String.valueOf(subjectWithRelations.getSubject().getCredits()));
+        holder.txtSubjectCredits.setText(String.valueOf(subjectWithRelations.getSubject().getCredits()));
 
         holder.setItemClickListener((view, position1, isLongClick) -> {
             Bundle bundle = intent.getExtras();
@@ -115,7 +115,7 @@ public class SubjectRecycleViewAdapter extends RecyclerView.Adapter<SubjectRecyc
         private final TextView txtSubjectName;
         private final TextView txtClassName;
         private final TextView txtMajorName;
-        private final TextView txtCredits;
+        private final TextView txtSubjectCredits;
         private ItemClickListener itemClickListener;
 
         public SubjectViewHolder(View itemView) {
@@ -123,7 +123,7 @@ public class SubjectRecycleViewAdapter extends RecyclerView.Adapter<SubjectRecyc
             txtSubjectName = itemView.findViewById(R.id.txtSubjectName);
             txtClassName = itemView.findViewById(R.id.txtClassName);
             txtMajorName = itemView.findViewById(R.id.txtMajorName);
-            txtCredits = itemView.findViewById(R.id.txtSubjectCredits);
+            txtSubjectCredits = itemView.findViewById(R.id.txtSubjectCredits);
 
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);

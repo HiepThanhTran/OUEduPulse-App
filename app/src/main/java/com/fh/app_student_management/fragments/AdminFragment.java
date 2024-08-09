@@ -73,36 +73,28 @@ public class AdminFragment extends Fragment {
     }
 
     private void handleEventListener() {
-        Bundle bundle = new Bundle();
-        bundle.putLong(Constants.USER_ID, user.getId());
-
         btnToUserManagement.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), LecturerListActivity.class);
-            intent.putExtras(bundle);
             startActivity(intent);
         });
 
         btnToSubjectManagement.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), SubjectListActivity.class);
-            intent.putExtras(bundle);
             startActivity(intent);
         });
 
         btnToClassManagement.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), ClassListActivity.class);
-            intent.putExtras(bundle);
             startActivity(intent);
         });
 
         btnToStudentManagement.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), StudentListActivity.class);
-            intent.putExtras(bundle);
             startActivity(intent);
         });
 
         btnToStatisticalAdmin.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), StatisticalActivity.class);
-            intent.putExtras(bundle);
             startActivity(intent);
         });
     }

@@ -12,7 +12,8 @@ import java.util.Objects;
         @ForeignKey(
                 entity = Faculty.class,
                 parentColumns = "id",
-                childColumns = "faculty_id"
+                childColumns = "faculty_id",
+                onDelete = ForeignKey.CASCADE
         )
 })
 public class Major {

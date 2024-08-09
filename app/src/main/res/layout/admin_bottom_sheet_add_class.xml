@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_marginStart="20dp"
-    android:layout_marginEnd="20dp"
+    android:paddingHorizontal="20dp"
+    android:paddingBottom="20dp"
     tools:ignore="HardcodedText">
 
     <com.google.android.material.bottomsheet.BottomSheetDragHandleView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:hint="Khoa"
+        android:hint="Tên lớp"
         app:boxStrokeColor="@color/grey"
         app:endIconMode="clear_text"
         app:hintTextAppearance="@style/CustomHintTextAppearance"
         app:hintTextColor="@color/black">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edtFacultyName"
+            android:id="@+id/edtClassName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -44,7 +43,10 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtMajorName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -52,51 +54,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:hint="Lớp"
+        android:hint="Khóa"
         app:boxStrokeColor="@color/grey"
         app:endIconMode="clear_text"
         app:hintTextAppearance="@style/CustomHintTextAppearance"
         app:hintTextColor="@color/black">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edtClassName"
+            android:id="@+id/edtAcademicYearName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:hint="Giáo viên giảng dạy"
-        app:boxStrokeColor="@color/grey"
-        app:endIconMode="clear_text"
-        app:hintTextAppearance="@style/CustomHintTextAppearance"
-        app:hintTextColor="@color/black">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edtLecturerName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:hint="Năm học"
-        app:boxStrokeColor="@color/grey"
-        app:endIconMode="clear_text"
-        app:hintTextAppearance="@style/CustomHintTextAppearance"
-        app:hintTextColor="@color/black">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -105,9 +75,9 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="20dp"
-        android:text="Thêm"
-        android:textSize="20sp"
+        android:backgroundTint="@color/primaryColor"
         android:fontFamily="@font/opensans_bold"
-        android:backgroundTint="@color/primaryColor" />
+        android:text="Thêm"
+        android:textSize="20sp" />
 
 </LinearLayout>

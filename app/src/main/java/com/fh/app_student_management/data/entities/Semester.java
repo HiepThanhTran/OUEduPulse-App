@@ -13,7 +13,8 @@ import java.util.Objects;
         @ForeignKey(
                 entity = AcademicYear.class,
                 parentColumns = "id",
-                childColumns = "academic_year_id"
+                childColumns = "academic_year_id",
+                onDelete = ForeignKey.SET_NULL
         )
 })
 public class Semester {

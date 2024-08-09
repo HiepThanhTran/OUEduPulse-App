@@ -237,6 +237,7 @@
         android:layout_below="@id/titleTable"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
+        android:scrollbars="none"
         tools:listitem="@layout/admin_layout_recycle_view_list_student" />
 
 </RelativeLayout>

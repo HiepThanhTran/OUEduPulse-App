@@ -9,22 +9,26 @@ import androidx.room.PrimaryKey;
         @ForeignKey(
                 entity = User.class,
                 parentColumns = "id",
-                childColumns = "user_id"
+                childColumns = "user_id",
+                onDelete = ForeignKey.CASCADE
         ),
         @ForeignKey(
                 entity = Major.class,
                 parentColumns = "id",
-                childColumns = "major_id"
+                childColumns = "major_id",
+                onDelete = ForeignKey.SET_NULL
         ),
         @ForeignKey(
                 entity = AcademicYear.class,
                 parentColumns = "id",
-                childColumns = "academic_year_id"
+                childColumns = "academic_year_id",
+                onDelete = ForeignKey.SET_NULL
         ),
         @ForeignKey(
                 entity = Class.class,
                 parentColumns = "id",
-                childColumns = "class_id"
+                childColumns = "class_id",
+                onDelete = ForeignKey.SET_NULL
         )
 })
 public class Student {

@@ -9,12 +9,14 @@ import androidx.room.PrimaryKey;
         @ForeignKey(
                 entity = Subject.class,
                 parentColumns = "id",
-                childColumns = "subject_id"
+                childColumns = "subject_id",
+                onDelete = ForeignKey.CASCADE
         ),
         @ForeignKey(
                 entity = Semester.class,
                 parentColumns = "id",
-                childColumns = "semester_id"
+                childColumns = "semester_id",
+                onDelete = ForeignKey.CASCADE
         )
 })
 public class SubjectSemesterCrossRef {

@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:fontFamily="@font/opensans_bold"
-            android:text="Lập trình di động"
+            android:text="Quản lý lớp học"
             android:textColor="@color/white"
             android:textSize="20sp" />
 
@@ -80,7 +80,7 @@
             android:id="@+id/rvClass"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical"
+            android:scrollbars="none"
             tools:listitem="@layout/admin_layout_recycle_view_list_class" />
 
     </LinearLayout>

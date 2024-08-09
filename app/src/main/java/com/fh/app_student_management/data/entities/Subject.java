@@ -12,12 +12,14 @@ import java.util.Objects;
         @ForeignKey(
                 entity = Major.class,
                 parentColumns = "id",
-                childColumns = "major_id"
+                childColumns = "major_id",
+                onDelete = ForeignKey.CASCADE
         ),
         @ForeignKey(
                 entity = Class.class,
                 parentColumns = "id",
-                childColumns = "class_id"
+                childColumns = "class_id",
+                onDelete = ForeignKey.CASCADE
         )
 })
 public class Subject {

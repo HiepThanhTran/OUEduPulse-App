@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -43,8 +42,9 @@ public class LecturerRecycleViewAdapter extends RecyclerView.Adapter<LecturerRec
     private final AppDatabase db;
     private final BottomSheetDialog bottomSheetDialog;
 
-    private ArrayList<LecturerAndUser> filteredList;
+    private String currentFilterText = "";
     private Constants.Role selectedRole;
+    private ArrayList<LecturerAndUser> filteredList;
 
     public LecturerRecycleViewAdapter(Context context, ArrayList<LecturerAndUser> originalList) {
         this.context = context;
@@ -74,7 +74,7 @@ public class LecturerRecycleViewAdapter extends RecyclerView.Adapter<LecturerRec
         holder.btnDeleteLecturer.setOnClickListener(v -> new AlertDialog.Builder(context)
                 .setTitle("Thông báo")
                 .setMessage("Xác nhận xóa giảng viên?")
-                .setPositiveButton("Có", (dialog, which) -> deleteLecturer(position))
+                .setPositiveButton("Có", (dialog, which) -> deleteLecturer(originalList.indexOf(lecturerAndUser)))
                 .setNegativeButton("Không", (dialog, which) -> dialog.dismiss())
                 .show());
     }
@@ -89,6 +89,7 @@ public class LecturerRecycleViewAdapter extends RecyclerView.Adapter<LecturerRec
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
+                currentFilterText = charSequence.toString();
                 String query = Utils.removeVietnameseAccents(charSequence.toString().toLowerCase(Locale.getDefault()));
 
                 if (query.isEmpty()) {
@@ -113,10 +114,9 @@ public class LecturerRecycleViewAdapter extends RecyclerView.Adapter<LecturerRec
 
             @Override
             @SuppressWarnings("unchecked")
-            @SuppressLint("NotifyDataSetChanged")
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 filteredList = (ArrayList<LecturerAndUser>) filterResults.values;
-                notifyDataSetChanged();
+                notifyItemRangeChanged(0, filteredList.size());
             }
         };
     }
@@ -131,7 +131,6 @@ public class LecturerRecycleViewAdapter extends RecyclerView.Adapter<LecturerRec
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     public void addLecturer(LecturerAndUser lecturerAndUser) {
         db.lecturerDAO().insert(lecturerAndUser.getLecturer());
         db.userDAO().insert(lecturerAndUser.getUser());
@@ -143,6 +142,7 @@ public class LecturerRecycleViewAdapter extends RecyclerView.Adapter<LecturerRec
         LecturerAndUser lecturerAndUser = filteredList.get(position);
         db.lecturerDAO().update(lecturerAndUser.getLecturer());
         db.userDAO().update(lecturerAndUser.getUser());
+        getFilter().filter(currentFilterText);
         notifyItemChanged(position);
     }
 
@@ -151,6 +151,8 @@ public class LecturerRecycleViewAdapter extends RecyclerView.Adapter<LecturerRec
         db.lecturerDAO().delete(lecturerAndUser.getLecturer());
         db.userDAO().delete(lecturerAndUser.getUser());
         originalList.remove(lecturerAndUser);
+        filteredList.remove(lecturerAndUser);
+        getFilter().filter(currentFilterText);
         notifyItemRemoved(position);
     }
 
@@ -276,7 +278,7 @@ public class LecturerRecycleViewAdapter extends RecyclerView.Adapter<LecturerRec
             throw new RuntimeException(e);
         }
 
-        editLecturer(filteredList.indexOf(lecturerAndUser));
+        editLecturer(originalList.indexOf(lecturerAndUser));
         bottomSheetDialog.dismiss();
         Utils.showToast(context, "Sửa thành công");
     }
