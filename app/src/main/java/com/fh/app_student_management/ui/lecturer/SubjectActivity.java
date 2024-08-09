@@ -24,29 +24,16 @@ import java.util.ArrayList;
 
 public class SubjectActivity extends AppCompatActivity {
 
-    private AppDatabase db;
-
-    private long userId;
-    private long semesterId;
+    private SubjectRecycleViewAdapter subjectRecycleViewAdapter;
 
     private LinearLayout layoutSubject;
     private ImageView btnBack;
     private SearchView searchViewSubject;
 
-    private SubjectRecycleViewAdapter subjectRecycleViewAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lecturer_activity_subjects);
-
-        db = AppDatabase.getInstance(this);
-
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        assert bundle != null;
-        userId = bundle.getLong(Constants.USER_ID, 0);
-        semesterId = bundle.getLong(Constants.SEMESTER_ID, 0);
 
         initClassView();
         handleEventListener();
@@ -54,18 +41,27 @@ public class SubjectActivity extends AppCompatActivity {
 
     @SuppressLint("DefaultLocale")
     private void initClassView() {
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        assert bundle != null;
+        long userId = bundle.getLong(Constants.USER_ID, 0);
+        long semesterId = bundle.getLong(Constants.SEMESTER_ID, 0);
+
         layoutSubject = findViewById(R.id.layoutSubject);
         btnBack = findViewById(R.id.btnBack);
         TextView txtSemesterName = findViewById(R.id.txtSemesterName);
         searchViewSubject = findViewById(R.id.searchViewSubject);
         RecyclerView rvSubject = findViewById(R.id.rvSubject);
 
+        AppDatabase db = AppDatabase.getInstance(this);
+
         Semester semester = db.semesterDAO().getById(semesterId);
         int startYear = Utils.getYearFromDate(semester.getStartDate());
         String semesterName = String.format("%s - %d - %d", semester.getName(), startYear, startYear + 1);
         txtSemesterName.setText(semesterName);
 
-        subjectRecycleViewAdapter = new SubjectRecycleViewAdapter(this, getIntent(), getSubjects());
+        ArrayList<SubjectWithRelations> subjects = new ArrayList<>(db.subjectDAO().getByLecturerAndSemester(userId, semesterId));
+        subjectRecycleViewAdapter = new SubjectRecycleViewAdapter(this, getIntent(), subjects);
         rvSubject.setLayoutManager(new LinearLayoutManager(this));
         rvSubject.setAdapter(subjectRecycleViewAdapter);
     }
@@ -92,9 +88,5 @@ public class SubjectActivity extends AppCompatActivity {
                 return false;
             }
         });
-    }
-
-    private ArrayList<SubjectWithRelations> getSubjects() {
-        return new ArrayList<>(db.subjectDAO().getByLecturerAndSemester(userId, semesterId));
     }
 }

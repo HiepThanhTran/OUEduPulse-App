@@ -17,7 +17,6 @@ import me.relex.circleindicator.CircleIndicator3;
 
 public class OnboardingActivity extends AppCompatActivity {
 
-    private CircleIndicator3 circleIndicator;
     private ViewPager2 viewPager;
     private Button btnSkip;
     private Button btnNext;
@@ -29,10 +28,41 @@ public class OnboardingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_onboarding);
 
         initOnboarding();
+        handleEventListener();
+    }
+
+    private void initOnboarding() {
+        CircleIndicator3 circleIndicator = findViewById(R.id.circleIndicator);
+        viewPager = findViewById(R.id.viewPager);
+        btnSkip = findViewById(R.id.btnSkip);
+        btnNext = findViewById(R.id.btnNext);
+        btnStart = findViewById(R.id.btnStart);
+
         OnboardingViewPagerAdapter viewPagerAdapter = new OnboardingViewPagerAdapter(this);
         viewPager.setAdapter(viewPagerAdapter);
-
         circleIndicator.setViewPager(viewPager);
+    }
+
+    private void handleEventListener() {
+        btnSkip.setOnClickListener(v -> viewPager.setCurrentItem(2));
+
+        btnNext.setOnClickListener(v -> {
+            if (viewPager.getCurrentItem() < 2) {
+                viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+            }
+        });
+
+        btnStart.setOnClickListener(v -> {
+            SharedPreferences sharedPreferences =
+                    getSharedPreferences(Constants.PREFS_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(Constants.IS_FIRST_TIME_LAUNCH, true);
+            editor.apply();
+
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        });
 
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
@@ -48,34 +78,6 @@ public class OnboardingActivity extends AppCompatActivity {
                     btnStart.setVisibility(View.GONE);
                 }
             }
-        });
-    }
-
-    private void initOnboarding() {
-        btnSkip = findViewById(R.id.btnSkip);
-        viewPager = findViewById(R.id.viewPager);
-        btnNext = findViewById(R.id.btnNext);
-        circleIndicator = findViewById(R.id.circleIndicator);
-        btnStart = findViewById(R.id.btnStart);
-
-        btnSkip.setOnClickListener(v -> viewPager.setCurrentItem(2));
-
-        btnNext.setOnClickListener(v -> {
-            if (viewPager.getCurrentItem() < 2) {
-                viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-            }
-        });
-
-        btnStart.setOnClickListener(v -> {
-            SharedPreferences sharedPreferences =
-                    getSharedPreferences(Constants.PREFS_NAME, MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("isOnboarding", true);
-            editor.apply();
-
-            Intent intent = new Intent(OnboardingActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
         });
     }
 }

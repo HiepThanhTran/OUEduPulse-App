@@ -20,10 +20,6 @@ import java.util.ArrayList;
 
 public class ScoreActivity extends AppCompatActivity {
 
-    private long semesterId;
-    private long subjectId;
-    private String subjectName;
-
     private ImageView btnBack;
 
     @Override
@@ -31,23 +27,26 @@ public class ScoreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lecturer_activity_score);
 
-        Intent intent = getIntent();
-        semesterId = intent.getLongExtra(Constants.SEMESTER_ID, 0);
-        subjectId = intent.getLongExtra(Constants.SUBJECT_ID, 0);
-        subjectName = intent.getStringExtra("subjectName");
-
         initScoreView();
         handleEventListener();
     }
 
     private void initScoreView() {
+        Intent intent = getIntent();
+        long semesterId = intent.getLongExtra(Constants.SEMESTER_ID, 0);
+        long subjectId = intent.getLongExtra(Constants.SUBJECT_ID, 0);
+        String subjectName = intent.getStringExtra("subjectName");
+
         btnBack = findViewById(R.id.btnBack);
         RecyclerView rvScore = findViewById(R.id.lvScore);
         TextView txtSubjectName = findViewById(R.id.txtSubjectName);
 
         txtSubjectName.setText(subjectName);
+
+        AppDatabase db = AppDatabase.getInstance(this);
+        ArrayList<StudentWithScores> students = new ArrayList<>(db.studentDAO().getScoresBySubjectAndSemester(subjectId, semesterId));
         ScoreRecycleViewAdapter scoreRecycleViewAdapter = new ScoreRecycleViewAdapter(
-                this, getIntent(), getStudents()
+                this, getIntent(), students
         );
         rvScore.setLayoutManager(new LinearLayoutManager(this));
         rvScore.setAdapter(scoreRecycleViewAdapter);
@@ -56,11 +55,5 @@ public class ScoreActivity extends AppCompatActivity {
     @SuppressLint("InflateParams")
     private void handleEventListener() {
         btnBack.setOnClickListener(v -> finish());
-    }
-
-    private ArrayList<StudentWithScores> getStudents() {
-        AppDatabase db = AppDatabase.getInstance(this);
-
-        return (ArrayList<StudentWithScores>) db.studentDAO().getByClassAndSemester(subjectId, semesterId);
     }
 }

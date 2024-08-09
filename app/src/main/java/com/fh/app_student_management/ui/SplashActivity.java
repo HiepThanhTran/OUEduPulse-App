@@ -15,7 +15,7 @@ import com.fh.app_student_management.utilities.Constants;
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
 
-    private final Handler handler = new Handler();
+    private Handler handler;
     private Runnable runnable;
 
     @Override
@@ -23,16 +23,18 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        handler = new Handler();
+
         SharedPreferences sharedPreferences = getSharedPreferences(Constants.PREFS_NAME, MODE_PRIVATE);
-        boolean insertedDefaultValues = sharedPreferences.getBoolean("insertedDefaultValues", false);
+        boolean insertedDefaultValues = sharedPreferences.getBoolean(Constants.PREF_INSERT_DEFAULT_VALUES, false);
 
         if (!insertedDefaultValues) {
             AppDatabase.insertDefaultValue(this);
-            sharedPreferences.edit().putBoolean("insertedDefaultValues", true).apply();
+            sharedPreferences.edit().putBoolean(Constants.PREF_INSERT_DEFAULT_VALUES, true).apply();
         }
 
         runnable = () -> {
-            boolean isOnboarding = sharedPreferences.getBoolean("isOnboarding", false);
+            boolean isOnboarding = sharedPreferences.getBoolean(Constants.IS_FIRST_TIME_LAUNCH, false);
             long userId = sharedPreferences.getLong(Constants.USER_ID, 0);
 
             Class<?> targetActivity = LoginActivity.class;
@@ -40,7 +42,7 @@ public class SplashActivity extends AppCompatActivity {
             targetActivity = !isOnboarding ? OnboardingActivity.class : targetActivity;
             targetActivity = userId > 0 ? BottomNavigationActivity.class : targetActivity;
 
-            Intent intent = new Intent(SplashActivity.this, targetActivity);
+            Intent intent = new Intent(this, targetActivity);
 
             if (userId > 0) {
                 Bundle bundle = new Bundle();

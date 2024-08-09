@@ -9,15 +9,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fh.app_student_management.R;
 import com.fh.app_student_management.data.AppDatabase;
-import com.fh.app_student_management.data.dao.UserDAO;
 import com.fh.app_student_management.data.entities.User;
 import com.fh.app_student_management.utilities.Constants;
 import com.fh.app_student_management.utilities.Utils;
@@ -27,44 +26,53 @@ import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private RelativeLayout layoutLogin;
-    private EditText edtEmail, edtPassword;
-    private Button btnLogin;
-    private TextView txtRegister;
+    private LinearLayout layoutLogin;
+    private EditText edtEmail;
+    private EditText edtPassword;
     private CheckBox chkRememberPassword;
+    private Button btnLogin;
+    private TextView btnToRegister;
 
-    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         initLoginView();
-
-        // TODO: TEMP
-//        edtEmail.setText("lecturer1@gmail.com");
-//        edtPassword.setText("user@123");
-        edtEmail.setText("admin@gmail.com");
-        edtPassword.setText("admin@123");
-        chkRememberPassword.setChecked(true);
-
         handleEventListener();
     }
 
+    @SuppressLint("SetTextI18n")
     private void initLoginView() {
         layoutLogin = findViewById(R.id.layoutLogin);
         edtEmail = findViewById(R.id.edtEmail);
         edtPassword = findViewById(R.id.edtPassword);
-        btnLogin = findViewById(R.id.btnLogin);
-        txtRegister = findViewById(R.id.txtRegister);
         chkRememberPassword = findViewById(R.id.chkRememberPassword);
+        btnLogin = findViewById(R.id.btnLogin);
+        btnToRegister = findViewById(R.id.txtRegister);
+
+        // TODO: TEMP
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setItems(new CharSequence[]{"Admin", "Giảng viên"}, (dialog, which) -> {
+           switch (which) {
+               case 0:
+                   edtEmail.setText("admin@gmail.com");
+                   edtPassword.setText("admin@123");
+                   break;
+               case 1:
+                   edtEmail.setText("lecturer1@gmail.com");
+                   edtPassword.setText("user@123");
+                   break;
+           }
+        });
+        builder.show();
+        chkRememberPassword.setChecked(true);
     }
 
     private void handleEventListener() {
         layoutLogin.setOnClickListener(v -> {
             if (v.getId() == R.id.layoutLogin) {
-                InputMethodManager inm =
-                        (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager inm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 try {
                     inm.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(), 0);
                 } catch (Exception ex) {
@@ -75,8 +83,8 @@ public class LoginActivity extends AppCompatActivity {
 
         btnLogin.setOnClickListener(v -> performLogin());
 
-        txtRegister.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+        btnToRegister.setOnClickListener(v -> {
+            Intent intent = new Intent(this, RegisterActivity.class);
             startActivity(intent);
             finish();
         });
@@ -85,18 +93,18 @@ public class LoginActivity extends AppCompatActivity {
     private void performLogin() {
         if (!validateInputs()) return;
 
-        UserDAO userDao = AppDatabase.getInstance(this).userDAO();
-        User user = userDao.getByEmail(edtEmail.getText().toString().trim());
+        AppDatabase db = AppDatabase.getInstance(this);
 
-        if (user == null || !Utils.verifyPassword(edtPassword.getText().toString().trim()
-                , user.getPassword())) {
-            Toast.makeText(this, "Email hoặc mật khẩu không chính xác!", Toast.LENGTH_SHORT).show();
+        User user = db.userDAO().getByEmail(edtEmail.getText().toString().trim());
+
+        if (user == null ||
+                !Utils.verifyPassword(edtPassword.getText().toString().trim(), user.getPassword())) {
+            Utils.showToast(this, "Email hoặc mật khẩu không chính xác!");
             return;
         }
 
         if (chkRememberPassword.isChecked()) {
-            SharedPreferences sharedPreferences =
-                    getSharedPreferences(Constants.PREFS_NAME, MODE_PRIVATE);
+            SharedPreferences sharedPreferences = getSharedPreferences(Constants.PREFS_NAME, MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
 
             editor.putLong(Constants.USER_ID, user.getId());
@@ -104,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
             editor.apply();
         }
 
-        Intent intent = new Intent(LoginActivity.this, BottomNavigationActivity.class);
+        Intent intent = new Intent(this, BottomNavigationActivity.class);
         Bundle bundle = new Bundle();
         bundle.putLong(Constants.USER_ID, user.getId());
         intent.putExtras(bundle);
@@ -114,29 +122,26 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean validateInputs() {
-        if (isEmpty(edtEmail)) {
-            showToast("Email không được để trống");
+        return validateNotEmpty(R.id.edtEmail, "Email không được để trống")
+                && validateEmail(R.id.edtEmail)
+                && validateNotEmpty(R.id.edtPassword, "Mật khẩu không được để trống");
+    }
+
+    private boolean validateNotEmpty(int viewId, String errorMessage) {
+        EditText editText = findViewById(viewId);
+        if (editText == null || editText.getText().toString().trim().isEmpty()) {
+            Utils.showToast(this, errorMessage);
             return false;
         }
-
-        if (isEmpty(edtPassword)) {
-            showToast("Mật khẩu không được để trống");
-            return false;
-        }
-
-        if (!Validator.isValidEmail(edtEmail.getText().toString())) {
-            showToast("Email không hợp lệ");
-            return false;
-        }
-
         return true;
     }
 
-    private boolean isEmpty(EditText editText) {
-        return editText.getText().toString().trim().isEmpty();
-    }
-
-    private void showToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    private boolean validateEmail(int viewId) {
+        EditText editText = findViewById(viewId);
+        if (editText != null && !Validator.isValidEmail(editText.getText().toString())) {
+            Utils.showToast(this, "Email không hợp lệ");
+            return false;
+        }
+        return true;
     }
 }

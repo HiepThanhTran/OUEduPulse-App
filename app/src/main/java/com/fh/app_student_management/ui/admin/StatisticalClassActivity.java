@@ -23,8 +23,8 @@ public class StatisticalClassActivity extends AppCompatActivity {
     }
 
     private void initStatisticalClassView() {
-        inputSemester = findViewById(R.id.inputSemester);
-        inputSubject = findViewById(R.id.inputSubject);
+        inputSemester = findViewById(R.id.edtSemester);
+        inputSubject = findViewById(R.id.edtSubject);
     }
 
     private void handleEventListener() {

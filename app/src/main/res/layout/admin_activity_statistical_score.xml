@@ -54,12 +54,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:fontFamily="@font/opensans_bold"
-                android:text="Học kì"
+                android:text="Học kỳ"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/inputSemester"
+                android:id="@+id/edtSemester"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="@drawable/custom_input"
@@ -180,7 +180,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/opensans_bold"
-            android:text="học kì 1 - năm 2024 - 2025"
+            android:text="Học kỳ 1 - năm 2024 - 2025"
             android:textColor="@color/white"
             android:textSize="16sp" />
 

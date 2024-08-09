@@ -110,9 +110,9 @@ public class ClassRecycleViewAdapter extends RecyclerView.Adapter<ClassRecycleVi
                 } else {
                     ArrayList<ClassWithRelations> filtered = new ArrayList<>();
                     for (ClassWithRelations classWithRelations : originalList) {
-                        String subjectName = Utils.removeVietnameseAccents(classWithRelations.getClazz().getName().toLowerCase(Locale.getDefault()));
+                        String className = Utils.removeVietnameseAccents(classWithRelations.getClazz().getName().toLowerCase(Locale.getDefault()));
 
-                        if (subjectName.contains(query)) {
+                        if (className.contains(query)) {
                             filtered.add(classWithRelations);
                         }
                     }
@@ -168,9 +168,9 @@ public class ClassRecycleViewAdapter extends RecyclerView.Adapter<ClassRecycleVi
         selectedMajor = classWithRelations.getMajor();
         selectedAcademicYear = classWithRelations.getAcademicYear();
 
-        EditText edtClassName = view.findViewById(R.id.edtClassName);
-        EditText edtMajorName = view.findViewById(R.id.edtMajorName);
-        EditText edtAcademicYearName = view.findViewById(R.id.edtAcademicYearName);
+        EditText edtClassName = view.findViewById(R.id.edtClass);
+        EditText edtMajorName = view.findViewById(R.id.edtMajor);
+        EditText edtAcademicYearName = view.findViewById(R.id.edtAcademicYear);
         Button btnEdit = view.findViewById(R.id.btnEditClass);
 
         edtClassName.setText(classWithRelations.getClazz().getName());
@@ -181,7 +181,7 @@ public class ClassRecycleViewAdapter extends RecyclerView.Adapter<ClassRecycleVi
                 .setTitle("Chọn ngành")
                 .setItems(majorNames, (dialog, which) -> {
                     selectedMajor = majors.get(which);
-                    ((EditText) view.findViewById(R.id.edtMajorName)).setText(majorNames[which]);
+                    ((EditText) view.findViewById(R.id.edtMajor)).setText(majorNames[which]);
                 })
                 .show());
 
@@ -189,7 +189,7 @@ public class ClassRecycleViewAdapter extends RecyclerView.Adapter<ClassRecycleVi
                 .setTitle("Chọn khóa học")
                 .setItems(academicYearNames, (dialog, which) -> {
                     selectedAcademicYear = academicYears.get(which);
-                    ((EditText) view.findViewById(R.id.edtAcademicYearName)).setText(academicYearNames[which]);
+                    ((EditText) view.findViewById(R.id.edtAcademicYear)).setText(academicYearNames[which]);
                 })
                 .show());
 
@@ -206,9 +206,9 @@ public class ClassRecycleViewAdapter extends RecyclerView.Adapter<ClassRecycleVi
     private void performEditClass(ClassWithRelations classWithRelations, View view) {
         if (!validateInputs(view)) return;
 
-        EditText edtClassName = view.findViewById(R.id.edtClassName);
-        EditText edtMajorName = view.findViewById(R.id.edtMajorName);
-        EditText edtAcademicYearName = view.findViewById(R.id.edtAcademicYearName);
+        EditText edtClassName = view.findViewById(R.id.edtClass);
+        EditText edtMajorName = view.findViewById(R.id.edtMajor);
+        EditText edtAcademicYearName = view.findViewById(R.id.edtAcademicYear);
 
         classWithRelations.getClazz().setName(edtClassName.getText().toString());
         classWithRelations.getMajor().setName(edtMajorName.getText().toString());
@@ -222,9 +222,9 @@ public class ClassRecycleViewAdapter extends RecyclerView.Adapter<ClassRecycleVi
     }
 
     private boolean validateInputs(View view) {
-        return validateNotEmpty(view, R.id.edtClassName, "Tên lớp không được để trống")
-                && validateNotEmpty(view, R.id.edtMajorName, "Ngành không được để trống")
-                && validateNotEmpty(view, R.id.edtAcademicYearName, "Năm học không được để trống");
+        return validateNotEmpty(view, R.id.edtClass, "Tên lớp không được để trống")
+                && validateNotEmpty(view, R.id.edtMajor, "Ngành không được để trống")
+                && validateNotEmpty(view, R.id.edtAcademicYear, "Năm học không được để trống");
     }
 
     private boolean validateNotEmpty(View view, int viewId, String errorMessage) {

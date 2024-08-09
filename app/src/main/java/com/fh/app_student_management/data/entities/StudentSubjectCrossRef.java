@@ -20,7 +20,7 @@ import androidx.room.PrimaryKey;
         )
 })
 public class StudentSubjectCrossRef {
-    
+
     @PrimaryKey(autoGenerate = true)
     private long id;
     @ColumnInfo(name = "student_id")

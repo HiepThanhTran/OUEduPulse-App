@@ -8,11 +8,12 @@
     tools:context=".fragments.LecturerFragment"
     tools:ignore="HardcodedText">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ScrollView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"
         android:orientation="vertical"
+        android:scrollbars="none"
         tools:ignore="UselessParent">
 
         <GridLayout
@@ -158,6 +159,42 @@
                         android:textSize="16sp" />
 
                 </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnToOpenClass"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/grey_sub"
+                app:cardCornerRadius="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:contentDescription="statistical"
+                        android:padding="10dp"
+                        android:src="@drawable/create_class" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:fontFamily="@font/opensans_bold"
+                        android:gravity="center"
+                        android:text="Mở lớp học"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
@@ -192,41 +229,11 @@
                         android:textSize="16sp" />
 
                 </LinearLayout>
+
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/btnToCreateClass"
-                android:layout_width="160dp"
-                android:layout_height="160dp"
-                android:layout_margin="10dp"
-                android:backgroundTint="@color/grey_sub"
-                app:cardCornerRadius="16dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:contentDescription="statistical"
-                        android:padding="10dp"
-                        android:src="@drawable/create_class" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:fontFamily="@font/opensans_bold"
-                        android:gravity="center"
-                        android:text="Tạo lớp học"
-                        android:textColor="@color/white"
-                        android:textSize="16sp" />
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
         </GridLayout>
-    </LinearLayout>
+
+    </ScrollView>
+
 </FrameLayout>

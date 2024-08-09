@@ -35,15 +35,14 @@ public class Student {
 
     @PrimaryKey(autoGenerate = true)
     private long id;
-    private String specialization;
     @ColumnInfo(name = "major_id")
     private long majorId;
     @ColumnInfo(name = "academic_year_id")
     private long academicYearId;
-    @ColumnInfo(name = "user_id")
-    private long userId;
     @ColumnInfo(name = "class_id")
     private Long classId;
+    @ColumnInfo(name = "user_id")
+    private long userId;
 
     public long getId() {
         return id;
@@ -51,14 +50,6 @@ public class Student {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getSpecialization() {
-        return specialization;
-    }
-
-    public void setSpecialization(String specialization) {
-        this.specialization = specialization;
     }
 
     public long getMajorId() {
@@ -77,19 +68,19 @@ public class Student {
         this.academicYearId = academicYearId;
     }
 
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
-
     public Long getClassId() {
         return classId;
     }
 
     public void setClassId(Long classId) {
         this.classId = classId;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 }

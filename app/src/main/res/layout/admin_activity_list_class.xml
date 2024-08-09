@@ -35,10 +35,10 @@
     </RelativeLayout>
 
     <androidx.appcompat.widget.SearchView
-        android:layout_below="@id/top"
         android:id="@+id/searchViewClass"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_below="@id/top"
         android:layout_marginStart="18dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="18dp"
@@ -49,12 +49,14 @@
         app:searchIcon="@drawable/ic_search" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/searchViewClass"
         android:id="@+id/btnAddClass"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
+        android:layout_below="@id/searchViewClass"
+        android:layout_alignParentEnd="true"
         android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/round_button_edit"
         android:backgroundTint="@color/primaryColor"
         android:fontFamily="@font/opensans_bold"
@@ -63,14 +65,12 @@
         android:text="Thêm"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="16sp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="16dp"/>
+        android:textSize="16sp" />
 
     <LinearLayout
-        android:layout_below="@id/btnAddClass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/btnAddClass"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"

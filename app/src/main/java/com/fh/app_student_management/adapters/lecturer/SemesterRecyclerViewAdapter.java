@@ -115,8 +115,8 @@ public class SemesterRecyclerViewAdapter extends RecyclerView.Adapter<SemesterRe
 
     public static class SemesterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
-        private ItemClickListener itemClickListener;
         private final TextView txtSemesterName;
+        private ItemClickListener itemClickListener;
 
         public SemesterViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -39,35 +39,18 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             long userId = Long.parseLong(Objects.requireNonNull(requireArguments().getString(Constants.USER_ID)));
-            AppDatabase db = AppDatabase.getInstance(requireContext());
-
-            user = db.userDAO().getById(userId);
+            user = AppDatabase.getInstance(requireContext()).userDAO().getById(userId);
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.z_fragment_home, container, false);
-
         Window window = Objects.requireNonNull(requireActivity()).getWindow();
-        window.setStatusBarColor(getResources().getColor(R.color.grey_sub,
-                requireActivity().getTheme()));
-
-        Map<String, String> params = new HashMap<>();
-        params.put(Constants.USER_ID, String.valueOf(user.getId()));
-
-        switch(user.getRole()) {
-            case ADMIN:
-                loadFragment(AdminFragment.newInstance(params));
-                break;
-            case LECTURER:
-                loadFragment(LecturerFragment.newInstance(params));
-            default:
-                break;
-        }
+        window.setStatusBarColor(getResources().getColor(R.color.grey_sub, requireActivity().getTheme()));
 
         initHomeView(view);
 
@@ -75,11 +58,24 @@ public class HomeFragment extends Fragment {
     }
 
     private void initHomeView(View view) {
-        TextView txtUsername = view.findViewById(R.id.txtUsername);
-        ImageView avatar = view.findViewById(R.id.avatar);
+        Map<String, String> params = new HashMap<>();
+        params.put(Constants.USER_ID, String.valueOf(user.getId()));
 
-        txtUsername.setText(user.getFullName());
+        switch (user.getRole()) {
+            case ADMIN:
+                loadFragment(new AdminFragment());
+                break;
+            case LECTURER:
+                loadFragment(LecturerFragment.newInstance(params));
+            default:
+                break;
+        }
+
+        ImageView avatar = view.findViewById(R.id.avatar);
+        TextView txtUsername = view.findViewById(R.id.txtUsername);
+
         avatar.setImageBitmap(Utils.getBitmapFromBytes(user.getAvatar()));
+        txtUsername.setText(user.getFullName());
     }
 
     private void loadFragment(Fragment fragment) {

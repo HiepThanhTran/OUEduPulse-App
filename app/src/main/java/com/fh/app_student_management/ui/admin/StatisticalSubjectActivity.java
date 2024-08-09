@@ -25,7 +25,7 @@ public class StatisticalSubjectActivity extends AppCompatActivity {
 
     private void initStatisticalSubjectView() {
         btnBack = findViewById(R.id.btnBack);
-        inputSemester = findViewById(R.id.inputSemester);
+        inputSemester = findViewById(R.id.edtSemester);
 
         inputSemester.setText("Học kì 1");
     }

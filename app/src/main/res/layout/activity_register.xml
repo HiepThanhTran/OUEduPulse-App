@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/grey"
     android:orientation="vertical"
+    android:scrollbars="none"
     tools:context=".ui.LoginActivity"
     tools:ignore="HardcodedText">
 

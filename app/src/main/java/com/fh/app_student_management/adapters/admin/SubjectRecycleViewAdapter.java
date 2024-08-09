@@ -168,8 +168,8 @@ public class SubjectRecycleViewAdapter extends RecyclerView.Adapter<SubjectRecyc
 
         EditText edtSubjectName = view.findViewById(R.id.edtSubjectName);
         EditText edtSubjectCredits = view.findViewById(R.id.edtSubjectCredits);
-        EditText edtClassName = view.findViewById(R.id.edtClassName);
-        EditText edtMajorName = view.findViewById(R.id.edtMajorName);
+        EditText edtClassName = view.findViewById(R.id.edtClass);
+        EditText edtMajorName = view.findViewById(R.id.edtMajor);
         Button btnEdit = view.findViewById(R.id.btnEditSubject);
 
         edtSubjectName.setText(subjectWithRelations.getSubject().getName());
@@ -181,7 +181,7 @@ public class SubjectRecycleViewAdapter extends RecyclerView.Adapter<SubjectRecyc
                 .setTitle("Chọn lớp")
                 .setItems(classNames, (dialog, which) -> {
                     selectedClass = classes.get(which);
-                    ((EditText) view.findViewById(R.id.edtClassName)).setText(classNames[which]);
+                    ((EditText) view.findViewById(R.id.edtClass)).setText(classNames[which]);
                 })
                 .show());
 
@@ -189,7 +189,7 @@ public class SubjectRecycleViewAdapter extends RecyclerView.Adapter<SubjectRecyc
                 .setTitle("Chọn ngành")
                 .setItems(majorNames, (dialog, which) -> {
                     selectedMajor = majors.get(which);
-                    ((EditText) view.findViewById(R.id.edtMajorName)).setText(majorNames[which]);
+                    ((EditText) view.findViewById(R.id.edtMajor)).setText(majorNames[which]);
                 })
                 .show());
 
@@ -224,8 +224,8 @@ public class SubjectRecycleViewAdapter extends RecyclerView.Adapter<SubjectRecyc
     private boolean validateInputs(View view) {
         return validateNotEmpty(view, R.id.edtSubjectName, "Tên môn không được để trống")
                 && validateNotEmpty(view, R.id.edtSubjectCredits, "Số tín chỉ không được để trống")
-                && validateNotEmpty(view, R.id.edtClassName, "Lớp không được để trống")
-                && validateNotEmpty(view, R.id.edtMajorName, "Ngành không được để trống");
+                && validateNotEmpty(view, R.id.edtClass, "Lớp không được để trống")
+                && validateNotEmpty(view, R.id.edtMajor, "Ngành không được để trống");
     }
 
     private boolean validateNotEmpty(View view, int viewId, String errorMessage) {

@@ -3,12 +3,15 @@ package com.fh.app_student_management.ui.admin;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -38,9 +41,14 @@ import java.util.Calendar;
 
 public class LecturerListActivity extends AppCompatActivity {
 
-    private SearchView searchViewLecturer;
-    private BottomSheetDialog bottomSheetDialog;
     private LecturerRecycleViewAdapter lecturerRecycleViewAdapter;
+
+    private LinearLayout layoutLecturer;
+    private ImageView btnBack;
+    private SearchView searchViewLecturer;
+    private Button btnAddLecturer;
+
+    private BottomSheetDialog bottomSheetDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,27 +73,29 @@ public class LecturerListActivity extends AppCompatActivity {
     }
 
     private void initLecturerListView() {
-        AppDatabase db = AppDatabase.getInstance(this);
+        layoutLecturer = findViewById(R.id.layoutLecturer);
+        btnBack = findViewById(R.id.btnBack);
         searchViewLecturer = findViewById(R.id.searchViewLecturer);
+        btnAddLecturer = findViewById(R.id.btnAddLecturer);
         bottomSheetDialog = new BottomSheetDialog(this);
 
-        RecyclerView rvLecturer = findViewById(R.id.rvLecturer);
+        AppDatabase db = AppDatabase.getInstance(this);
         ArrayList<LecturerAndUser> lectures = new ArrayList<>(db.lecturerDAO().getAllLecturerAndUser());
+
+        RecyclerView rvLecturer = findViewById(R.id.rvLecturer);
         lecturerRecycleViewAdapter = new LecturerRecycleViewAdapter(this, lectures);
         rvLecturer.setLayoutManager(new LinearLayoutManager(this));
         rvLecturer.setAdapter(lecturerRecycleViewAdapter);
     }
 
     private void handleEventListeners() {
-        findViewById(R.id.layoutLecturer).setOnClickListener(v -> {
+        layoutLecturer.setOnClickListener(v -> {
             if (v.getId() == R.id.layoutLecturer) {
                 searchViewLecturer.clearFocus();
             }
         });
 
-        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
-
-        findViewById(R.id.btnAddLecturer).setOnClickListener(v -> showAddLecturerDialog());
+        btnBack.setOnClickListener(v -> finish());
 
         searchViewLecturer.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -100,6 +110,8 @@ public class LecturerListActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        btnAddLecturer.setOnClickListener(v -> showAddLecturerDialog());
     }
 
     @SuppressLint("InflateParams")
@@ -128,14 +140,6 @@ public class LecturerListActivity extends AppCompatActivity {
                 .show());
     }
 
-    private void showDatePickerDialog(View view) {
-        Calendar calendar = Calendar.getInstance();
-        new DatePickerDialog(this, (v, year, month, day) -> {
-            String date = day + "/" + (month + 1) + "/" + year;
-            ((TextView) view).setText(date);
-        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
-    }
-
     private void performAddLecturer(View view) {
         if (!validateInputs(view)) return;
 
@@ -146,6 +150,7 @@ public class LecturerListActivity extends AppCompatActivity {
         try {
             lecturerAndUser.getUser().setAvatar(Utils.getBytesFromBitmap(Utils.getBitmapFromView(view.findViewById(R.id.avatar))));
             lecturerAndUser.getUser().setEmail(((EditText) view.findViewById(R.id.edtEmail)).getText().toString());
+            lecturerAndUser.getUser().setPassword(Utils.hashPassword("123456"));
             lecturerAndUser.getUser().setFullName(((EditText) view.findViewById(R.id.edtFullName)).getText().toString());
             lecturerAndUser.getUser().setDob(Utils.formatDate("dd/MM/YYYY").parse(((EditText) view.findViewById(R.id.edtDob)).getText().toString()));
             lecturerAndUser.getUser().setAddress(((EditText) view.findViewById(R.id.edtAddress)).getText().toString());
@@ -165,15 +170,23 @@ public class LecturerListActivity extends AppCompatActivity {
         Utils.showToast(this, "Thêm thành công");
     }
 
+    private void showDatePickerDialog(View view) {
+        Calendar calendar = Calendar.getInstance();
+        new DatePickerDialog(this, (v, year, month, day) -> {
+            String date = day + "/" + (month + 1) + "/" + year;
+            ((TextView) view).setText(date);
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
+
     private boolean validateInputs(View view) {
         return validateNotEmpty(view, R.id.edtEmail, "Email không được để trống")
+                && validateEmail(view, R.id.edtEmail)
                 && validateNotEmpty(view, R.id.edtFullName, "Họ và tên không được để trống")
                 && validateNotEmpty(view, R.id.edtDob, "Ngày sinh không được để trống")
                 && validateNotEmpty(view, R.id.edtAddress, "Địa chỉ không được để trống")
                 && validateNotEmpty(view, R.id.edtSpecialization, "Chuyên ngành không được để trống")
                 && validateNotEmpty(view, R.id.edtDegree, "Bằng cấp không được để trống")
-                && validateNotEmpty(view, R.id.edtCertificate, "Chứng chỉ không được để trống")
-                && validateEmail(view, R.id.edtEmail);
+                && validateNotEmpty(view, R.id.edtCertificate, "Chứng chỉ không được để trống");
     }
 
     private boolean validateNotEmpty(View view, int viewId, String errorMessage) {

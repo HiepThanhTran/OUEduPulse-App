@@ -32,6 +32,13 @@ public interface SubjectDAO {
             "ORDER BY id DESC")
     List<SubjectWithRelations> getByLecturerAndSemester(long userId, long semesterId);
 
+    @Query("SELECT s.* FROM subjects s " +
+            "JOIN classes c ON s.class_id = c.id " +
+            "JOIN subject_semester_cross_ref ssr ON s.id = ssr.subject_id " +
+            "WHERE ssr.semester_id = :semesterId AND c.id = :classId " +
+            "ORDER BY id DESC")
+    List<SubjectWithRelations> getByClassAndSemester(long classId, long semesterId);
+
     @Insert
     void insert(Subject... subject);
 

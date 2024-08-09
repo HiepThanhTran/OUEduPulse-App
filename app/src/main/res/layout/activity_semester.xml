@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:fontFamily="@font/opensans_bold"
-            android:text="Danh sách học kì"
+            android:text="Danh sách Học kỳ"
             android:textColor="@color/white"
             android:textSize="20sp" />
     </RelativeLayout>
@@ -43,7 +43,7 @@
         android:background="@drawable/search_view_bg"
         app:closeIcon="@drawable/ic_close"
         app:iconifiedByDefault="false"
-        app:queryHint="Nhập học kì..."
+        app:queryHint="Nhập Học kỳ..."
         app:searchIcon="@drawable/ic_search" />
 
     <LinearLayout

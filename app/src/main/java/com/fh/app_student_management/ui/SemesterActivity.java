@@ -39,7 +39,10 @@ public class SemesterActivity extends AppCompatActivity {
         searchViewSemester = findViewById(R.id.searchViewSemester);
         RecyclerView rvSemester = findViewById(R.id.rvSemester);
 
-        semesterRecycleViewAdapter = new SemesterRecyclerViewAdapter(this, getIntent(), getSemesters());
+        AppDatabase db = AppDatabase.getInstance(this);
+        ArrayList<Semester> semesters = new ArrayList<>(db.semesterDAO().getAll());
+
+        semesterRecycleViewAdapter = new SemesterRecyclerViewAdapter(this, getIntent(), semesters);
         rvSemester.setLayoutManager(new LinearLayoutManager(this));
         rvSemester.setAdapter(semesterRecycleViewAdapter);
     }
@@ -66,11 +69,5 @@ public class SemesterActivity extends AppCompatActivity {
                 return false;
             }
         });
-    }
-
-    private ArrayList<Semester> getSemesters() {
-        AppDatabase db = AppDatabase.getInstance(this);
-
-        return new ArrayList<>(db.semesterDAO().getAll());
     }
 }

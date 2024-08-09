@@ -25,36 +25,32 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class StatisticalScoreActivity extends AppCompatActivity {
 
     private AppDatabase db;
-
-    private long userId;
+    private ArrayList<Semester> semesters;
+    private ArrayList<String> semesterNames;
+    private ArrayList<SubjectWithRelations> subjects;
+    private ArrayList<String> subjectNames;
     private long semesterId;
-
-    private ImageView btnBack;
-    private EditText inputSemester;
-    private EditText inputSubject;
-    private TextView txtSemesterName;
-    private TextView txtSubjectName;
-
-    private PieChart chart;
+    private long userId;
     private PieData pieData;
     private PieDataSet pieDataSet;
     private ArrayList<PieEntry> entries;
     private ScoreDistribution scoreDistribution;
 
+    private ImageView btnBack;
+    private EditText edtSemester;
+    private EditText edtSubject;
+    private TextView txtSemesterName;
+    private TextView txtSubjectName;
+    private PieChart chart;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lecturer_activity_statistical_score);
-
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        assert bundle != null;
-        userId = bundle.getLong(Constants.USER_ID, 0);
 
         initStatisticalView();
         handleEventListener();
@@ -62,18 +58,32 @@ public class StatisticalScoreActivity extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     private void initStatisticalView() {
-        db = AppDatabase.getInstance(this);
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        assert bundle != null;
+        userId = bundle.getLong(Constants.USER_ID, 0);
 
         btnBack = findViewById(R.id.btnBack);
-        inputSemester = findViewById(R.id.inputSemester);
-        inputSubject = findViewById(R.id.inputSubject);
+        edtSemester = findViewById(R.id.edtSemester);
+        edtSubject = findViewById(R.id.edtSubject);
         txtSemesterName = findViewById(R.id.txtSemesterName);
         txtSubjectName = findViewById(R.id.txtSubjectName);
         chart = findViewById(R.id.chart);
 
-        entries = new ArrayList<>();
+        db = AppDatabase.getInstance(this);
 
-        pieDataSet = new PieDataSet(entries, "Student Grades Distribution");
+        semesters = new ArrayList<>(db.semesterDAO().getAll());
+        semesterNames = new ArrayList<>(semesters.size() + 1);
+        semesterNames.add(0, "--- Chọn học kỳ ---");
+        for (int i = 0; i < semesters.size(); i++) {
+            String startDate = Utils.formatDate("MM/yyyy").format(semesters.get(i).getStartDate());
+            String endDate = Utils.formatDate("MM/yyyy").format(semesters.get(i).getEndDate());
+            String semesterName = String.format("%s (%s - %s)", semesters.get(i).getName(), startDate, endDate);
+            semesterNames.add(semesterName);
+        }
+
+        entries = new ArrayList<>();
+        pieDataSet = new PieDataSet(entries, "Thống kê điểm số của sinh viên");
         pieDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
         pieDataSet.setValueTextSize(14f);
 
@@ -92,34 +102,27 @@ public class StatisticalScoreActivity extends AppCompatActivity {
     private void handleEventListener() {
         btnBack.setOnClickListener(v -> finish());
 
-        inputSemester.setOnClickListener(v -> showSemesterDialog());
+        edtSemester.setOnClickListener(v -> showSemesterDialog());
 
-        inputSubject.setOnClickListener(v -> {
-            if (inputSemester.getText().toString().isEmpty()) {
-                return;
-            }
-
-            showSubjectDialog();
-        });
+        edtSubject.setOnClickListener(v -> showSubjectDialog());
     }
 
     @SuppressLint("SetTextI18n")
     private void showSemesterDialog() {
-        List<Semester> semesters = db.semesterDAO().getAll();
-        String[] semestersName = new String[semesters.size()];
-        for (int i = 0; i < semesters.size(); i++) {
-            String startDate = Utils.formatDate("MM/yyyy").format(semesters.get(i).getStartDate());
-            String endDate = Utils.formatDate("MM/yyyy").format(semesters.get(i).getEndDate());
-            String semesterName = String.format("%s (%s - %s)", semesters.get(i).getName(), startDate, endDate);
-            semestersName[i] = semesterName;
-        }
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Chọn học kì");
-        builder.setItems(semestersName, (dialog, which) -> {
-            semesterId = semesters.get(which).getId();
-            inputSemester.setText(semestersName[which]);
-            inputSubject.setText("");
+        builder.setTitle("Chọn học kỳ");
+        builder.setItems(semesterNames.toArray(new CharSequence[0]), (dialog, which) -> {
+            if (which == 0) {
+                txtSemesterName.setText("");
+                txtSubjectName.setText("");
+                edtSemester.setText("");
+                edtSubject.setText("");
+                return;
+            }
+
+            semesterId = semesters.get(which - 1).getId();
+            edtSemester.setText(semesterNames.get(which));
+            edtSubject.setText("");
             txtSemesterName.setText("");
             txtSubjectName.setText("");
 
@@ -132,20 +135,33 @@ public class StatisticalScoreActivity extends AppCompatActivity {
     }
 
     private void showSubjectDialog() {
-        List<SubjectWithRelations> subjects = db.subjectDAO().getByLecturerAndSemester(userId, semesterId);
-        String[] subjectsName = new String[subjects.size()];
+        if (edtSemester.getText().toString().isEmpty()) {
+            Utils.showToast(this, "Chưa chọn học kỳ");
+            return;
+        }
+
+        subjects = new ArrayList<>(db.subjectDAO().getByLecturerAndSemester(userId, semesterId));
+        subjectNames = new ArrayList<>(subjects.size() + 1);
+        subjectNames.add(0, "--- Chọn môn học ---");
         for (int i = 0; i < subjects.size(); i++) {
-            subjectsName[i] = subjects.get(i).getSubject().getName();
+            subjectNames.add(subjects.get(i).getSubject().getName());
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Chọn môn học");
-        builder.setItems(subjectsName, (dialog, which) -> {
-            txtSemesterName.setText(inputSemester.getText().toString());
-            txtSubjectName.setText(subjectsName[which]);
-            inputSubject.setText(subjectsName[which]);
+        builder.setItems(subjectNames.toArray(new CharSequence[0]), (dialog, which) -> {
+            if (which == 0) {
+                txtSemesterName.setText("");
+                txtSubjectName.setText("");
+                edtSubject.setText("");
+                return;
+            }
 
-            long subjectId = subjects.get(which).getSubject().getId();
+            txtSemesterName.setText(edtSemester.getText().toString());
+            txtSubjectName.setText(subjectNames.get(which));
+            edtSubject.setText(subjectNames.get(which));
+
+            long subjectId = subjects.get(which - 1).getSubject().getId();
             scoreDistribution = db.scoreDAO().getScoreDistribution(subjectId, semesterId);
             entries.clear();
 

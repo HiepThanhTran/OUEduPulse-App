@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,8 +51,9 @@ public class LecturerRecycleViewAdapter extends RecyclerView.Adapter<LecturerRec
         this.context = context;
         this.originalList = originalList;
         this.filteredList = originalList;
-        this.db = AppDatabase.getInstance(context);
-        this.bottomSheetDialog = new BottomSheetDialog(context);
+
+        db = AppDatabase.getInstance(context);
+        bottomSheetDialog = new BottomSheetDialog(context);
     }
 
     @NonNull
@@ -97,9 +99,9 @@ public class LecturerRecycleViewAdapter extends RecyclerView.Adapter<LecturerRec
                 } else {
                     ArrayList<LecturerAndUser> filtered = new ArrayList<>();
                     for (LecturerAndUser lecturerAndUser : originalList) {
-                        String subjectName = Utils.removeVietnameseAccents(lecturerAndUser.getUser().getFullName().toLowerCase(Locale.getDefault()));
+                        String lecturerName = Utils.removeVietnameseAccents(lecturerAndUser.getUser().getFullName().toLowerCase(Locale.getDefault()));
 
-                        if (subjectName.contains(query)) {
+                        if (lecturerName.contains(query)) {
                             filtered.add(lecturerAndUser);
                         }
                     }
@@ -132,8 +134,15 @@ public class LecturerRecycleViewAdapter extends RecyclerView.Adapter<LecturerRec
     }
 
     public void addLecturer(LecturerAndUser lecturerAndUser) {
+        Long userId;
+        try {
+            userId = db.userDAO().insert(lecturerAndUser.getUser());
+        } catch (SQLiteConstraintException ex) {
+            Utils.showToast(context, "Email đã tồn tại!");
+            return;
+        }
+        lecturerAndUser.getLecturer().setUserId(userId);
         db.lecturerDAO().insert(lecturerAndUser.getLecturer());
-        db.userDAO().insert(lecturerAndUser.getUser());
         originalList.add(0, lecturerAndUser);
         notifyItemInserted(0);
     }
@@ -231,19 +240,11 @@ public class LecturerRecycleViewAdapter extends RecyclerView.Adapter<LecturerRec
     }
 
     private void showDatePickerDialog(View view) {
-        TextView txtDob = view.findViewById(R.id.edtDob);
         Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(context, (v, year1, month1, dayOfMonth) -> {
-            String date = dayOfMonth + "/" + (month1 + 1) + "/" + year1;
-            assert txtDob != null;
-            txtDob.setText(date);
-        }, year, month, day);
-
-        datePickerDialog.show();
+        new DatePickerDialog(context, (v, year, month, day) -> {
+            String date = day + "/" + (month + 1) + "/" + year;
+            ((TextView) view).setText(date);
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
     private void performEditLecturer(LecturerAndUser lecturerAndUser, View view) {

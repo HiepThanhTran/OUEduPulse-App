@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:gravity="center"
+    android:orientation="vertical"
     android:padding="16dp"
     tools:context=".fragments.OnboardingFragment1"
     tools:ignore="HardcodedText">
@@ -13,28 +13,28 @@
     <com.airbnb.lottie.LottieAnimationView
         android:layout_width="450dp"
         android:layout_height="450dp"
-        app:lottie_rawRes="@raw/onboarding_3"
         app:lottie_autoPlay="true"
-        app:lottie_loop="true" />
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/onboarding_3" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Giải quyết"
-        android:textSize="26sp"
-        android:textColor="@color/white"
-        android:fontFamily="@font/opensans_bold" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Giải quyết mọi thắc mắc của sinh viên một cách nhanh chóng"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        android:textAlignment="center"
-        android:layout_marginTop="20dp"
-        android:lineHeight="40dp"
         android:fontFamily="@font/opensans_bold"
+        android:text="Giải quyết"
+        android:textColor="@color/white"
+        android:textSize="26sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/opensans_bold"
+        android:lineHeight="40dp"
+        android:text="Giải quyết mọi thắc mắc của sinh viên một cách nhanh chóng"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="20sp"
         tools:targetApi="p" />
 
 </LinearLayout>

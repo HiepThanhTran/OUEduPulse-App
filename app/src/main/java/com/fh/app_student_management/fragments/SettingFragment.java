@@ -34,27 +34,32 @@ import java.util.Objects;
 
 public class SettingFragment extends Fragment {
 
-    private User user;
+    private final ActivityResultLauncher<Intent> editProfileLauncher;
+
     private SharedPreferences preferences;
+    private User user;
 
     private ImageView avatar;
     private TextView txtUsername;
-    private final ActivityResultLauncher<Intent> editProfileLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                    Long userId = result.getData().getLongExtra(Constants.USER_ID, 0);
-                    AppDatabase db = AppDatabase.getInstance(requireContext());
-                    user = db.userDAO().getById(userId);
-
-                    txtUsername.setText(user.getFullName());
-                    avatar.setImageBitmap(Utils.getBitmapFromBytes(user.getAvatar()));
-                }
-            }
-    );
     private Button btnEditProfile;
     private LinearLayout btnLogout;
     private SwitchCompat notificationSwitch;
+
+    public SettingFragment() {
+        editProfileLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                        long userId = result.getData().getLongExtra(Constants.USER_ID, 0);
+                        AppDatabase db = AppDatabase.getInstance(requireContext());
+                        user = db.userDAO().getById(userId);
+
+                        txtUsername.setText(user.getFullName());
+                        avatar.setImageBitmap(Utils.getBitmapFromBytes(user.getAvatar()));
+                    }
+                }
+        );
+    }
 
     public static SettingFragment newInstance(Map<String, String> params) {
         SettingFragment fragment = new SettingFragment();
@@ -69,22 +74,18 @@ public class SettingFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             long userId = Long.parseLong(Objects.requireNonNull(requireArguments().getString(Constants.USER_ID)));
-            AppDatabase db = AppDatabase.getInstance(requireContext());
-
-            user = db.userDAO().getById(userId);
+            user = AppDatabase.getInstance(requireContext()).userDAO().getById(userId);
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.z_fragment_settings, container, false);
-
         Window window = requireActivity().getWindow();
-        window.setStatusBarColor(getResources().getColor(R.color.grey,
-                requireActivity().getTheme()));
+        window.setStatusBarColor(getResources().getColor(R.color.grey, requireActivity().getTheme()));
 
         initSettingsView(view);
         handleEventListener();
@@ -95,7 +96,6 @@ public class SettingFragment extends Fragment {
     private void initSettingsView(View view) {
         avatar = view.findViewById(R.id.avatar);
         txtUsername = view.findViewById(R.id.txtUsername);
-
         btnEditProfile = view.findViewById(R.id.btnEditProfile);
         btnLogout = view.findViewById(R.id.btnLogout);
         notificationSwitch = view.findViewById(R.id.notificationSwitch);
@@ -103,8 +103,8 @@ public class SettingFragment extends Fragment {
         preferences = requireActivity().getSharedPreferences(Constants.PREFS_NAME, MODE_PRIVATE);
         boolean isSwitchChecked = preferences.getBoolean(Constants.PREF_NOTIFICATION_SWITCH, false);
 
-        txtUsername.setText(user.getFullName());
         avatar.setImageBitmap(Utils.getBitmapFromBytes(user.getAvatar()));
+        txtUsername.setText(user.getFullName());
         notificationSwitch.setChecked(isSwitchChecked);
     }
 
@@ -117,23 +117,19 @@ public class SettingFragment extends Fragment {
             editProfileLauncher.launch(intent);
         });
 
-        notificationSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putBoolean(Constants.PREF_NOTIFICATION_SWITCH, isChecked);
-            editor.apply();
-        });
+        notificationSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> preferences.edit()
+                .putBoolean(Constants.PREF_NOTIFICATION_SWITCH, isChecked)
+                .apply());
 
-        btnLogout.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-            builder.setTitle("Thông báo");
-            builder.setMessage("Bạn có chắc chắn muốn đăng xuất?");
-            builder.setPositiveButton("Có", (dialog, which) -> logout());
-            builder.setNegativeButton("Không", (dialog, which) -> dialog.dismiss());
-            builder.show();
-        });
+        btnLogout.setOnClickListener(v -> new AlertDialog.Builder(requireContext())
+                .setTitle("Thông báo")
+                .setMessage("Bạn có chắc chắn muốn đăng xuất?")
+                .setPositiveButton("Có", (dialog, which) -> performLogout())
+                .setNegativeButton("Không", (dialog, which) -> dialog.dismiss())
+                .show());
     }
 
-    private void logout() {
+    private void performLogout() {
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove(Constants.USER_ID);
         editor.apply();

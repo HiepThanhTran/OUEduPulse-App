@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -39,18 +40,18 @@ public class LecturerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             long userId = Long.parseLong(Objects.requireNonNull(requireArguments().getString(Constants.USER_ID)));
-            AppDatabase db = AppDatabase.getInstance(requireContext());
-
-            user = db.userDAO().getById(userId);
+            user = AppDatabase.getInstance(requireContext()).userDAO().getById(userId);
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.z_fragment_lecturer, container, false);
+        Window window = requireActivity().getWindow();
+        window.setStatusBarColor(getResources().getColor(R.color.grey, requireActivity().getTheme()));
 
         initLecturerView(view);
         handleEventListener();

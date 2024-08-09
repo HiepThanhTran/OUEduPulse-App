@@ -10,9 +10,9 @@
 
     <TextView
         android:id="@+id/txtStudentId"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:gravity="center"
         android:text="2151050469"
         android:textColor="@color/white"
@@ -20,9 +20,9 @@
 
     <TextView
         android:id="@+id/txtStudentName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:gravity="center"
         android:text="Nguyễn Huỳnh Ngọc Như"
         android:textColor="@color/white"
@@ -30,7 +30,7 @@
 
     <TextView
         android:id="@+id/txtGK"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:clickable="false"
@@ -43,7 +43,7 @@
 
     <TextView
         android:id="@+id/txtCK"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:clickable="false"
@@ -56,7 +56,7 @@
 
     <TextView
         android:id="@+id/txtTB"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:clickable="false"

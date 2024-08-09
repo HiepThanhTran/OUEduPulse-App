@@ -39,6 +39,7 @@ import com.fh.app_student_management.utilities.Constants;
 import com.fh.app_student_management.utilities.Utils;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -90,10 +91,7 @@ public abstract class AppDatabase extends RoomDatabase {
         insertUser(context);
         insertStudentsToClass(context);
         insertSubjectList(context);
-        insertSubjectSemesterCrossRefList(context);
-        insertLecturerSubjectCrossRef(context);
-        insertStudentSubjectCrossRefList(context);
-        insertStudentSemesterCrossRefList(context);
+        insertCrossRefList(context);
     }
 
     private static void insertAcademicYearList(Context context) {
@@ -267,7 +265,6 @@ public abstract class AppDatabase extends RoomDatabase {
             long userId = db.userDAO().insert(user);
 
             Student student = new Student();
-            student.setSpecialization("Chuyên ngành " + (i + 1));
             student.setMajorId(majors.get(i % majors.size()).getId());
             student.setAcademicYearId(academicYears.get(i % academicYears.size()).getId());
             student.setUserId(userId);
@@ -320,63 +317,45 @@ public abstract class AppDatabase extends RoomDatabase {
         }
     }
 
-    private static void insertSubjectSemesterCrossRefList(Context context) {
+    private static void insertCrossRefList(Context context) {
         AppDatabase db = getInstance(context);
-
-        long[][] subjectSemesterPairs = {
-                {1L, 1L}, {3L, 1L}, {4L, 1L}, {2L, 1L},
-                {3L, 2L}, {6L, 2L}, {7L, 2L},
-                {4L, 3L}, {1L, 3L}, {5L, 3L}
-        };
-
-        for (long[] pair : subjectSemesterPairs) {
-            SubjectSemesterCrossRef crossRef = new SubjectSemesterCrossRef();
-            crossRef.setSubjectId(pair[0]);
-            crossRef.setSemesterId(pair[1]);
-            db.crossRefDAO().insertSubjectSemesterCrossRef(crossRef);
-        }
-    }
-
-    private static void insertLecturerSubjectCrossRef(Context context) {
-        AppDatabase db = getInstance(context);
-
-        long[] subjectIds = {1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L};
-
-        for (long subjectId : subjectIds) {
-            LecturerSubjectCrossRef crossRef = new LecturerSubjectCrossRef();
-            crossRef.setLecturerId(1);
-            crossRef.setSubjectId(subjectId);
-            db.crossRefDAO().insertLecturerSubjectCrossRef(crossRef);
-        }
-    }
-
-    private static void insertStudentSubjectCrossRefList(Context context) {
-        AppDatabase db = getInstance(context);
+        List<Semester> semesters = db.semesterDAO().getAll();
         List<Student> students = db.studentDAO().getAll();
         List<Subject> subjects = db.subjectDAO().getAll();
-
-        for (Student student : students) {
-            for (Subject subject : subjects) {
-                StudentSubjectCrossRef crossRef = new StudentSubjectCrossRef();
-                crossRef.setStudentId(student.getId());
-                crossRef.setSubjectId(subject.getId());
-
-                db.crossRefDAO().insertStudentSubjectCrossRef(crossRef);
-            }
-        }
-    }
-
-    private static void insertStudentSemesterCrossRefList(Context context) {
-        AppDatabase db = getInstance(context);
-        List<Student> students = db.studentDAO().getAll();
-        List<Semester> semesters = db.semesterDAO().getAll();
+        Random random = new Random();
 
         for (Semester semester : semesters) {
+            Collections.shuffle(subjects, random);
+
             for (Student student : students) {
                 StudentSemesterCrossRef crossRef = new StudentSemesterCrossRef();
                 crossRef.setStudentId(student.getId());
                 crossRef.setSemesterId(semester.getId());
                 db.crossRefDAO().insertStudentSemesterCrossRef(crossRef);
+            }
+
+            for (int i = 0; i < 3; i++) {
+                SubjectSemesterCrossRef subjectSemesterCrossRef = new SubjectSemesterCrossRef();
+                subjectSemesterCrossRef.setSubjectId(subjects.get(i).getId());
+                subjectSemesterCrossRef.setSemesterId(semester.getId());
+                db.crossRefDAO().insertSubjectSemesterCrossRef(subjectSemesterCrossRef);
+
+                LecturerSubjectCrossRef lecturerSubjectCrossRef = new LecturerSubjectCrossRef();
+                lecturerSubjectCrossRef.setLecturerId(1);
+                lecturerSubjectCrossRef.setSubjectId(subjects.get(i).getId());
+                db.crossRefDAO().insertLecturerSubjectCrossRef(lecturerSubjectCrossRef);
+            }
+        }
+
+        List<SubjectSemesterCrossRef> subjectSemesterCrossRefs = db.crossRefDAO().getAllSubjectSemesterCrossRef();
+        for (SubjectSemesterCrossRef subjectSemesterCrossRef : subjectSemesterCrossRefs) {
+            Collections.shuffle(students, random);
+
+            for (int i = 0; i < 4; i++) {
+                StudentSubjectCrossRef studentSubjectCrossRef = new StudentSubjectCrossRef();
+                studentSubjectCrossRef.setStudentId(students.get(i).getId());
+                studentSubjectCrossRef.setSubjectId(subjectSemesterCrossRef.getSubjectId());
+                db.crossRefDAO().insertStudentSubjectCrossRef(studentSubjectCrossRef);
             }
         }
     }

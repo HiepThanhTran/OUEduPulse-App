@@ -4,7 +4,10 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,10 +36,14 @@ public class ClassListActivity extends AppCompatActivity {
     private AcademicYear selectedAcademicYear;
     private ArrayList<AcademicYear> academicYears;
     private String[] academicYearNames;
-
-    private SearchView searchViewClass;
-    private BottomSheetDialog bottomSheetDialog;
     private ClassRecycleViewAdapter classRecycleViewAdapter;
+
+    private RelativeLayout layoutClass;
+    private ImageView btnBack;
+    private SearchView searchViewClass;
+    private Button btnAddClass;
+
+    private BottomSheetDialog bottomSheetDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +55,13 @@ public class ClassListActivity extends AppCompatActivity {
     }
 
     private void initClassListView() {
-        AppDatabase db = AppDatabase.getInstance(this);
+        layoutClass = findViewById(R.id.layoutClass);
+        btnBack = findViewById(R.id.btnBack);
+        btnAddClass = findViewById(R.id.btnAddClass);
         searchViewClass = findViewById(R.id.searchViewClass);
         bottomSheetDialog = new BottomSheetDialog(this);
+
+        AppDatabase db = AppDatabase.getInstance(this);
 
         majors = new ArrayList<>(db.majorDAO().getAll());
         majorNames = new String[majors.size()];
@@ -64,8 +75,9 @@ public class ClassListActivity extends AppCompatActivity {
             academicYearNames[i] = academicYears.get(i).getName();
         }
 
-        RecyclerView rvClass = findViewById(R.id.rvClass);
         ArrayList<ClassWithRelations> classes = new ArrayList<>(db.classDAO().getAllWithRelations());
+
+        RecyclerView rvClass = findViewById(R.id.rvClass);
         classRecycleViewAdapter = new ClassRecycleViewAdapter(this, classes);
         rvClass.setLayoutManager(new LinearLayoutManager(this));
         rvClass.setAdapter(classRecycleViewAdapter);
@@ -73,15 +85,13 @@ public class ClassListActivity extends AppCompatActivity {
 
     @SuppressLint("InflateParams")
     private void handleEventListener() {
-        findViewById(R.id.layoutClass).setOnClickListener(v -> {
+        layoutClass.setOnClickListener(v -> {
             if (v.getId() == R.id.layoutClass) {
                 searchViewClass.clearFocus();
             }
         });
 
-        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
-
-        findViewById(R.id.btnAddClass).setOnClickListener(v -> showAddClassDialog());
+        btnBack.setOnClickListener(v -> finish());
 
         searchViewClass.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -96,6 +106,8 @@ public class ClassListActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        btnAddClass.setOnClickListener(v -> showAddClassDialog());
     }
 
     @SuppressLint("InflateParams")
@@ -107,19 +119,19 @@ public class ClassListActivity extends AppCompatActivity {
         behavior.setSkipCollapsed(true);
         bottomSheetDialog.show();
 
-        view.findViewById(R.id.edtMajorName).setOnClickListener(v -> new AlertDialog.Builder(this)
+        view.findViewById(R.id.edtMajor).setOnClickListener(v -> new AlertDialog.Builder(this)
                 .setTitle("Chọn lớp")
                 .setItems(majorNames, (dialog, which) -> {
                     selectedMajor = majors.get(which);
-                    ((EditText) view.findViewById(R.id.edtMajorName)).setText(majorNames[which]);
+                    ((EditText) view.findViewById(R.id.edtMajor)).setText(majorNames[which]);
                 })
                 .show());
 
-        view.findViewById(R.id.edtAcademicYearName).setOnClickListener(v -> new AlertDialog.Builder(this)
+        view.findViewById(R.id.edtAcademicYear).setOnClickListener(v -> new AlertDialog.Builder(this)
                 .setTitle("Chọn ngành")
                 .setItems(academicYearNames, (dialog, which) -> {
                     selectedAcademicYear = academicYears.get(which);
-                    ((EditText) view.findViewById(R.id.edtAcademicYearName)).setText(academicYearNames[which]);
+                    ((EditText) view.findViewById(R.id.edtAcademicYear)).setText(academicYearNames[which]);
                 })
                 .show());
 
@@ -150,8 +162,8 @@ public class ClassListActivity extends AppCompatActivity {
 
     private boolean validateInputs(View view) {
         return validateNotEmpty(view, R.id.edtClassName, "Tên lớp không được để trống")
-                && validateNotEmpty(view, R.id.edtMajorName, "Ngành không được để trống")
-                && validateNotEmpty(view, R.id.edtAcademicYearName, "Năm học không được để trống");
+                && validateNotEmpty(view, R.id.edtMajor, "Ngành không được để trống")
+                && validateNotEmpty(view, R.id.edtAcademicYear, "Năm học không được để trống");
     }
 
     private boolean validateNotEmpty(View view, int viewId, String errorMessage) {

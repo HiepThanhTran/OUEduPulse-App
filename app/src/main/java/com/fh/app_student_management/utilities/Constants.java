@@ -6,9 +6,11 @@ public final class Constants {
     public static final int DATABASE_VERSION = 1;
 
     public static final String PREFS_NAME = "storage";
+    public static final String IS_FIRST_TIME_LAUNCH = "isFirstTimeLaunch";
     public static final String PREF_NOTIFICATION_SWITCH = "notification_switch";
+    public static final String PREF_INSERT_DEFAULT_VALUES = "insertedDefaultValues";
 
-    public static final String USER_ID = "userId";
+    public static final String USER_ID = "userEmail";
     public static final String LECTURER_ID = "lecturerId";
     public static final String STUDENT_ID = "studentId";
     public static final String SEMESTER_ID = "semesterId";

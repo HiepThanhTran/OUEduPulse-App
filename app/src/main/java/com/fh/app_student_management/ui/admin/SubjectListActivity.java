@@ -4,7 +4,10 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,10 +36,14 @@ public class SubjectListActivity extends AppCompatActivity {
     private Major selectedMajor;
     private ArrayList<Major> majors;
     private String[] majorNames;
-
-    private SearchView searchViewSubject;
-    private BottomSheetDialog bottomSheetDialog;
     private SubjectRecycleViewAdapter subjectRecycleViewAdapter;
+
+    private LinearLayout layoutSubject;
+    private ImageView btnBack;
+    private SearchView searchViewSubject;
+    private Button btnAddSubject;
+
+    private BottomSheetDialog bottomSheetDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +55,13 @@ public class SubjectListActivity extends AppCompatActivity {
     }
 
     private void initSubjectListView() {
-        AppDatabase db = AppDatabase.getInstance(this);
+        layoutSubject = findViewById(R.id.layoutSubject);
+        btnBack = findViewById(R.id.btnBack);
         searchViewSubject = findViewById(R.id.searchViewSubject);
+        btnAddSubject = findViewById(R.id.btnAddSubject);
         bottomSheetDialog = new BottomSheetDialog(this);
+
+        AppDatabase db = AppDatabase.getInstance(this);
 
         classes = new ArrayList<>(db.classDAO().getAll());
         classNames = new String[classes.size()];
@@ -64,8 +75,9 @@ public class SubjectListActivity extends AppCompatActivity {
             majorNames[i] = majors.get(i).getName();
         }
 
-        RecyclerView rvSubject = findViewById(R.id.rvSubject);
         ArrayList<SubjectWithRelations> subjects = new ArrayList<>(db.subjectDAO().getAllWithRelations());
+
+        RecyclerView rvSubject = findViewById(R.id.rvSubject);
         subjectRecycleViewAdapter = new SubjectRecycleViewAdapter(this, subjects);
         rvSubject.setLayoutManager(new LinearLayoutManager(this));
         rvSubject.setAdapter(subjectRecycleViewAdapter);
@@ -73,15 +85,13 @@ public class SubjectListActivity extends AppCompatActivity {
 
     @SuppressLint("InflateParams")
     private void handleEventListener() {
-        findViewById(R.id.layoutSubject).setOnClickListener(v -> {
+        layoutSubject.setOnClickListener(v -> {
             if (v.getId() == R.id.layoutSubject) {
                 searchViewSubject.clearFocus();
             }
         });
 
-        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
-
-        findViewById(R.id.btnAddSubject).setOnClickListener(v -> showAddSubjectDialog());
+        btnBack.setOnClickListener(v -> finish());
 
         searchViewSubject.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -96,6 +106,8 @@ public class SubjectListActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        btnAddSubject.setOnClickListener(v -> showAddSubjectDialog());
     }
 
     @SuppressLint("InflateParams")
@@ -107,19 +119,19 @@ public class SubjectListActivity extends AppCompatActivity {
         behavior.setSkipCollapsed(true);
         bottomSheetDialog.show();
 
-        view.findViewById(R.id.edtClassName).setOnClickListener(v -> new AlertDialog.Builder(this)
+        view.findViewById(R.id.edtClass).setOnClickListener(v -> new AlertDialog.Builder(this)
                 .setTitle("Chọn lớp")
                 .setItems(classNames, (dialog, which) -> {
                     selectedClass = classes.get(which);
-                    ((EditText) view.findViewById(R.id.edtClassName)).setText(classNames[which]);
+                    ((EditText) view.findViewById(R.id.edtClass)).setText(classNames[which]);
                 })
                 .show());
 
-        view.findViewById(R.id.edtMajorName).setOnClickListener(v -> new AlertDialog.Builder(this)
+        view.findViewById(R.id.edtMajor).setOnClickListener(v -> new AlertDialog.Builder(this)
                 .setTitle("Chọn ngành")
                 .setItems(majorNames, (dialog, which) -> {
                     selectedMajor = majors.get(which);
-                    ((EditText) view.findViewById(R.id.edtMajorName)).setText(majorNames[which]);
+                    ((EditText) view.findViewById(R.id.edtMajor)).setText(majorNames[which]);
                 })
                 .show());
 
@@ -152,8 +164,8 @@ public class SubjectListActivity extends AppCompatActivity {
     private boolean validateInputs(View view) {
         return validateNotEmpty(view, R.id.edtSubjectName, "Tên môn không được để trống")
                 && validateNotEmpty(view, R.id.edtSubjectCredits, "Số tín chỉ không được để trống")
-                && validateNotEmpty(view, R.id.edtClassName, "Lớp không được để trống")
-                && validateNotEmpty(view, R.id.edtMajorName, "Ngành không được để trống");
+                && validateNotEmpty(view, R.id.edtClass, "Lớp không được để trống")
+                && validateNotEmpty(view, R.id.edtMajor, "Ngành không được để trống");
     }
 
     private boolean validateNotEmpty(View view, int viewId, String errorMessage) {

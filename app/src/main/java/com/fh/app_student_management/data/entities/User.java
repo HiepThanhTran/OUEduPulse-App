@@ -24,16 +24,16 @@ public class User {
 
     @PrimaryKey(autoGenerate = true)
     private long id;
+    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
+    private byte[] avatar;
     @ColumnInfo(name = "full_name")
     private String fullName;
+    private boolean gender;
     @ColumnInfo(name = "date_of_birth")
     private Date dob;
-    private boolean gender;
     private String address;
     private String email;
     private String password;
-    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
-    private byte[] avatar;
     private Constants.Role role;
     @ColumnInfo(name = "faculty_id")
     private Long facultyId;

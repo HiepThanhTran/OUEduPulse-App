@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:fontFamily="@font/opensans_bold"
-            android:text="Học kì 3 - 2024 - 2025"
+            android:text="Học kỳ 3 - 2024 - 2025"
             android:textColor="@color/white"
             android:textSize="20sp" />
 

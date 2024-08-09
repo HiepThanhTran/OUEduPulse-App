@@ -19,19 +19,14 @@ import java.util.Map;
 
 public class BottomNavigationActivity extends AppCompatActivity {
 
+    private Map<String, String> params;
+
     private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_navigation);
-
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        assert bundle != null;
-        long userId = bundle.getLong(Constants.USER_ID, 0);
-        Map<String, String> params = new HashMap<>();
-        params.put(Constants.USER_ID, String.valueOf(userId));
 
         initBottomNavigationView();
         handleEventListener(params);
@@ -40,6 +35,15 @@ public class BottomNavigationActivity extends AppCompatActivity {
     }
 
     private void initBottomNavigationView() {
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+
+        assert bundle != null;
+        long userId = bundle.getLong(Constants.USER_ID, 0);
+
+        params = new HashMap<>();
+        params.put(Constants.USER_ID, String.valueOf(userId));
+
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
     }
 
