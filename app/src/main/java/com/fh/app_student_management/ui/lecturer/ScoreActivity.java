@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fh.app_student_management.R;
-import com.fh.app_student_management.adapters.ScoreRecycleViewAdapter;
+import com.fh.app_student_management.adapters.lecturer.ScoreRecycleViewAdapter;
 import com.fh.app_student_management.data.AppDatabase;
 import com.fh.app_student_management.data.relations.StudentWithScores;
 import com.fh.app_student_management.utilities.Constants;

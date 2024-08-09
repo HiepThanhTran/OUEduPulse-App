@@ -56,11 +56,17 @@ public class HomeFragment extends Fragment {
         window.setStatusBarColor(getResources().getColor(R.color.grey_sub,
                 requireActivity().getTheme()));
 
-        if (Objects.requireNonNull(user.getRole()) == Constants.Role.LECTURER) {
-            Map<String, String> params = new HashMap<>();
-            params.put(Constants.USER_ID, String.valueOf(user.getId()));
+        Map<String, String> params = new HashMap<>();
+        params.put(Constants.USER_ID, String.valueOf(user.getId()));
 
-            loadFragment(LecturerFragment.newInstance(params));
+        switch(user.getRole()) {
+            case ADMIN:
+                loadFragment(AdminFragment.newInstance(params));
+                break;
+            case LECTURER:
+                loadFragment(LecturerFragment.newInstance(params));
+            default:
+                break;
         }
 
         initHomeView(view);

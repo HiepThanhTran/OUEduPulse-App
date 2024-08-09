@@ -15,7 +15,7 @@ import java.util.List;
 @Dao
 public interface SemesterDAO {
 
-    @Query("SELECT * FROM semesters")
+    @Query("SELECT * FROM semesters ORDER BY id DESC")
     List<Semester> getAll();
 
     @Query("SELECT * FROM semesters WHERE id = :id")

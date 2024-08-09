@@ -65,11 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        btnRegister.setOnClickListener(v -> {
-            if (!validateInputs()) return;
-
-            performRegister();
-        });
+        btnRegister.setOnClickListener(v -> performRegister());
 
         txtLogin.setOnClickListener(v -> {
             Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
@@ -79,6 +75,8 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void performRegister() {
+        if (!validateInputs()) return;
+
         User user = new User();
         user.setFullName(edtFullName.getText().toString().trim());
         user.setEmail(edtEmail.getText().toString().trim());
@@ -137,6 +135,7 @@ public class RegisterActivity extends AppCompatActivity {
             showToast("Email không hợp lệ");
             return false;
         }
+
         if (!edtPassword.getText().toString().equals(edtConfirmPassword.getText().toString())) {
             showToast("Mật khẩu không khớp");
             return false;

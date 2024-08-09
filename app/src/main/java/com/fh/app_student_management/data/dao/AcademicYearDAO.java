@@ -14,7 +14,7 @@ import java.util.List;
 @Dao
 public interface AcademicYearDAO {
 
-    @Query("SELECT * FROM academic_years")
+    @Query("SELECT * FROM academic_years ORDER BY id DESC")
     List<AcademicYear> getAll();
 
     @Query("SELECT * FROM academic_years WHERE id = :id")

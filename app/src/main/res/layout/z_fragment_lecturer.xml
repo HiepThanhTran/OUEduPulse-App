@@ -8,9 +8,10 @@
     tools:context=".fragments.LecturerFragment"
     tools:ignore="HardcodedText">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ScrollView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         tools:ignore="UselessParent">
@@ -93,6 +94,6 @@
 
         </GridLayout>
 
-    </LinearLayout>
+    </ScrollView>
 
 </FrameLayout>

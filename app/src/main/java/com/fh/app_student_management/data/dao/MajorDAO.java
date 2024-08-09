@@ -14,7 +14,7 @@ import java.util.List;
 @Dao
 public interface MajorDAO {
 
-    @Query("SELECT * FROM majors")
+    @Query("SELECT * FROM majors ORDER BY id DESC")
     List<Major> getAll();
 
     @Query("SELECT * FROM majors WHERE id = :id")

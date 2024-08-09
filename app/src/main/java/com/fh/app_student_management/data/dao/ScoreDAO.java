@@ -14,7 +14,7 @@ import java.util.List;
 @Dao
 public interface ScoreDAO {
 
-    @Query("SELECT * FROM scores")
+    @Query("SELECT * FROM scores ORDER BY id DESC")
     List<Score> getAll();
 
     @Query("SELECT * FROM scores WHERE id = :id")
@@ -23,7 +23,8 @@ public interface ScoreDAO {
     @Query("SELECT * FROM scores " +
             "WHERE student_id = :studentId " +
             "AND subject_id = :subjectId " +
-            "AND semester_id = :semesterId")
+            "AND semester_id = :semesterId " +
+            "ORDER BY id DESC")
     List<Score> getByStudentId(Long studentId, Long subjectId, Long semesterId);
 
     @Query("SELECT " +

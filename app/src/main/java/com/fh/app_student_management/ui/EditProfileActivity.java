@@ -23,8 +23,8 @@ import com.fh.app_student_management.R;
 import com.fh.app_student_management.data.AppDatabase;
 import com.fh.app_student_management.data.dao.LecturerDAO;
 import com.fh.app_student_management.data.dao.UserDAO;
-import com.fh.app_student_management.data.entities.Lecturer;
 import com.fh.app_student_management.data.entities.User;
+import com.fh.app_student_management.data.relations.LecturerAndUser;
 import com.fh.app_student_management.utilities.Constants;
 import com.fh.app_student_management.utilities.Utils;
 import com.github.dhaval2404.imagepicker.ImagePicker;
@@ -36,17 +36,11 @@ import java.util.Objects;
 public class EditProfileActivity extends AppCompatActivity {
 
     private User user;
-    private Lecturer lecturer;
+    private LecturerAndUser lecturer;
 
     private LinearLayout layoutEditProfile;
     private ImageView avatar, iconCamera, btnBack;
-    private EditText inputEmail;
-    private EditText inputFullName;
-    private TextView inputDob;
-    private EditText inputAddress;
-    private EditText inputSpecialization;
-    private EditText inputDegree;
-    private EditText inputCertificate;
+    private EditText edtEmail, edtFullName, edtDob, edtAddress, edtSpecialization, edtDegree, edtCertificate;
     private RadioGroup radioGroupGender;
     private Button btnSaveProfile;
 
@@ -62,10 +56,14 @@ public class EditProfileActivity extends AppCompatActivity {
         UserDAO userDAO = AppDatabase.getInstance(this).userDAO();
 
         user = userDAO.getById(userId);
-        if (Objects.requireNonNull(user.getRole()) == Constants.Role.LECTURER) {
-            lecturer = AppDatabase.getInstance(this).lecturerDAO().getByUserId(user.getId());
-        } else {
-            lecturer = null;
+
+        switch (user.getRole()) {
+            case ADMIN:
+                lecturer = null;
+                break;
+            case LECTURER:
+                lecturer = AppDatabase.getInstance(this).lecturerDAO().getByUserId(user.getId());
+                break;
         }
 
         initEditProfileView();
@@ -83,32 +81,35 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void initEditProfileView() {
         layoutEditProfile = findViewById(R.id.layoutEditProfile);
-        inputEmail = findViewById(R.id.edtEmail);
+        edtEmail = findViewById(R.id.edtEmail);
         avatar = findViewById(R.id.avatar);
         iconCamera = findViewById(R.id.iconCamera);
         btnBack = findViewById(R.id.btnBack);
-        inputFullName = findViewById(R.id.edtFullName);
-        inputDob = findViewById(R.id.edtDob);
-        inputAddress = findViewById(R.id.edtAddress);
-        inputSpecialization = findViewById(R.id.edtSpecialization);
-        inputDegree = findViewById(R.id.edtDegree);
-        inputCertificate = findViewById(R.id.edtCertificate);
+        edtFullName = findViewById(R.id.edtFullName);
+        edtDob = findViewById(R.id.edtDob);
+        edtAddress = findViewById(R.id.edtAddress);
+        edtSpecialization = findViewById(R.id.edtSpecialization);
+        edtDegree = findViewById(R.id.edtDegree);
+        edtCertificate = findViewById(R.id.edtCertificate);
         radioGroupGender = findViewById(R.id.radioGroupGender);
         btnSaveProfile = findViewById(R.id.btnSaveProfile);
 
-        inputEmail.setText(user.getEmail());
+        edtEmail.setText(user.getEmail());
         avatar.setImageBitmap(Utils.getBitmapFromBytes(user.getAvatar()));
-        inputFullName.setText(user.getFullName());
+        edtFullName.setText(user.getFullName());
 
-        setTextOrHint(inputDob, user.getDob());
-        setTextOrHint(inputAddress, user.getAddress());
+        setTextOrHint(edtDob, user.getDob());
+        setTextOrHint(edtAddress, user.getAddress());
 
-        if (Objects.requireNonNull(user.getRole()) == Constants.Role.LECTURER) {
-            setTextOrHint(inputSpecialization, lecturer.getSpecialization());
-            setTextOrHint(inputDegree, lecturer.getDegree());
-            setTextOrHint(inputCertificate, lecturer.getCertificate());
-        } else {
-            setNonEditableFields();
+        switch (user.getRole()) {
+            case ADMIN:
+                setNonEditableFields();
+                break;
+            case LECTURER:
+                setTextOrHint(edtSpecialization, lecturer.getLecturer().getSpecialization());
+                setTextOrHint(edtDegree, lecturer.getLecturer().getDegree());
+                setTextOrHint(edtCertificate, lecturer.getLecturer().getCertificate());
+                break;
         }
 
         if (user.getGender() == Constants.MALE) {
@@ -121,8 +122,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private void handleEventListener() {
         layoutEditProfile.setOnClickListener(v -> {
             if (v.getId() == R.id.layoutEditProfile) {
-                InputMethodManager inm =
-                        (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager inm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 try {
                     inm.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(), 0);
                 } catch (Exception ex) {
@@ -133,58 +133,52 @@ public class EditProfileActivity extends AppCompatActivity {
 
         btnBack.setOnClickListener(v -> finish());
 
-        iconCamera.setOnClickListener(v -> ImagePicker.with(EditProfileActivity.this)
-                .crop()
-                .compress(1024)
-                .maxResultSize(1080, 1080)
-                .start());
+        iconCamera.setOnClickListener(v -> ImagePicker.with(EditProfileActivity.this).crop().compress(1024).maxResultSize(1080, 1080).start());
 
-        inputDob.setOnClickListener(v -> showDatePickerDialog());
+        edtDob.setOnClickListener(v -> showDatePickerDialog());
 
         btnSaveProfile.setOnClickListener(v -> {
-            if (!validateInputs()) return;
-
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Thông báo");
             builder.setMessage("Lưu thông tin?");
-            builder.setPositiveButton("Có", (dialog, which) -> saveProfile());
+            builder.setPositiveButton("Có", (dialog, which) -> performEditProfile());
             builder.setNegativeButton("Không", (dialog, which) -> dialog.dismiss());
             builder.show();
         });
     }
 
-    private void saveProfile() {
-        performEditProfile();
-
-        Intent resultIntent = new Intent();
-        resultIntent.putExtra(Constants.USER_ID, user.getEmail());
-        setResult(RESULT_OK, resultIntent);
-        finish();
-    }
-
     private void performEditProfile() {
+        if (!validateInputs()) return;
+
         try {
             user.setAvatar(Utils.getBytesFromBitmap(Utils.getBitmapFromView(avatar)));
-            user.setFullName(inputFullName.getText().toString());
+            user.setFullName(edtFullName.getText().toString());
+
             if (radioGroupGender.getCheckedRadioButtonId() == R.id.radioButtonMale) {
                 user.setGender(Constants.MALE);
             } else {
                 user.setGender(Constants.FEMALE);
             }
-            user.setDob(Constants.DATE_FORMAT("dd/MM/yyyy").parse(inputDob.getText().toString()));
-            user.setAddress(inputAddress.getText().toString());
+
+            user.setDob(Utils.formatDate("dd/MM/yyyy").parse(edtDob.getText().toString()));
+            user.setAddress(edtAddress.getText().toString());
 
             if (Objects.requireNonNull(user.getRole()) == Constants.Role.LECTURER) {
-                lecturer.setSpecialization(inputSpecialization.getText().toString());
-                lecturer.setDegree(inputDegree.getText().toString());
-                lecturer.setCertificate(inputCertificate.getText().toString());
+                lecturer.getLecturer().setSpecialization(edtSpecialization.getText().toString());
+                lecturer.getLecturer().setDegree(edtDegree.getText().toString());
+                lecturer.getLecturer().setCertificate(edtCertificate.getText().toString());
 
                 LecturerDAO lecturerDAO = AppDatabase.getInstance(this).lecturerDAO();
-                lecturerDAO.update(lecturer);
+                lecturerDAO.update(lecturer.getLecturer());
             }
 
             UserDAO userDAO = AppDatabase.getInstance(this).userDAO();
             userDAO.update(user);
+
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra(Constants.USER_ID, user.getEmail());
+            setResult(RESULT_OK, resultIntent);
+            finish();
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
@@ -196,41 +190,40 @@ public class EditProfileActivity extends AppCompatActivity {
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                (view, year1, month1, dayOfMonth) -> {
-                    String date = dayOfMonth + "/" + (month1 + 1) + "/" + year1;
-                    inputDob.setText(date);
-                }, year, month, day);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year1, month1, dayOfMonth) -> {
+            String date = dayOfMonth + "/" + (month1 + 1) + "/" + year1;
+            edtDob.setText(date);
+        }, year, month, day);
 
         datePickerDialog.show();
     }
 
     private boolean validateInputs() {
-        if (isEmpty(inputEmail)) {
+        if (isEmpty(edtEmail)) {
             showToast("Email không được để trống");
             return false;
         }
-        if (isEmpty(inputFullName)) {
+        if (isEmpty(edtFullName)) {
             showToast("Họ và tên không được để trống");
             return false;
         }
-        if (isEmpty(inputDob)) {
+        if (isEmpty(edtDob)) {
             showToast("Ngày sinh không được để trống");
             return false;
         }
-        if (isEmpty(inputAddress)) {
+        if (isEmpty(edtAddress)) {
             showToast("Địa chỉ không được để trống");
             return false;
         }
-        if (isEmpty(inputSpecialization)) {
+        if (isEmpty(edtSpecialization)) {
             showToast("Chuyên ngành không được để trống");
             return false;
         }
-        if (isEmpty(inputDegree)) {
+        if (isEmpty(edtDegree)) {
             showToast("Bằng cấp không được để trống");
             return false;
         }
-        if (isEmpty(inputCertificate)) {
+        if (isEmpty(edtCertificate)) {
             showToast("Chứng chỉ không được để trống");
             return false;
         }
@@ -262,16 +255,16 @@ public class EditProfileActivity extends AppCompatActivity {
         if (value == null) {
             editText.setHint("Chưa có");
         } else {
-            editText.setText(Constants.DATE_FORMAT("dd/MM/yyyy").format(user.getDob()));
+            editText.setText(Utils.formatDate("dd/MM/yyyy").format(user.getDob()));
         }
     }
 
     @SuppressLint("SetTextI18n")
     private void setNonEditableFields() {
-        inputSpecialization.setText("Không");
-        inputDegree.setText("Không");
-        inputCertificate.setText("Không");
-        setFieldsNonEditable(inputSpecialization, inputDegree, inputCertificate);
+        edtSpecialization.setText("Không");
+        edtDegree.setText("Không");
+        edtCertificate.setText("Không");
+        setFieldsNonEditable(edtSpecialization, edtDegree, edtCertificate);
     }
 
     @SuppressLint("ResourceAsColor")

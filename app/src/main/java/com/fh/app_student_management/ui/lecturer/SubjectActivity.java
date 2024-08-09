@@ -13,8 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fh.app_student_management.R;
-import com.fh.app_student_management.adapters.SubjectRecycleViewAdapter;
-import com.fh.app_student_management.adapters.entities.SubjectItemRecycleView;
+import com.fh.app_student_management.adapters.lecturer.SubjectRecycleViewAdapter;
 import com.fh.app_student_management.data.AppDatabase;
 import com.fh.app_student_management.data.entities.Semester;
 import com.fh.app_student_management.data.relations.SubjectWithRelations;
@@ -22,7 +21,6 @@ import com.fh.app_student_management.utilities.Constants;
 import com.fh.app_student_management.utilities.Utils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SubjectActivity extends AppCompatActivity {
 
@@ -96,17 +94,7 @@ public class SubjectActivity extends AppCompatActivity {
         });
     }
 
-    private ArrayList<SubjectItemRecycleView> getSubjects() {
-        List<SubjectWithRelations> subjects = db.subjectDAO().getByLecturerAndSemester(userId, semesterId);
-        ArrayList<SubjectItemRecycleView> subjectRecycleViewAdapters = new ArrayList<>();
-
-        for (SubjectWithRelations subject : subjects) {
-            SubjectItemRecycleView subjectItemRecycleView = new SubjectItemRecycleView(
-                    subject.getSubject(), subject.getMajor(), subject.getClazz()
-            );
-            subjectRecycleViewAdapters.add(subjectItemRecycleView);
-        }
-
-        return subjectRecycleViewAdapters;
+    private ArrayList<SubjectWithRelations> getSubjects() {
+        return new ArrayList<>(db.subjectDAO().getByLecturerAndSemester(userId, semesterId));
     }
 }

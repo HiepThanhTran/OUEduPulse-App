@@ -221,23 +221,26 @@
                     android:textSize="18sp" />
 
 
-                <TextView
+                <EditText
                     android:id="@+id/edtDob"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="@drawable/custom_input"
-                    android:clickable="true"
+                    android:clickable="false"
                     android:drawablePadding="12dp"
                     android:ems="10"
-                    android:focusable="true"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
                     android:fontFamily="@font/opensans_bold"
                     android:gravity="center_vertical"
+                    android:hint="Ngày sinh"
                     android:inputType="none"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
                     android:textColor="@color/grey"
                     android:textSize="16sp"
-                    app:drawableStartCompat="@drawable/ic_date_of_birth" />
+                    app:drawableStartCompat="@drawable/ic_date_of_birth"
+                    tools:ignore="Autofill" />
 
             </LinearLayout>
 

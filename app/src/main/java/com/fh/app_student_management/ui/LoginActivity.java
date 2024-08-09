@@ -42,8 +42,10 @@ public class LoginActivity extends AppCompatActivity {
         initLoginView();
 
         // TODO: TEMP
-        edtEmail.setText("lecturer1@gmail.com");
-        edtPassword.setText("user@123");
+//        edtEmail.setText("lecturer1@gmail.com");
+//        edtPassword.setText("user@123");
+        edtEmail.setText("admin@gmail.com");
+        edtPassword.setText("admin@123");
         chkRememberPassword.setChecked(true);
 
         handleEventListener();
@@ -71,11 +73,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        btnLogin.setOnClickListener(v -> {
-            if (!validateInputs()) return;
-
-            performLogin();
-        });
+        btnLogin.setOnClickListener(v -> performLogin());
 
         txtRegister.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
@@ -85,6 +83,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void performLogin() {
+        if (!validateInputs()) return;
+
         UserDAO userDao = AppDatabase.getInstance(this).userDAO();
         User user = userDao.getByEmail(edtEmail.getText().toString().trim());
 

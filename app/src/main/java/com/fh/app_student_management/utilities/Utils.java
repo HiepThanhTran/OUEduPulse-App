@@ -5,13 +5,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.view.View;
+import android.widget.Toast;
 
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.ByteArrayOutputStream;
 import java.text.Normalizer;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 public final class Utils {
@@ -60,14 +63,32 @@ public final class Utils {
         return pattern.matcher(normalized).replaceAll("");
     }
 
-    public static boolean equalsIgnoreVietnameseAccent(String str1, String str2) {
-        if (str1 == null || str2 == null) return false;
-        return removeVietnameseAccents(str1).equalsIgnoreCase(removeVietnameseAccents(str2));
-    }
-
     public static int getYearFromDate(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return calendar.get(Calendar.YEAR);
+    }
+
+    public static SimpleDateFormat formatDate(String pattern) {
+        return new SimpleDateFormat(pattern, Locale.getDefault());
+    }
+
+    public static void showToast(Context context, String message) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public static String getRoleName(Constants.Role role) {
+        if (role == null) {
+            return "Không có";
+        }
+
+        switch (role) {
+            case ADMIN:
+                return "Quản trị viên";
+            case LECTURER:
+                return "Giảng viên";
+            default:
+                return "Sinh viên";
+        }
     }
 }

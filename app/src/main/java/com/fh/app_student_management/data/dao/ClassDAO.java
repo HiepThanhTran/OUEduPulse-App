@@ -13,7 +13,7 @@ import java.util.List;
 @Dao
 public interface ClassDAO {
 
-    @Query("SELECT * FROM classes")
+    @Query("SELECT * FROM classes ORDER BY id DESC")
     List<Class> getAll();
 
     @Query("SELECT * FROM classes WHERE id = :id")

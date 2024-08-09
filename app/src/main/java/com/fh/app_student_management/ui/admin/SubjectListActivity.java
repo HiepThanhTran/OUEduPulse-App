@@ -10,14 +10,16 @@ import android.widget.FrameLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fh.app_student_management.R;
+import com.fh.app_student_management.adapters.admin.LecturerRecycleViewAdapter;
+import com.fh.app_student_management.adapters.admin.SubjectRecycleViewAdapter;
+import com.fh.app_student_management.data.AppDatabase;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 public class SubjectListActivity extends AppCompatActivity {
 
-    private Button btnAddSubject;
-    private Button btnEditSubject;
-    private Button btnDeleteSubject;
+    private BottomSheetDialog bottomSheetDialog;
+    private SubjectRecycleViewAdapter subjectRecycleViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,45 +31,12 @@ public class SubjectListActivity extends AppCompatActivity {
     }
 
     private void initSubjectListView() {
-        btnAddSubject = findViewById(R.id.btnAddSubject);
-        btnEditSubject = findViewById(R.id.btnEditSubject);
-        btnDeleteSubject = findViewById(R.id.btnDeleteSubject);
+        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
+        bottomSheetDialog = new BottomSheetDialog(this);
+        AppDatabase db = AppDatabase.getInstance(this);
     }
 
     @SuppressLint("InflateParams")
     private void handleEventListener() {
-        btnAddSubject.setOnClickListener(v -> {
-            BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
-            View view1 = LayoutInflater.from(this).inflate(R.layout.admin_bottom_sheet_add_subject, null);
-            bottomSheetDialog.setContentView(view1);
-
-            FrameLayout bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
-            assert bottomSheet != null;
-            BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
-
-            behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            behavior.setSkipCollapsed(true);
-
-            bottomSheetDialog.show();
-        });
-
-        btnEditSubject.setOnClickListener(v -> {
-            BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
-            View view1 = LayoutInflater.from(this).inflate(R.layout.admin_bottom_sheet_edit_subject, null);
-            bottomSheetDialog.setContentView(view1);
-
-            FrameLayout bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
-            assert bottomSheet != null;
-            BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
-
-            behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            behavior.setSkipCollapsed(true);
-
-            bottomSheetDialog.show();
-        });
-
-        btnDeleteSubject.setOnClickListener(v -> {
-
-        });
     }
 }

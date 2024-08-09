@@ -3,8 +3,6 @@ package com.fh.app_student_management.ui.lecturer;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,10 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.fh.app_student_management.R;
 import com.fh.app_student_management.data.AppDatabase;
 import com.fh.app_student_management.data.entities.Semester;
-import com.fh.app_student_management.data.entities.Subject;
 import com.fh.app_student_management.data.relations.ScoreDistribution;
 import com.fh.app_student_management.data.relations.SubjectWithRelations;
 import com.fh.app_student_management.utilities.Constants;
+import com.fh.app_student_management.utilities.Utils;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -71,14 +69,9 @@ public class StatisticalScoreActivity extends AppCompatActivity {
         inputSubject = findViewById(R.id.inputSubject);
         txtSemesterName = findViewById(R.id.txtSemesterName);
         txtSubjectName = findViewById(R.id.txtSubjectName);
-
         chart = findViewById(R.id.chart);
 
         entries = new ArrayList<>();
-        entries.add(new PieEntry(1, "Xuất sắc"));
-        entries.add(new PieEntry(1, "Giỏi"));
-        entries.add(new PieEntry(1, "Khá"));
-        entries.add(new PieEntry(1, "Trung bình"));
 
         pieDataSet = new PieDataSet(entries, "Student Grades Distribution");
         pieDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
@@ -110,12 +103,13 @@ public class StatisticalScoreActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("SetTextI18n")
     private void showSemesterDialog() {
         List<Semester> semesters = db.semesterDAO().getAll();
         String[] semestersName = new String[semesters.size()];
         for (int i = 0; i < semesters.size(); i++) {
-            String startDate = Constants.DATE_FORMAT("MM/yyyy").format(semesters.get(i).getStartDate());
-            String endDate = Constants.DATE_FORMAT("MM/yyyy").format(semesters.get(i).getEndDate());
+            String startDate = Utils.formatDate("MM/yyyy").format(semesters.get(i).getStartDate());
+            String endDate = Utils.formatDate("MM/yyyy").format(semesters.get(i).getEndDate());
             String semesterName = String.format("%s (%s - %s)", semesters.get(i).getName(), startDate, endDate);
             semestersName[i] = semesterName;
         }
@@ -125,6 +119,14 @@ public class StatisticalScoreActivity extends AppCompatActivity {
         builder.setItems(semestersName, (dialog, which) -> {
             semesterId = semesters.get(which).getId();
             inputSemester.setText(semestersName[which]);
+            inputSubject.setText("");
+            txtSemesterName.setText("");
+            txtSubjectName.setText("");
+
+            pieDataSet.setValues(new ArrayList<>());
+            pieData.notifyDataChanged();
+            chart.notifyDataSetChanged();
+            chart.invalidate();
         });
         builder.show();
     }

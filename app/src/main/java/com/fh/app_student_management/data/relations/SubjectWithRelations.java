@@ -11,10 +11,10 @@ public class SubjectWithRelations {
 
     @Embedded
     private Subject subject;
-    @Relation(parentColumn = "major_id", entityColumn = "id")
-    private Major major;
     @Relation(parentColumn = "class_id", entityColumn = "id")
     private Class clazz;
+    @Relation(parentColumn = "major_id", entityColumn = "id")
+    private Major major;
 
     public Subject getSubject() {
         return subject;
@@ -24,19 +24,19 @@ public class SubjectWithRelations {
         this.subject = subject;
     }
 
-    public Major getMajor() {
-        return major;
-    }
-
-    public void setMajor(Major major) {
-        this.major = major;
-    }
-
     public Class getClazz() {
         return clazz;
     }
 
     public void setClazz(Class clazz) {
         this.clazz = clazz;
+    }
+
+    public Major getMajor() {
+        return major;
+    }
+
+    public void setMajor(Major major) {
+        this.major = major;
     }
 }

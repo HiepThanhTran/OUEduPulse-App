@@ -1,4 +1,4 @@
-package com.fh.app_student_management.adapters;
+package com.fh.app_student_management.adapters.lecturer;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -68,6 +68,7 @@ public class ScoreRecycleViewAdapter extends RecyclerView.Adapter<ScoreRecycleVi
         holder.setItemClickListener((view, position1, isLongClick) -> {
             View view1 = LayoutInflater.from(context).inflate(R.layout.lecturer_bottom_sheet_add_score, null);
             BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);
+
             TextView edtStudentId = view1.findViewById(R.id.edtStudentId);
             TextView edtStudentName = view1.findViewById(R.id.edtStudentName);
             TextView edtSubjectName = view1.findViewById(R.id.edtSubjectName);

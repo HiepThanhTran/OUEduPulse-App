@@ -26,7 +26,7 @@
             android:layout_marginTop="20dp"
             android:scaleType="centerCrop"
             app:shapeAppearanceOverlay="@style/CircleImageStyle"
-            app:srcCompat="@drawable/avatar" />
+            app:srcCompat="@drawable/default_avatar" />
 
         <ImageView
             android:id="@+id/iconCamera"
@@ -76,17 +76,21 @@
                     android:id="@+id/edtEmail"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:autofillHints="name"
+                    android:layout_marginBottom="20dp"
+                    android:autofillHints="emailAddress"
                     android:background="@drawable/custom_input"
-                    android:drawableStart="@drawable/ic_email"
+                    android:clickable="false"
+                    android:drawableStart="@drawable/ic_email_edit_profile"
                     android:drawablePadding="12dp"
                     android:ems="10"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
                     android:fontFamily="@font/opensans_bold"
+                    android:hint="Email"
                     android:inputType="textEmailAddress"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
-                    android:text="Trần Thị Hương"
-                    android:textColor="@color/grey"
+                    android:textColor="#C0C0C0"
                     android:textSize="16sp"
                     tools:ignore="LabelFor" />
 
@@ -118,10 +122,10 @@
                     android:drawablePadding="12dp"
                     android:ems="10"
                     android:fontFamily="@font/opensans_bold"
+                    android:hint="Họ và tên"
                     android:inputType="textMultiLine"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
-                    android:text="Trần Thị Hương"
                     android:textColor="@color/grey"
                     android:textSize="16sp"
                     tools:ignore="LabelFor" />
@@ -198,24 +202,26 @@
                     android:textColor="@color/white"
                     android:textSize="18sp" />
 
-                <TextView
+                <EditText
                     android:id="@+id/edtDob"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="@drawable/custom_input"
-                    android:clickable="true"
+                    android:clickable="false"
                     android:drawablePadding="12dp"
                     android:ems="10"
-                    android:focusable="true"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
                     android:fontFamily="@font/opensans_bold"
                     android:gravity="center_vertical"
+                    android:hint="Ngày sinh"
                     android:inputType="none"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
-                    android:text="20/10/1999"
                     android:textColor="@color/grey"
                     android:textSize="16sp"
-                    app:drawableStartCompat="@drawable/ic_date_of_birth" />
+                    app:drawableStartCompat="@drawable/ic_date_of_birth"
+                    tools:ignore="Autofill" />
 
             </LinearLayout>
 
@@ -245,10 +251,10 @@
                     android:drawablePadding="12dp"
                     android:ems="10"
                     android:fontFamily="@font/opensans_bold"
+                    android:hint="Địa chỉ"
                     android:inputType="textMultiLine"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
-                    android:text="Gò Vấp Hồ Chí Minh"
                     android:textColor="@color/grey"
                     android:textSize="16sp"
                     tools:ignore="Autofill,LabelFor" />
@@ -280,10 +286,10 @@
                     android:drawablePadding="12dp"
                     android:ems="10"
                     android:fontFamily="@font/opensans_bold"
+                    android:hint="Chuyên ngành giảng dạy"
                     android:inputType="textMultiLine"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
-                    android:text="Khoa học máy tính"
                     android:textColor="@color/grey"
                     android:textSize="16sp"
                     tools:ignore="Autofill,LabelFor" />
@@ -315,10 +321,10 @@
                     android:drawablePadding="12dp"
                     android:ems="10"
                     android:fontFamily="@font/opensans_bold"
+                    android:hint="Bằng cấp"
                     android:inputType="textMultiLine"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
-                    android:text="Thạc sĩ"
                     android:textColor="@color/grey"
                     android:textSize="16sp"
                     tools:ignore="Autofill,LabelFor" />
@@ -350,10 +356,10 @@
                     android:drawablePadding="12dp"
                     android:ems="10"
                     android:fontFamily="@font/opensans_bold"
+                    android:hint="Chứng chỉ"
                     android:inputType="textMultiLine"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
-                    android:text="Thạc sĩ Khoa học MSc"
                     android:textColor="@color/grey"
                     android:textSize="16sp"
                     tools:ignore="Autofill,LabelFor" />
@@ -376,22 +382,23 @@
                     android:textColor="@color/white"
                     android:textSize="18sp" />
 
-
-                <EditText
-                    android:id="@+id/edtRole"
+                <TextView
+                    android:id="@+id/txtRole"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="@drawable/custom_input"
-                    android:drawableStart="@drawable/ic_role"
+                    android:clickable="true"
                     android:drawablePadding="12dp"
                     android:ems="10"
+                    android:focusable="true"
                     android:fontFamily="@font/opensans_bold"
-                    android:inputType="textMultiLine"
+                    android:gravity="center_vertical"
+                    android:hint="Vai trò"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
-                    android:text="Giảng viên"
                     android:textColor="@color/grey"
                     android:textSize="16sp"
+                    app:drawableStartCompat="@drawable/ic_role"
                     tools:ignore="Autofill,LabelFor" />
 
             </LinearLayout>

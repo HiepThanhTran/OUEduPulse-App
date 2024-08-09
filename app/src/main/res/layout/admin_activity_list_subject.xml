@@ -32,12 +32,11 @@
                 android:src="@drawable/ic_back" />
 
             <TextView
-                android:id="@+id/txtClassName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:fontFamily="@font/opensans_bold"
-                android:text="Lập trình di động"
+                android:text="Quản lý môn học"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
 

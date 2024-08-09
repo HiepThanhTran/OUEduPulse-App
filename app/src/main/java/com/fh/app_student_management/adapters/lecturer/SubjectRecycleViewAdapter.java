@@ -1,4 +1,4 @@
-package com.fh.app_student_management.adapters;
+package com.fh.app_student_management.adapters.lecturer;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -15,8 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fh.app_student_management.R;
-import com.fh.app_student_management.adapters.entities.SubjectItemRecycleView;
 import com.fh.app_student_management.adapters.listener.ItemClickListener;
+import com.fh.app_student_management.data.relations.SubjectWithRelations;
 import com.fh.app_student_management.ui.lecturer.ScoreActivity;
 import com.fh.app_student_management.utilities.Constants;
 import com.fh.app_student_management.utilities.Utils;
@@ -28,10 +28,10 @@ public class SubjectRecycleViewAdapter extends RecyclerView.Adapter<SubjectRecyc
 
     private final Context context;
     private final Intent intent;
-    private final ArrayList<SubjectItemRecycleView> originalList;
-    private ArrayList<SubjectItemRecycleView> filteredList;
+    private final ArrayList<SubjectWithRelations> originalList;
+    private ArrayList<SubjectWithRelations> filteredList;
 
-    public SubjectRecycleViewAdapter(Context context, Intent intent, ArrayList<SubjectItemRecycleView> subjects) {
+    public SubjectRecycleViewAdapter(Context context, Intent intent, ArrayList<SubjectWithRelations> subjects) {
         this.context = context;
         this.intent = intent;
         this.originalList = subjects;
@@ -48,11 +48,11 @@ public class SubjectRecycleViewAdapter extends RecyclerView.Adapter<SubjectRecyc
 
     @Override
     public void onBindViewHolder(@NonNull SubjectViewHolder holder, int position) {
-        SubjectItemRecycleView subjectItemRecycleView = filteredList.get(position);
-        holder.txtSubjectName.setText(subjectItemRecycleView.getSubject().getName());
-        holder.txtClassName.setText(subjectItemRecycleView.getClazz().getName());
-        holder.txtMajorName.setText(subjectItemRecycleView.getMajor().getName());
-        holder.txtCredits.setText(String.valueOf(subjectItemRecycleView.getSubject().getCredits()));
+        SubjectWithRelations subjectWithRelations = filteredList.get(position);
+        holder.txtSubjectName.setText(subjectWithRelations.getSubject().getName());
+        holder.txtClassName.setText(subjectWithRelations.getClazz().getName());
+        holder.txtMajorName.setText(subjectWithRelations.getMajor().getName());
+        holder.txtCredits.setText(String.valueOf(subjectWithRelations.getSubject().getCredits()));
 
         holder.setItemClickListener((view, position1, isLongClick) -> {
             Bundle bundle = intent.getExtras();
@@ -83,12 +83,12 @@ public class SubjectRecycleViewAdapter extends RecyclerView.Adapter<SubjectRecyc
                 if (query.isEmpty()) {
                     filteredList = originalList;
                 } else {
-                    ArrayList<SubjectItemRecycleView> filtered = new ArrayList<>();
-                    for (SubjectItemRecycleView itemRecycleView : originalList) {
-                        String subjectName = Utils.removeVietnameseAccents(itemRecycleView.getSubject().getName().toLowerCase(Locale.getDefault()));
+                    ArrayList<SubjectWithRelations> filtered = new ArrayList<>();
+                    for (SubjectWithRelations subjectWithRelations : originalList) {
+                        String subjectName = Utils.removeVietnameseAccents(subjectWithRelations.getSubject().getName().toLowerCase(Locale.getDefault()));
 
                         if (subjectName.contains(query)) {
-                            filtered.add(itemRecycleView);
+                            filtered.add(subjectWithRelations);
                         }
                     }
                     filteredList = filtered;
@@ -104,7 +104,7 @@ public class SubjectRecycleViewAdapter extends RecyclerView.Adapter<SubjectRecyc
             @SuppressWarnings("unchecked")
             @SuppressLint("NotifyDataSetChanged")
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                filteredList = (ArrayList<SubjectItemRecycleView>) filterResults.values;
+                filteredList = (ArrayList<SubjectWithRelations>) filterResults.values;
                 notifyDataSetChanged();
             }
         };

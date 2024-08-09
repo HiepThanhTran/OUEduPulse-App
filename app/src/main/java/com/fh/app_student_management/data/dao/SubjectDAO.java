@@ -14,10 +14,10 @@ import java.util.List;
 @Dao
 public interface SubjectDAO {
 
-    @Query("SELECT * FROM subjects")
+    @Query("SELECT * FROM subjects ORDER BY id DESC")
     List<Subject> getAll();
 
-    @Query("SELECT * FROM subjects")
+    @Query("SELECT * FROM subjects ORDER BY id DESC")
     List<SubjectWithRelations> getAllWithRelations();
 
     @Query("SELECT * FROM subjects WHERE id = :id")
@@ -28,7 +28,8 @@ public interface SubjectDAO {
             "JOIN subject_semester_cross_ref ssr ON s.id = ssr.subject_id " +
             "JOIN lecturers l ON lsr.lecturer_id = l.id " +
             "JOIN users u ON l.user_id = u.id " +
-            "WHERE ssr.semester_id = :semesterId AND u.id = :userId")
+            "WHERE ssr.semester_id = :semesterId AND u.id = :userId " +
+            "ORDER BY id DESC")
     List<SubjectWithRelations> getByLecturerAndSemester(long userId, long semesterId);
 
     @Insert

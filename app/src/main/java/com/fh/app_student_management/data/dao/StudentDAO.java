@@ -14,7 +14,7 @@ import java.util.List;
 @Dao
 public interface StudentDAO {
 
-    @Query("SELECT * FROM students")
+    @Query("SELECT * FROM students ORDER BY id DESC")
     List<Student> getAll();
 
     @Query("SELECT * FROM students WHERE id = :id")
@@ -48,7 +48,8 @@ public interface StudentDAO {
             "    FROM scores " +
             "    WHERE type = 'TB' " +
             ") tb ON s.id = tb.student_id AND ssr.subject_id = tb.subject_id " +
-            "WHERE ssr.subject_id = :subjectId AND ssc.semester_id = :semesterId; ")
+            "WHERE ssr.subject_id = :subjectId AND ssc.semester_id = :semesterId " +
+            "ORDER BY studentId DESC")
     List<StudentWithScores> getByClassAndSemester(long subjectId, long semesterId);
 
     @Insert

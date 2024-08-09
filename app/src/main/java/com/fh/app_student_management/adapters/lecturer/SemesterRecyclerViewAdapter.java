@@ -1,4 +1,4 @@
-package com.fh.app_student_management.adapters;
+package com.fh.app_student_management.adapters.lecturer;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -49,8 +49,8 @@ public class SemesterRecyclerViewAdapter extends RecyclerView.Adapter<SemesterRe
     @Override
     public void onBindViewHolder(@NonNull SemesterViewHolder holder, int position) {
         Semester semester = filteredList.get(position);
-        String startDate = Constants.DATE_FORMAT("MM/yyyy").format(semester.getStartDate());
-        String endDate = Constants.DATE_FORMAT("MM/yyyy").format(semester.getEndDate());
+        String startDate = Utils.formatDate("MM/yyyy").format(semester.getStartDate());
+        String endDate = Utils.formatDate("MM/yyyy").format(semester.getEndDate());
         String semesterName = String.format("%s (%s - %s)", semester.getName(), startDate, endDate);
         holder.txtSemesterName.setText(semesterName);
 
@@ -85,8 +85,8 @@ public class SemesterRecyclerViewAdapter extends RecyclerView.Adapter<SemesterRe
                 } else {
                     ArrayList<Semester> filtered = new ArrayList<>();
                     for (Semester semester : originalList) {
-                        String startDate = Constants.DATE_FORMAT("MM/yyyy").format(semester.getStartDate());
-                        String endDate = Constants.DATE_FORMAT("MM/yyyy").format(semester.getEndDate());
+                        String startDate = Utils.formatDate("MM/yyyy").format(semester.getStartDate());
+                        String endDate = Utils.formatDate("MM/yyyy").format(semester.getEndDate());
                         String semesterName = String.format("%s (%s - %s)", semester.getName(), startDate, endDate);
                         String semesterNameFilter = Utils.removeVietnameseAccents(semesterName.toLowerCase(Locale.getDefault()));
 
