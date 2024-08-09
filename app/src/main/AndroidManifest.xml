@@ -11,6 +11,9 @@
         android:theme="@style/Theme.AppStudentManagement"
         tools:targetApi="31">
         <activity
+            android:name=".ui.admin.CreateClassActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.admin.StatisticalLecturerActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
