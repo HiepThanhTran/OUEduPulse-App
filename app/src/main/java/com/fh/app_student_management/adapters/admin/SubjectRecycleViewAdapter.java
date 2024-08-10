@@ -30,8 +30,8 @@ import java.util.Locale;
 public class SubjectRecycleViewAdapter extends RecyclerView.Adapter<SubjectRecycleViewAdapter.SubjectViewHolder> implements Filterable {
 
     private final Context context;
-    private final ArrayList<SubjectWithRelations> originalList;
     private final AppDatabase db;
+    private final ArrayList<SubjectWithRelations> originalList;
     private final BottomSheetDialog bottomSheetDialog;
     private final ArrayList<Class> classes;
     private final String[] classNames;
@@ -162,6 +162,7 @@ public class SubjectRecycleViewAdapter extends RecyclerView.Adapter<SubjectRecyc
         behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         behavior.setSkipCollapsed(true);
         behavior.setDraggable(false);
+        behavior.setHideable(true);
 
         selectedClass = subjectWithRelations.getClazz();
         selectedMajor = subjectWithRelations.getMajor();

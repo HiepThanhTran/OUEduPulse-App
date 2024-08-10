@@ -164,11 +164,12 @@ public class ClassRecycleViewAdapter extends RecyclerView.Adapter<ClassRecycleVi
         behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         behavior.setSkipCollapsed(true);
         behavior.setDraggable(false);
+        behavior.setHideable(true);
 
         selectedMajor = classWithRelations.getMajor();
         selectedAcademicYear = classWithRelations.getAcademicYear();
 
-        EditText edtClassName = view.findViewById(R.id.edtClass);
+        EditText edtClassName = view.findViewById(R.id.edtClassName);
         EditText edtMajorName = view.findViewById(R.id.edtMajor);
         EditText edtAcademicYearName = view.findViewById(R.id.edtAcademicYear);
         Button btnEdit = view.findViewById(R.id.btnEditClass);

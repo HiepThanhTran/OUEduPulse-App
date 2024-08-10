@@ -7,6 +7,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.fh.app_student_management.data.entities.User;
+import com.fh.app_student_management.utilities.Constants;
 
 import java.util.List;
 
@@ -21,6 +22,9 @@ public interface UserDAO {
 
     @Query("SELECT * FROM users WHERE email = :email")
     User getByEmail(String email);
+
+    @Query("SELECT * FROM users WHERE role = :role")
+    List<User> getByRole(Constants.Role role);
 
     @Insert
     Long insert(User user);

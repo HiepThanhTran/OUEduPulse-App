@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fh.app_student_management.R;
-import com.fh.app_student_management.adapters.lecturer.SemesterRecyclerViewAdapter;
+import com.fh.app_student_management.adapters.SemesterRecyclerViewAdapter;
 import com.fh.app_student_management.data.AppDatabase;
 import com.fh.app_student_management.data.entities.Semester;
 

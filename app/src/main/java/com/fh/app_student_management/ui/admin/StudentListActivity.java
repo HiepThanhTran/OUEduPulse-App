@@ -279,6 +279,7 @@ public class StudentListActivity extends AppCompatActivity {
         behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         behavior.setSkipCollapsed(true);
         behavior.setDraggable(false);
+        behavior.setHideable(true);
         bottomSheetDialog.show();
 
         view.findViewById(R.id.iconCamera).setOnClickListener(v -> ImagePicker.with(this)
@@ -291,7 +292,7 @@ public class StudentListActivity extends AppCompatActivity {
 
         view.findViewById(R.id.edtMajor).setOnClickListener(v -> new AlertDialog.Builder(this)
                 .setTitle("Chọn lớp")
-                .setItems(new CharSequence[]{(CharSequence) majorNames}, (dialog, which) -> {
+                .setItems(majorNames.toArray(new CharSequence[0]), (dialog, which) -> {
                     selectedMajorId = majors.get(which - 1).getId();
                     ((EditText) view.findViewById(R.id.edtMajor)).setText(majorNames.get(which));
                 })
@@ -299,7 +300,7 @@ public class StudentListActivity extends AppCompatActivity {
 
         view.findViewById(R.id.edtClass).setOnClickListener(v -> new AlertDialog.Builder(this)
                 .setTitle("Chọn ngành")
-                .setItems(new CharSequence[]{(CharSequence) classNames}, (dialog, which) -> {
+                .setItems(classNames.toArray(new CharSequence[0]), (dialog, which) -> {
                     selectedClassId = classes.get(which - 1).getId();
                     ((EditText) view.findViewById(R.id.edtClass)).setText(classNames.get(which));
                 })
@@ -307,7 +308,7 @@ public class StudentListActivity extends AppCompatActivity {
 
         view.findViewById(R.id.edtAcademicYear).setOnClickListener(v -> new AlertDialog.Builder(this)
                 .setTitle("Chọn năm học")
-                .setItems(new CharSequence[]{(CharSequence) academicYearNames}, (dialog, which) -> {
+                .setItems(academicYearNames.toArray(new CharSequence[0]), (dialog, which) -> {
                     selectedAcademicYearId = academicYears.get(which - 1).getId();
                     ((EditText) view.findViewById(R.id.edtAcademicYear)).setText(academicYearNames.get(which));
                 })
@@ -315,7 +316,7 @@ public class StudentListActivity extends AppCompatActivity {
 
         view.findViewById(R.id.btnAddStudent).setOnClickListener(v -> new AlertDialog.Builder(this)
                 .setTitle("Thông báo")
-                .setMessage("Thêm giảng viên mới?")
+                .setMessage("Thêm sinh viên mới?")
                 .setPositiveButton("Có", (dialog, which) -> performAddStudent(view))
                 .setNegativeButton("Không", null)
                 .show());

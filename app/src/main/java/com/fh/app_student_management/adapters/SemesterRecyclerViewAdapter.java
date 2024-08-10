@@ -1,4 +1,4 @@
-package com.fh.app_student_management.adapters.lecturer;
+package com.fh.app_student_management.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

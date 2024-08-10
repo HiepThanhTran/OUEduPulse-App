@@ -122,6 +122,7 @@ public class LecturerListActivity extends AppCompatActivity {
         behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         behavior.setSkipCollapsed(true);
         behavior.setDraggable(false);
+        behavior.setHideable(true);
         bottomSheetDialog.show();
 
         view.findViewById(R.id.iconCamera).setOnClickListener(v -> ImagePicker.with(this)

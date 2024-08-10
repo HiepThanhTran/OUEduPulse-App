@@ -173,6 +173,7 @@ public class LecturerRecycleViewAdapter extends RecyclerView.Adapter<LecturerRec
         behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         behavior.setSkipCollapsed(true);
         behavior.setDraggable(false);
+        behavior.setHideable(true);
 
         ImageView iconCamera = view.findViewById(R.id.iconCamera);
         ImageView avatar = view.findViewById(R.id.avatar);
@@ -239,14 +240,6 @@ public class LecturerRecycleViewAdapter extends RecyclerView.Adapter<LecturerRec
         bottomSheetDialog.show();
     }
 
-    private void showDatePickerDialog(View view) {
-        Calendar calendar = Calendar.getInstance();
-        new DatePickerDialog(context, (v, year, month, day) -> {
-            String date = day + "/" + (month + 1) + "/" + year;
-            ((TextView) view).setText(date);
-        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
-    }
-
     private void performEditLecturer(LecturerAndUser lecturerAndUser, View view) {
         if (!validateInputs(view)) return;
 
@@ -270,11 +263,8 @@ public class LecturerRecycleViewAdapter extends RecyclerView.Adapter<LecturerRec
             lecturerAndUser.getLecturer().setDegree(edtDegree.getText().toString());
             lecturerAndUser.getLecturer().setCertificate(edtCertificate.getText().toString());
 
-            if (radioGroupGender.getCheckedRadioButtonId() == R.id.radioButtonMale) {
-                lecturerAndUser.getUser().setGender(Constants.MALE);
-            } else {
-                lecturerAndUser.getUser().setGender(Constants.FEMALE);
-            }
+            int genderId = radioGroupGender.getCheckedRadioButtonId();
+            lecturerAndUser.getUser().setGender(genderId == R.id.radioButtonMale ? Constants.MALE : Constants.FEMALE);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
@@ -282,6 +272,14 @@ public class LecturerRecycleViewAdapter extends RecyclerView.Adapter<LecturerRec
         editLecturer(originalList.indexOf(lecturerAndUser));
         bottomSheetDialog.dismiss();
         Utils.showToast(context, "Sửa thành công");
+    }
+
+    private void showDatePickerDialog(View view) {
+        Calendar calendar = Calendar.getInstance();
+        new DatePickerDialog(context, (v, year, month, day) -> {
+            String date = day + "/" + (month + 1) + "/" + year;
+            ((TextView) view).setText(date);
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
     private boolean validateInputs(View view) {

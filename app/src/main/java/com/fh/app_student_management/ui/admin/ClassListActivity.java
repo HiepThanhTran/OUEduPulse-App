@@ -117,6 +117,8 @@ public class ClassListActivity extends AppCompatActivity {
         BottomSheetBehavior<View> behavior = BottomSheetBehavior.from((View) view.getParent());
         behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         behavior.setSkipCollapsed(true);
+        behavior.setDraggable(false);
+        behavior.setHideable(true);
         bottomSheetDialog.show();
 
         view.findViewById(R.id.edtMajor).setOnClickListener(v -> new AlertDialog.Builder(this)
