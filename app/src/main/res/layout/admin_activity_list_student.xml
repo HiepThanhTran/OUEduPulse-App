@@ -48,143 +48,19 @@
         app:queryHint="Nhập tên sinh viên..."
         app:searchIcon="@drawable/ic_search" />
 
-    <LinearLayout
-        android:id="@+id/choose"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/searchViewStudent"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/subjectContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:fontFamily="@font/opensans_bold"
-                android:text="Học kỳ"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-
-            <EditText
-                android:id="@+id/edtSemester"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="@drawable/custom_input"
-                android:clickable="false"
-                android:drawableStart="@drawable/ic_clock"
-                android:drawablePadding="12dp"
-                android:ems="10"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:fontFamily="@font/opensans_bold"
-                android:hint="--- Chọn học kỳ ---"
-                android:inputType="none"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:textColor="@color/grey"
-                android:textSize="16sp"
-                tools:ignore="Autofill,LabelFor" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:fontFamily="@font/opensans_bold"
-                android:text="Lớp"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-
-            <EditText
-                android:id="@+id/edtClass"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="@drawable/custom_input"
-                android:clickable="false"
-                android:drawableStart="@drawable/ic_class"
-                android:drawablePadding="12dp"
-                android:ems="10"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:fontFamily="@font/opensans_bold"
-                android:hint="--- Chọn lớp ---"
-                android:inputType="none"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:textColor="@color/grey"
-                android:textSize="16sp"
-                tools:ignore="Autofill,LabelFor" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:fontFamily="@font/opensans_bold"
-                android:text="Môn"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-
-            <EditText
-                android:id="@+id/edtSubject"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="@drawable/custom_input"
-                android:clickable="false"
-                android:drawableStart="@drawable/ic_books"
-                android:drawablePadding="12dp"
-                android:ems="10"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:fontFamily="@font/opensans_bold"
-                android:hint="--- Chọn môn học ---"
-                android:inputType="none"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:textColor="@color/grey"
-                android:textSize="16sp"
-                tools:ignore="Autofill,LabelFor" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
     <RelativeLayout
         android:id="@+id/center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/choose">
+        android:layout_below="@id/searchViewStudent">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnAddStudent"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/round_button_edit"
             android:backgroundTint="@color/primaryColor"
@@ -196,6 +72,15 @@
             android:textColor="@color/white"
             android:textSize="16sp" />
 
+        <ImageView
+            android:id="@+id/btnFilter"
+            android:layout_marginEnd="16dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_filter"
+            />
     </RelativeLayout>
 
     <TableLayout
