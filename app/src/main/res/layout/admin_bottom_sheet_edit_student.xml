@@ -84,6 +84,7 @@
                     android:drawableStart="@drawable/ic_email_edit_profile"
                     android:drawablePadding="12dp"
                     android:ems="10"
+                    android:enabled="false"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:fontFamily="@font/opensans_bold"

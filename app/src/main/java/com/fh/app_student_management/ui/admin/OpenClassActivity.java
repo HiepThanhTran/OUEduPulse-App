@@ -102,7 +102,7 @@ public class OpenClassActivity extends AppCompatActivity {
         edtLecturer.setOnClickListener(v -> new AlertDialog.Builder(this)
                 .setTitle("Chọn giảng viên")
                 .setItems(lecturerNames, (dialog, which) -> {
-                    selectedLecturer = db.lecturerDAO().getByUserId(lecturers.get(which).getId());
+                    selectedLecturer = db.lecturerDAO().getByUser(lecturers.get(which).getId());
                     edtLecturer.setText(lecturerNames[which]);
                 })
                 .show());

@@ -8,6 +8,9 @@ public class StudentWithScores {
     private float ckScore;
     private float tbScore;
 
+    public StudentWithScores() {
+    }
+
     public StudentWithScores(long studentId, String studentName, float gkScore, float ckScore, float tbScore) {
         this.studentId = studentId;
         this.studentName = studentName;

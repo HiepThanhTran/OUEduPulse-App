@@ -3,7 +3,6 @@ package com.fh.app_student_management.ui.admin;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -23,7 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fh.app_student_management.R;
-import com.fh.app_student_management.adapters.admin.LecturerRecycleViewAdapter;
+import com.fh.app_student_management.adapters.admin.LecturerListRecycleViewAdapter;
 import com.fh.app_student_management.data.AppDatabase;
 import com.fh.app_student_management.data.entities.Lecturer;
 import com.fh.app_student_management.data.entities.User;
@@ -41,7 +40,7 @@ import java.util.Calendar;
 
 public class LecturerListActivity extends AppCompatActivity {
 
-    private LecturerRecycleViewAdapter lecturerRecycleViewAdapter;
+    private LecturerListRecycleViewAdapter lecturerListRecycleViewAdapter;
 
     private LinearLayout layoutLecturer;
     private ImageView btnBack;
@@ -69,7 +68,7 @@ public class LecturerListActivity extends AppCompatActivity {
                 avatar.setImageURI(uri);
             }
         }
-        lecturerRecycleViewAdapter.onActivityResult(requestCode, resultCode, data);
+        lecturerListRecycleViewAdapter.onActivityResult(requestCode, resultCode, data);
     }
 
     private void initLecturerListView() {
@@ -83,9 +82,9 @@ public class LecturerListActivity extends AppCompatActivity {
         ArrayList<LecturerAndUser> lectures = new ArrayList<>(db.lecturerDAO().getAllLecturerAndUser());
 
         RecyclerView rvLecturer = findViewById(R.id.rvLecturer);
-        lecturerRecycleViewAdapter = new LecturerRecycleViewAdapter(this, lectures);
+        lecturerListRecycleViewAdapter = new LecturerListRecycleViewAdapter(this, lectures);
         rvLecturer.setLayoutManager(new LinearLayoutManager(this));
-        rvLecturer.setAdapter(lecturerRecycleViewAdapter);
+        rvLecturer.setAdapter(lecturerListRecycleViewAdapter);
     }
 
     private void handleEventListeners() {
@@ -100,13 +99,13 @@ public class LecturerListActivity extends AppCompatActivity {
         searchViewLecturer.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                lecturerRecycleViewAdapter.getFilter().filter(query);
+                lecturerListRecycleViewAdapter.getFilter().filter(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                lecturerRecycleViewAdapter.getFilter().filter(newText);
+                lecturerListRecycleViewAdapter.getFilter().filter(newText);
                 return false;
             }
         });
@@ -122,7 +121,6 @@ public class LecturerListActivity extends AppCompatActivity {
         behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         behavior.setSkipCollapsed(true);
         behavior.setDraggable(false);
-        behavior.setHideable(true);
         bottomSheetDialog.show();
 
         view.findViewById(R.id.iconCamera).setOnClickListener(v -> ImagePicker.with(this)
@@ -166,7 +164,7 @@ public class LecturerListActivity extends AppCompatActivity {
             throw new RuntimeException(e);
         }
 
-        lecturerRecycleViewAdapter.addLecturer(lecturerAndUser);
+        lecturerListRecycleViewAdapter.addLecturer(lecturerAndUser);
         bottomSheetDialog.dismiss();
         Utils.showToast(this, "Thêm thành công");
     }

@@ -18,26 +18,29 @@ public interface ScoreDAO {
     List<Score> getAll();
 
     @Query("SELECT * FROM scores WHERE id = :id")
-    Score getById(Long id);
+    Score getById(long id);
 
     @Query("SELECT * FROM scores " +
             "WHERE student_id = :studentId " +
             "AND subject_id = :subjectId " +
             "AND semester_id = :semesterId " +
             "ORDER BY id DESC")
-    List<Score> getByStudentId(Long studentId, Long subjectId, Long semesterId);
+    List<Score> getByStudent(long studentId, long subjectId, long semesterId);
 
     @Query("SELECT " +
             "COUNT(CASE WHEN point >= 9 THEN 1 END) AS excellent, " +
             "COUNT(CASE WHEN point >= 7 AND point < 9 THEN 1 END) AS good, " +
-            "COUNT(CASE WHEN point >= 5 AND point < 7 THEN 1 END) AS average, " +
-            "COUNT(CASE WHEN point < 5 THEN 1 END) AS poor " +
+            "COUNT(CASE WHEN point >= 5 AND point < 7 THEN 1 END) AS fair, " +
+            "COUNT(CASE WHEN point < 5 THEN 1 END) AS average " +
             "FROM scores " +
             "WHERE type = 'TB' AND subject_id = :subjectId AND semester_id = :semesterId")
     ScoreDistribution getScoreDistribution(long subjectId, long semesterId);
 
+    @Query("SELECT COUNT(*) FROM scores")
+    int count();
+
     @Insert
-    Long insert(Score score);
+    long insert(Score score);
 
     @Insert
     void insertAll(Score... scores);

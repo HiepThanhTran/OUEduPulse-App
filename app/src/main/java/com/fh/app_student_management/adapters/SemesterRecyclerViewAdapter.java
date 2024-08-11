@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fh.app_student_management.R;
 import com.fh.app_student_management.adapters.listener.ItemClickListener;
 import com.fh.app_student_management.data.entities.Semester;
-import com.fh.app_student_management.ui.lecturer.SubjectActivity;
+import com.fh.app_student_management.ui.lecturer.SubjectListActivity;
 import com.fh.app_student_management.utilities.Constants;
 import com.fh.app_student_management.utilities.Utils;
 
@@ -59,7 +59,7 @@ public class SemesterRecyclerViewAdapter extends RecyclerView.Adapter<SemesterRe
 
             assert bundle != null;
             long userId = bundle.getLong(Constants.USER_ID, 0);
-            Intent newIntent = new Intent(context, SubjectActivity.class);
+            Intent newIntent = new Intent(context, SubjectListActivity.class);
             Bundle newBundle = new Bundle();
             newBundle.putLong(Constants.USER_ID, userId);
             newBundle.putLong(Constants.SEMESTER_ID, semester.getId());

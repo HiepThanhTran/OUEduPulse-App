@@ -43,7 +43,7 @@
         android:layout_marginEnd="20dp">
 
         <LinearLayout
-            android:id="@+id/subjectContainer"
+            android:id="@+id/academicYearContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
@@ -83,7 +83,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/subjectContainer"
+            android:layout_below="@id/academicYearContainer"
             android:layout_marginBottom="20dp"
             android:orientation="vertical">
 
@@ -144,7 +144,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/opensans_bold"
-            android:textColor="@color/white"
+            android:text="Học kỳ 1 - năm 2024 - 2025"
+            android:textColor="@color/orange"
             android:textSize="16sp" />
 
         <TextView
@@ -152,7 +153,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/opensans_bold"
-            android:textColor="@color/white"
+            android:text="Lập trình di động"
+            android:textColor="@color/medium_orange"
             android:textSize="16sp" />
 
     </LinearLayout>

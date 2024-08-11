@@ -26,8 +26,11 @@ public interface UserDAO {
     @Query("SELECT * FROM users WHERE role = :role")
     List<User> getByRole(Constants.Role role);
 
+    @Query("SELECT COUNT(*) FROM users")
+    int count();
+
     @Insert
-    Long insert(User user);
+    long insert(User user);
 
     @Insert
     void insertAll(User... users);

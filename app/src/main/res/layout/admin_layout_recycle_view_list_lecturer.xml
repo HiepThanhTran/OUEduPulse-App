@@ -27,7 +27,7 @@
                 android:layout_centerHorizontal="true"
                 android:scaleType="centerCrop"
                 app:shapeAppearanceOverlay="@style/CircleImageStyle"
-                app:srcCompat="@drawable/avatar" />
+                app:srcCompat="@drawable/default_avatar" />
 
             <TextView
                 android:id="@+id/txtUsername"

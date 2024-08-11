@@ -17,10 +17,13 @@ public interface AcademicYearDAO {
     List<AcademicYear> getAll();
 
     @Query("SELECT * FROM academic_years WHERE id = :id")
-    AcademicYear getById(Long id);
+    AcademicYear getById(long id);
+
+    @Query("SELECT COUNT(*) FROM academic_years")
+    int count();
 
     @Insert
-    Long insert(AcademicYear academic_year);
+    long insert(AcademicYear academic_year);
 
     @Insert
     void insertAll(AcademicYear... academic_years);

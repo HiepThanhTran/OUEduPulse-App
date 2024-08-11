@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fh.app_student_management.R;
-import com.fh.app_student_management.adapters.admin.SubjectRecycleViewAdapter;
+import com.fh.app_student_management.adapters.admin.SubjectListRecycleViewAdapter;
 import com.fh.app_student_management.data.AppDatabase;
 import com.fh.app_student_management.data.entities.Class;
 import com.fh.app_student_management.data.entities.Major;
@@ -36,7 +36,7 @@ public class SubjectListActivity extends AppCompatActivity {
     private Major selectedMajor;
     private ArrayList<Major> majors;
     private String[] majorNames;
-    private SubjectRecycleViewAdapter subjectRecycleViewAdapter;
+    private SubjectListRecycleViewAdapter subjectListRecycleViewAdapter;
 
     private LinearLayout layoutSubject;
     private ImageView btnBack;
@@ -78,9 +78,9 @@ public class SubjectListActivity extends AppCompatActivity {
         ArrayList<SubjectWithRelations> subjects = new ArrayList<>(db.subjectDAO().getAllWithRelations());
 
         RecyclerView rvSubject = findViewById(R.id.rvSubject);
-        subjectRecycleViewAdapter = new SubjectRecycleViewAdapter(this, subjects);
+        subjectListRecycleViewAdapter = new SubjectListRecycleViewAdapter(this, subjects);
         rvSubject.setLayoutManager(new LinearLayoutManager(this));
-        rvSubject.setAdapter(subjectRecycleViewAdapter);
+        rvSubject.setAdapter(subjectListRecycleViewAdapter);
     }
 
     @SuppressLint("InflateParams")
@@ -96,13 +96,13 @@ public class SubjectListActivity extends AppCompatActivity {
         searchViewSubject.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                subjectRecycleViewAdapter.getFilter().filter(query);
+                subjectListRecycleViewAdapter.getFilter().filter(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                subjectRecycleViewAdapter.getFilter().filter(newText);
+                subjectListRecycleViewAdapter.getFilter().filter(newText);
                 return false;
             }
         });
@@ -117,8 +117,6 @@ public class SubjectListActivity extends AppCompatActivity {
         BottomSheetBehavior<View> behavior = BottomSheetBehavior.from((View) view.getParent());
         behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         behavior.setSkipCollapsed(true);
-        behavior.setDraggable(false);
-        behavior.setHideable(true);
         bottomSheetDialog.show();
 
         view.findViewById(R.id.edtClass).setOnClickListener(v -> new AlertDialog.Builder(this)
@@ -158,7 +156,7 @@ public class SubjectListActivity extends AppCompatActivity {
         subjectWithRelations.setClazz(selectedClass);
         subjectWithRelations.setMajor(selectedMajor);
 
-        subjectRecycleViewAdapter.addSubject(subjectWithRelations);
+        subjectListRecycleViewAdapter.addSubject(subjectWithRelations);
         bottomSheetDialog.dismiss();
         Utils.showToast(this, "Thêm thành công");
     }

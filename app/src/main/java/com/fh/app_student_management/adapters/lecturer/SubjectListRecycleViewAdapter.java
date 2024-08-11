@@ -17,21 +17,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fh.app_student_management.R;
 import com.fh.app_student_management.adapters.listener.ItemClickListener;
 import com.fh.app_student_management.data.relations.SubjectWithRelations;
-import com.fh.app_student_management.ui.lecturer.ScoreActivity;
+import com.fh.app_student_management.ui.lecturer.ScoreListActivity;
 import com.fh.app_student_management.utilities.Constants;
 import com.fh.app_student_management.utilities.Utils;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class SubjectRecycleViewAdapter extends RecyclerView.Adapter<SubjectRecycleViewAdapter.SubjectViewHolder> implements Filterable {
+public class SubjectListRecycleViewAdapter extends RecyclerView.Adapter<SubjectListRecycleViewAdapter.SubjectViewHolder> implements Filterable {
 
     private final Context context;
     private final Intent intent;
     private final ArrayList<SubjectWithRelations> originalList;
     private ArrayList<SubjectWithRelations> filteredList;
 
-    public SubjectRecycleViewAdapter(Context context, Intent intent, ArrayList<SubjectWithRelations> subjects) {
+    public SubjectListRecycleViewAdapter(Context context, Intent intent, ArrayList<SubjectWithRelations> subjects) {
         this.context = context;
         this.intent = intent;
         this.originalList = subjects;
@@ -60,7 +60,7 @@ public class SubjectRecycleViewAdapter extends RecyclerView.Adapter<SubjectRecyc
             long semesterId = bundle.getLong(Constants.SEMESTER_ID, 0);
             long subjectId = filteredList.get(position1).getSubject().getId();
             String subjectName = filteredList.get(position1).getSubject().getName();
-            Intent intent = new Intent(context, ScoreActivity.class);
+            Intent intent = new Intent(context, ScoreListActivity.class);
             intent.putExtra(Constants.SEMESTER_ID, semesterId);
             intent.putExtra(Constants.SUBJECT_ID, subjectId);
             intent.putExtra("subjectName", subjectName);

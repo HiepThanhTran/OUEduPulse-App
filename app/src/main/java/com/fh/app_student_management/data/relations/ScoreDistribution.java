@@ -4,8 +4,18 @@ public class ScoreDistribution {
 
     private int excellent;
     private int good;
+    private int fair;
     private int average;
-    private int poor;
+
+    public ScoreDistribution() {
+    }
+
+    public ScoreDistribution(int excellent, int good, int fair, int average) {
+        this.excellent = excellent;
+        this.good = good;
+        this.fair = fair;
+        this.average = average;
+    }
 
     public int getExcellent() {
         return excellent;
@@ -23,19 +33,19 @@ public class ScoreDistribution {
         this.good = good;
     }
 
+    public int getFair() {
+        return fair;
+    }
+
+    public void setFair(int fair) {
+        this.fair = fair;
+    }
+
     public int getAverage() {
         return average;
     }
 
     public void setAverage(int average) {
         this.average = average;
-    }
-
-    public int getPoor() {
-        return poor;
-    }
-
-    public void setPoor(int poor) {
-        this.poor = poor;
     }
 }

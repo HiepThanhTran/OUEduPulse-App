@@ -17,10 +17,13 @@ public interface FacultyDAO {
     List<Faculty> getAll();
 
     @Query("SELECT * FROM faculties WHERE id = :id")
-    Faculty getById(Long id);
+    Faculty getById(long id);
+
+    @Query("SELECT COUNT(*) FROM faculties")
+    int count();
 
     @Insert
-    Long insert(Faculty faculty);
+    long insert(Faculty faculty);
 
     @Insert
     void insertAll(Faculty... faculties);
