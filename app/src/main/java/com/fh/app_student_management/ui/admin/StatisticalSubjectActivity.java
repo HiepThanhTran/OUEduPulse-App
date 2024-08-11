@@ -1,18 +1,43 @@
 package com.fh.app_student_management.ui.admin;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.fh.app_student_management.R;
+import com.fh.app_student_management.adapters.admin.LecturerStatisticalRecycleViewAdapter;
+import com.fh.app_student_management.adapters.admin.SubjectStatisticalRecycleViewAdapter;
+import com.fh.app_student_management.data.AppDatabase;
+import com.fh.app_student_management.data.entities.Semester;
+import com.fh.app_student_management.data.relations.StatisticalOfLecturer;
+import com.fh.app_student_management.data.relations.StatisticalOfSubject;
+import com.fh.app_student_management.utilities.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class StatisticalSubjectActivity extends AppCompatActivity {
 
+    private AppDatabase db;
+    private ArrayList<Semester> semesters;
+    private ArrayList<String> semesterNames;
+    private long selectedSemesterId;
+    private String selectedSemesterName;
+
     private ImageView btnBack;
-    private EditText inputSemester;
+    private EditText edtSemester;
+    private LinearLayout titleTable;
+    private TextView txtSemesterName;
+    private TextView txtSubjectCount;
+    private RecyclerView rvSubject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,25 +50,55 @@ public class StatisticalSubjectActivity extends AppCompatActivity {
 
     private void initStatisticalSubjectView() {
         btnBack = findViewById(R.id.btnBack);
-        inputSemester = findViewById(R.id.edtSemester);
+        edtSemester = findViewById(R.id.edtSemester);
+        titleTable = findViewById(R.id.titleTable);
+        txtSemesterName = findViewById(R.id.txtSemesterName);
+        txtSubjectCount = findViewById(R.id.txtSubjectCount);
+        rvSubject = findViewById(R.id.rvSubject);
 
-        inputSemester.setText("Học kì 1");
+        titleTable.setVisibility(View.GONE);
+
+        db = AppDatabase.getInstance(this);
+
+        semesters = new ArrayList<>(db.semesterDAO().getAll());
+        semesterNames = new ArrayList<>(semesters.size() + 1);
+        semesterNames.add(0, "--- Chọn học kỳ ---");
+        for (int i = 0; i < semesters.size(); i++) {
+            String startDate = Utils.formatDate("MM/yyyy").format(semesters.get(i).getStartDate());
+            String endDate = Utils.formatDate("MM/yyyy").format(semesters.get(i).getEndDate());
+            String semesterName = String.format("%s (%s - %s)", semesters.get(i).getName(), startDate, endDate);
+            semesterNames.add(semesterName);
+        }
     }
 
     private void handleEventListener() {
         btnBack.setOnClickListener(v -> finish());
 
-        inputSemester.setOnClickListener(v -> showSemesterDialog());
+        edtSemester.setOnClickListener(v -> new AlertDialog.Builder(this)
+                .setTitle("Chọn học kỳ")
+                .setItems(semesterNames.toArray(new CharSequence[0]), (dialog, which) -> {
+                    if (which == 0) {
+                        selectedSemesterId = 0;
+                        edtSemester.setText("");
+                        updateStatistical();
+                    } else {
+                        selectedSemesterId = semesters.get(which - 1).getId();
+                        selectedSemesterName = semesterNames.get(which);
+                        edtSemester.setText(semesterNames.get(which));
+                        updateStatistical();
+                    }
+                }).show());
     }
 
-    private void showSemesterDialog() {
-        String[] semesters = {"Học kì 1", "Học kì 2", "Học kì 3"};
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Chọn học kì");
-        builder.setItems(semesters, (dialog, which) -> inputSemester.setText(semesters[which]));
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
+    private void updateStatistical() {
+        List<StatisticalOfSubject> statisticalOfSubjects = new ArrayList<>();
+        if (selectedSemesterId > 0) {
+            statisticalOfSubjects = db.statisticalDAO().getStatisticalOfSubject(selectedSemesterId);
+        }
+        rvSubject.setLayoutManager(new LinearLayoutManager(this));
+        rvSubject.setAdapter(new SubjectStatisticalRecycleViewAdapter(this, new ArrayList<>(statisticalOfSubjects)));
+        txtSemesterName.setText(selectedSemesterName);
+        txtSubjectCount.setText(String.valueOf(statisticalOfSubjects.size()));
+        titleTable.setVisibility(View.VISIBLE);
     }
 }

@@ -16,7 +16,7 @@ import com.fh.app_student_management.data.entities.Semester;
 
 import java.util.ArrayList;
 
-public class SemesterActivity extends AppCompatActivity {
+public class SemesterListActivity extends AppCompatActivity {
 
     private LinearLayout layoutSemester;
     private ImageView btnBack;
@@ -27,7 +27,7 @@ public class SemesterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_semester);
+        setContentView(R.layout.activity_list_semester);
 
         initSemesterView();
         handleEventListener();

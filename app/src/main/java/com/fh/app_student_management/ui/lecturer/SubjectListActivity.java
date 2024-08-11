@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fh.app_student_management.R;
-import com.fh.app_student_management.adapters.lecturer.SubjectRecycleViewAdapter;
+import com.fh.app_student_management.adapters.lecturer.SubjectListRecycleViewAdapter;
 import com.fh.app_student_management.data.AppDatabase;
 import com.fh.app_student_management.data.entities.Semester;
 import com.fh.app_student_management.data.relations.SubjectWithRelations;
@@ -22,9 +22,9 @@ import com.fh.app_student_management.utilities.Utils;
 
 import java.util.ArrayList;
 
-public class SubjectActivity extends AppCompatActivity {
+public class SubjectListActivity extends AppCompatActivity {
 
-    private SubjectRecycleViewAdapter subjectRecycleViewAdapter;
+    private SubjectListRecycleViewAdapter subjectListRecycleViewAdapter;
 
     private LinearLayout layoutSubject;
     private ImageView btnBack;
@@ -33,7 +33,7 @@ public class SubjectActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.lecturer_activity_subjects);
+        setContentView(R.layout.lecturer_activity_list_subject);
 
         initClassView();
         handleEventListener();
@@ -60,10 +60,10 @@ public class SubjectActivity extends AppCompatActivity {
         String semesterName = String.format("%s - %d - %d", semester.getName(), startYear, startYear + 1);
         txtSemesterName.setText(semesterName);
 
-        ArrayList<SubjectWithRelations> subjects = new ArrayList<>(db.subjectDAO().getByLecturerAndSemester(userId, semesterId));
-        subjectRecycleViewAdapter = new SubjectRecycleViewAdapter(this, getIntent(), subjects);
+        ArrayList<SubjectWithRelations> subjects = new ArrayList<>(db.subjectDAO().getByLecturerSemester(userId, semesterId));
+        subjectListRecycleViewAdapter = new SubjectListRecycleViewAdapter(this, getIntent(), subjects);
         rvSubject.setLayoutManager(new LinearLayoutManager(this));
-        rvSubject.setAdapter(subjectRecycleViewAdapter);
+        rvSubject.setAdapter(subjectListRecycleViewAdapter);
     }
 
     private void handleEventListener() {
@@ -78,13 +78,13 @@ public class SubjectActivity extends AppCompatActivity {
         searchViewSubject.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                subjectRecycleViewAdapter.getFilter().filter(query);
+                subjectListRecycleViewAdapter.getFilter().filter(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                subjectRecycleViewAdapter.getFilter().filter(newText);
+                subjectListRecycleViewAdapter.getFilter().filter(newText);
                 return false;
             }
         });

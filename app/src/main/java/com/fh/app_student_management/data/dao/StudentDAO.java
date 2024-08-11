@@ -22,17 +22,17 @@ public interface StudentDAO {
     List<StudentWithRelations> getAllWithRelations();
 
     @Query("SELECT * FROM students WHERE id = :id")
-    Student getById(Long id);
+    Student getById(long id);
 
     @Query("SELECT * FROM students WHERE user_id = :userId")
-    Student getByUserId(Long userId);
+    Student getByUser(long userId);
 
-    @Query("SELECT  " +
-            "    s.id AS studentId, " +
-            "    u.full_name AS studentName, " +
-            "    COALESCE(gk.point, 0) AS gkScore, " +
-            "    COALESCE(ck.point, 0) AS ckScore, " +
-            "    COALESCE(tb.point, 0) AS tbScore " +
+    @Query("SELECT " +
+            "   s.id AS studentId, " +
+            "   u.full_name AS studentName, " +
+            "   COALESCE(gk.point, 0) AS gkScore, " +
+            "   COALESCE(ck.point, 0) AS ckScore, " +
+            "   COALESCE(tb.point, 0) AS tbScore " +
             "FROM students s " +
             "JOIN users u ON s.user_id = u.id " +
             "JOIN student_subject_cross_ref ssr ON s.id = ssr.student_id " +
@@ -52,9 +52,9 @@ public interface StudentDAO {
             "    FROM scores " +
             "    WHERE type = 'TB' " +
             ") tb ON s.id = tb.student_id AND ssr.subject_id = tb.subject_id " +
-            "WHERE ssr.subject_id = :subjectId AND ssc.semester_id = :semesterId " +
+            "WHERE ssc.semester_id = :semesterId AND ssr.subject_id = :subjectId " +
             "ORDER BY studentId DESC")
-    List<StudentWithScores> getScoresBySubjectAndSemester(long subjectId, long semesterId);
+    List<StudentWithScores> getScoresBySemesterSubject(long semesterId, long subjectId);
 
     @Query("SELECT s.* FROM students s " +
             "JOIN student_semester_cross_ref ssc ON s.id = ssc.student_id " +
@@ -62,24 +62,27 @@ public interface StudentDAO {
             "ORDER BY s.id DESC")
     List<StudentWithRelations> getBySemester(long semesterId);
 
-    @Query("SELECT stu.* FROM students stu " +
-            "JOIN student_semester_cross_ref scc ON stu.id = scc.student_id " +
-            "JOIN student_subject_cross_ref sscc ON stu.id = sscc.student_id " +
-            "JOIN subjects s ON sscc.subject_id = s.id " +
-            "WHERE scc.semester_id = :semesterId AND s.class_id = :classId " +
-            "ORDER BY stu.id DESC")
-    List<StudentWithRelations> getBySemesterAndClass(long semesterId, long classId);
+    @Query("SELECT s.* FROM students s " +
+            "JOIN student_semester_cross_ref sscr ON s.id = sscr.student_id " +
+            "JOIN student_subject_cross_ref ssur ON s.id = ssur.student_id " +
+            "JOIN subjects subj ON ssur.subject_id= subj.id " +
+            "WHERE sscr.semester_id = :semesterId AND subj.class_id = :classId " +
+            "ORDER BY s.id DESC")
+    List<StudentWithRelations> getBySemesterClass(long semesterId, long classId);
 
-    @Query("SELECT stu.* FROM students stu " +
-            "JOIN student_semester_cross_ref scc ON stu.id = scc.student_id " +
-            "JOIN student_subject_cross_ref sscc ON stu.id = sscc.student_id " +
-            "JOIN subjects s ON sscc.subject_id = s.id " +
-            "WHERE scc.semester_id = :semesterId AND s.class_id = :classId AND sscc.subject_id = :subjectId " +
-            "ORDER BY stu.id DESC")
-    List<StudentWithRelations> getBySemesterAndClassAndSubject( long semesterId, long classId, long subjectId);
+    @Query("SELECT s.* FROM students s " +
+            "JOIN student_semester_cross_ref sscr ON s.id = sscr.student_id " +
+            "JOIN student_subject_cross_ref  ssur ON s.id = ssur.student_id " +
+            "JOIN subjects subj ON ssur.subject_id= subj.id " +
+            "WHERE sscr.semester_id = :semesterId AND subj.class_id = :classId AND subj.id = :subjectId " +
+            "ORDER BY s.id DESC")
+    List<StudentWithRelations> getBySemesterClassSubject( long semesterId, long classId, long subjectId);
+
+    @Query("SELECT COUNT(*) FROM students")
+    int count();
 
     @Insert
-    Long insert(Student student);
+    long insert(Student student);
 
     @Insert
     void insertAll(Student... students);

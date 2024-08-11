@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class StudentRecycleViewAdapter extends RecyclerView.Adapter<StudentRecycleViewAdapter.StudentViewHolder> implements Filterable {
+public class StudentListRecycleViewAdapter extends RecyclerView.Adapter<StudentListRecycleViewAdapter.StudentViewHolder> implements Filterable {
 
     private final Context context;
     private final AppDatabase db;
@@ -58,7 +58,7 @@ public class StudentRecycleViewAdapter extends RecyclerView.Adapter<StudentRecyc
     private AcademicYear selectedAcademicYear;
     private ArrayList<StudentWithRelations> filteredList;
 
-    public StudentRecycleViewAdapter(Context context, ArrayList<StudentWithRelations> originalList) {
+    public StudentListRecycleViewAdapter(Context context, ArrayList<StudentWithRelations> originalList) {
         this.context = context;
         this.originalList = originalList;
         this.filteredList = originalList;
@@ -198,7 +198,7 @@ public class StudentRecycleViewAdapter extends RecyclerView.Adapter<StudentRecyc
         behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         behavior.setSkipCollapsed(true);
         behavior.setDraggable(false);
-        behavior.setHideable(true);
+        bottomSheetDialog.show();
 
         selectedMajor = studentWithRelations.getMajor();
         selectedClass = studentWithRelations.getClazz();
@@ -298,8 +298,6 @@ public class StudentRecycleViewAdapter extends RecyclerView.Adapter<StudentRecyc
                 })
                 .setNegativeButton("Không", (dialog, which) -> dialog.dismiss())
                 .show());
-
-        bottomSheetDialog.show();
     }
 
     private void performEditStudent(StudentWithRelations studentWithRelations, View view) {

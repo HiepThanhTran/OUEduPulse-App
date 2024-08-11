@@ -101,7 +101,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 setNonEditableFields();
                 break;
             case LECTURER:
-                lecturer = db.lecturerDAO().getByUserId(user.getId());
+                lecturer = db.lecturerDAO().getByUser(user.getId());
                 setTextOrHint(edtSpecialization, lecturer.getLecturer().getSpecialization());
                 setTextOrHint(edtDegree, lecturer.getLecturer().getDegree());
                 setTextOrHint(edtCertificate, lecturer.getLecturer().getCertificate());

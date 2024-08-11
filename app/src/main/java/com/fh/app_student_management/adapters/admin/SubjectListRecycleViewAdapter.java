@@ -27,7 +27,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class SubjectRecycleViewAdapter extends RecyclerView.Adapter<SubjectRecycleViewAdapter.SubjectViewHolder> implements Filterable {
+public class SubjectListRecycleViewAdapter extends RecyclerView.Adapter<SubjectListRecycleViewAdapter.SubjectViewHolder> implements Filterable {
 
     private final Context context;
     private final AppDatabase db;
@@ -43,7 +43,7 @@ public class SubjectRecycleViewAdapter extends RecyclerView.Adapter<SubjectRecyc
     private Major selectedMajor;
     private ArrayList<SubjectWithRelations> filteredList;
 
-    public SubjectRecycleViewAdapter(Context context, ArrayList<SubjectWithRelations> originalList) {
+    public SubjectListRecycleViewAdapter(Context context, ArrayList<SubjectWithRelations> originalList) {
         this.context = context;
         this.originalList = originalList;
         this.filteredList = originalList;
@@ -161,8 +161,7 @@ public class SubjectRecycleViewAdapter extends RecyclerView.Adapter<SubjectRecyc
         BottomSheetBehavior<View> behavior = BottomSheetBehavior.from((View) view.getParent());
         behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         behavior.setSkipCollapsed(true);
-        behavior.setDraggable(false);
-        behavior.setHideable(true);
+        bottomSheetDialog.show();
 
         selectedClass = subjectWithRelations.getClazz();
         selectedMajor = subjectWithRelations.getMajor();
@@ -200,8 +199,6 @@ public class SubjectRecycleViewAdapter extends RecyclerView.Adapter<SubjectRecyc
                 .setPositiveButton("Có", (dialog, which) -> performEditSubject(subjectWithRelations, view))
                 .setNegativeButton("Không", (dialog, which) -> dialog.dismiss())
                 .show());
-
-        bottomSheetDialog.show();
     }
 
     private void performEditSubject(SubjectWithRelations subjectWithRelations, View view) {

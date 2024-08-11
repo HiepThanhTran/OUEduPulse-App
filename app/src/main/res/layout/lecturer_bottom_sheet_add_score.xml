@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutAddScore"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/grey"
     android:orientation="vertical"
     android:paddingHorizontal="20dp"
     android:paddingBottom="20dp"
@@ -14,96 +14,192 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.google.android.material.textfield.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:hint="Mã số sinh viên"
-        app:boxStrokeColor="@color/grey"
-        app:endIconMode="clear_text"
-        app:hintTextAppearance="@style/CustomHintTextAppearance"
-        app:hintTextColor="@color/black">
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/opensans_bold"
+            android:text="Mã số sinh viên"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <EditText
             android:id="@+id/edtStudentId"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:enabled="false" />
+            android:layout_height="56dp"
+            android:autofillHints="name"
+            android:background="@drawable/custom_input"
+            android:clickable="false"
+            android:drawablePadding="12dp"
+            android:ems="10"
+            android:enabled="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:fontFamily="@font/opensans_bold"
+            android:hint="Mã số sinh viên"
+            android:inputType="text"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:textColor="@color/grey"
+            android:textSize="16sp"
+            tools:ignore="LabelFor" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:hint="Họ và tên"
-        app:boxStrokeColor="@color/grey"
-        app:endIconMode="clear_text"
-        app:hintTextAppearance="@style/CustomHintTextAppearance"
-        app:hintTextColor="@color/black">
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/opensans_bold"
+            android:text="Họ và tên"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <EditText
             android:id="@+id/edtStudentName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:enabled="false" />
+            android:layout_height="56dp"
+            android:autofillHints="name"
+            android:background="@drawable/custom_input"
+            android:clickable="false"
+            android:drawablePadding="12dp"
+            android:ems="10"
+            android:enabled="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:fontFamily="@font/opensans_bold"
+            android:hint="Họ và tên"
+            android:inputType="text"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:textColor="@color/grey"
+            android:textSize="16sp"
+            tools:ignore="LabelFor" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:hint="Lớp"
-        app:boxStrokeColor="@color/grey"
-        app:endIconMode="clear_text"
-        app:hintTextAppearance="@style/CustomHintTextAppearance"
-        app:hintTextColor="@color/black">
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/opensans_bold"
+            android:text="Tên môn"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <EditText
             android:id="@+id/edtSubjectName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:enabled="false" />
+            android:layout_height="56dp"
+            android:autofillHints="name"
+            android:background="@drawable/custom_input"
+            android:clickable="false"
+            android:drawablePadding="12dp"
+            android:ems="10"
+            android:enabled="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:fontFamily="@font/opensans_bold"
+            android:hint="Tên môn"
+            android:inputType="text"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:textColor="@color/grey"
+            android:textSize="16sp"
+            tools:ignore="LabelFor" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:hint="Điểm giữa kì"
-        app:boxStrokeColor="@color/grey"
-        app:endIconMode="clear_text"
-        app:hintTextAppearance="@style/CustomHintTextAppearance"
-        app:hintTextColor="@color/black">
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/opensans_bold"
+            android:text="Điểm giữa kỳ"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <EditText
             android:id="@+id/edtGK"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal" />
+            android:layout_height="56dp"
+            android:autofillHints="name"
+            android:background="@drawable/custom_input"
+            android:drawablePadding="12dp"
+            android:ems="10"
+            android:fontFamily="@font/opensans_bold"
+            android:hint="Điểm giữa kỳ"
+            android:inputType="numberDecimal"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:textColor="@color/grey"
+            android:textSize="16sp"
+            tools:ignore="LabelFor" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
-
-    <com.google.android.material.textfield.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:hint="Điểm cuối kì"
-        app:boxStrokeColor="@color/grey"
-        app:endIconMode="clear_text"
-        app:hintTextAppearance="@style/CustomHintTextAppearance"
-        app:hintTextColor="@color/black">
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edtCK"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal" />
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/opensans_bold"
+            android:text="Điểm cuối kỳ"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+        <EditText
+            android:id="@+id/edtCK"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:autofillHints="name"
+            android:background="@drawable/custom_input"
+            android:drawablePadding="12dp"
+            android:ems="10"
+            android:fontFamily="@font/opensans_bold"
+            android:hint="Điểm cuối kỳ"
+            android:inputType="numberDecimal"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:textColor="@color/grey"
+            android:textSize="16sp"
+            tools:ignore="LabelFor" />
+
+    </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnAddScore"

@@ -8,6 +8,7 @@ import androidx.room.Update;
 
 import com.fh.app_student_management.data.entities.Lecturer;
 import com.fh.app_student_management.data.relations.LecturerAndUser;
+import com.fh.app_student_management.data.relations.StatisticalOfLecturer;
 
 import java.util.List;
 
@@ -21,13 +22,16 @@ public interface LecturerDAO {
     List<LecturerAndUser> getAllLecturerAndUser();
 
     @Query("SELECT * FROM lecturers WHERE id = :id")
-    Lecturer getById(Long id);
+    Lecturer getById(long id);
 
     @Query("SELECT * FROM lecturers WHERE user_id = :userId")
-    LecturerAndUser getByUserId(Long userId);
+    LecturerAndUser getByUser(long userId);
+
+    @Query("SELECT COUNT(*) FROM lecturers")
+    int count();
 
     @Insert
-    Long insert(Lecturer lecturer);
+    long insert(Lecturer lecturer);
 
     @Insert
     void insertAll(Lecturer... lecturers);

@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/grey"
+    android:gravity="center"
     android:orientation="horizontal"
-    android:padding="8dp"
+    android:padding="10dp"
     tools:ignore="HardcodedText">
 
     <TextView
-        android:id="@+id/txtLecturerId"
-        android:layout_width="wrap_content"
+        android:id="@+id/txtSubjectId"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
@@ -19,32 +20,42 @@
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/txtClassName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:gravity="center"
-        android:text="DH21IT01"
-        android:textColor="@color/white"
-        android:textSize="16sp" />
-
-    <TextView
         android:id="@+id/txtSubjectName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:gravity="center"
         android:text="Lập trình di động"
         android:textColor="@color/white"
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/txtAcademicYearName"
-        android:layout_width="wrap_content"
+        android:id="@+id/txtSubjectCredits"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:gravity="center"
-        android:text="2024 - 2024"
+        android:text="3"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/txtClassName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:gravity="center"
+        android:text="DH21IT01"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/txtNumberOfStudent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="70"
         android:textColor="@color/white"
         android:textSize="16sp" />
 

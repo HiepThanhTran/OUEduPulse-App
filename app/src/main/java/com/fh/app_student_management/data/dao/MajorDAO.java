@@ -17,10 +17,13 @@ public interface MajorDAO {
     List<Major> getAll();
 
     @Query("SELECT * FROM majors WHERE id = :id")
-    Major getById(Long id);
+    Major getById(long id);
+
+    @Query("SELECT COUNT(*) FROM majors")
+    int count();
 
     @Insert
-    Long insert(Major major);
+    long insert(Major major);
 
     @Insert
     void insertAll(Major... majors);

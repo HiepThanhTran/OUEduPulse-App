@@ -17,10 +17,13 @@ public interface SemesterDAO {
     List<Semester> getAll();
 
     @Query("SELECT * FROM semesters WHERE id = :id")
-    Semester getById(Long id);
+    Semester getById(long id);
+
+    @Query("SELECT COUNT(*) FROM semesters")
+    int count();
 
     @Insert
-    Long insert(Semester semester);
+    long insert(Semester semester);
 
     @Insert
     void insertAll(Semester... semesters);

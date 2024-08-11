@@ -18,6 +18,7 @@ import com.fh.app_student_management.data.dao.LecturerDAO;
 import com.fh.app_student_management.data.dao.MajorDAO;
 import com.fh.app_student_management.data.dao.ScoreDAO;
 import com.fh.app_student_management.data.dao.SemesterDAO;
+import com.fh.app_student_management.data.dao.StatisticalDAO;
 import com.fh.app_student_management.data.dao.StudentDAO;
 import com.fh.app_student_management.data.dao.SubjectDAO;
 import com.fh.app_student_management.data.dao.UserDAO;
@@ -347,14 +348,14 @@ public abstract class AppDatabase extends RoomDatabase {
             }
         }
 
-        List<SubjectSemesterCrossRef> subjectSemesterCrossRefs = db.crossRefDAO().getAllSubjectSemesterCrossRef();
-        for (SubjectSemesterCrossRef subjectSemesterCrossRef : subjectSemesterCrossRefs) {
+        List<LecturerSubjectCrossRef> allLecturerSubjectCrossRef = db.crossRefDAO().getAllLecturerSubjectCrossRef();
+        for (LecturerSubjectCrossRef lecturerSubjectCrossRef : allLecturerSubjectCrossRef) {
             Collections.shuffle(students, random);
 
             for (int i = 0; i < 4; i++) {
                 StudentSubjectCrossRef studentSubjectCrossRef = new StudentSubjectCrossRef();
                 studentSubjectCrossRef.setStudentId(students.get(i).getId());
-                studentSubjectCrossRef.setSubjectId(subjectSemesterCrossRef.getSubjectId());
+                studentSubjectCrossRef.setSubjectId(lecturerSubjectCrossRef.getSubjectId());
                 db.crossRefDAO().insertStudentSubjectCrossRef(studentSubjectCrossRef);
             }
         }
@@ -397,4 +398,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDAO userDAO();
 
     public abstract CrossRefDAO crossRefDAO();
+
+    public abstract StatisticalDAO statisticalDAO();
 }

@@ -37,7 +37,7 @@
                 android:layout_marginTop="20dp"
                 android:scaleType="centerCrop"
                 app:shapeAppearanceOverlay="@style/CircleImageStyle"
-                app:srcCompat="@drawable/avatar" />
+                app:srcCompat="@drawable/default_avatar" />
 
             <TextView
                 android:id="@+id/txtUsername"
@@ -158,20 +158,10 @@
                             android:src="@drawable/ic_arrow_right" />
                     </RelativeLayout>
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:background="@drawable/round_back_white_setting"
-                    android:orientation="vertical"
-                    android:padding="15dp">
-
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp">
 
                         <ImageView
                             android:id="@+id/iconLanguage"
@@ -203,45 +193,20 @@
 
                     </RelativeLayout>
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp">
+                </LinearLayout>
 
-                        <ImageView
-                            android:id="@+id/iconSecurity"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:background="@drawable/circle_red"
-                            android:contentDescription="ic_security"
-                            android:padding="6dp"
-                            android:src="@drawable/ic_security" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="22dp"
-                            android:layout_toEndOf="@+id/iconSecurity"
-                            android:fontFamily="@font/opensans_bold"
-                            android:text="Chính sách bảo mật"
-                            android:textColor="@color/white"
-                            android:textSize="16sp" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:contentDescription="ic_arrow_right"
-                            android:src="@drawable/ic_arrow_right" />
-
-                    </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/round_back_white_setting"
+                    android:orientation="vertical"
+                    android:padding="15dp">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp">
+                        android:layout_height="wrap_content">
 
                         <ImageView
                             android:id="@+id/iconReport"
@@ -273,21 +238,10 @@
 
                     </RelativeLayout>
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:background="@drawable/round_back_white_setting"
-                    android:orientation="vertical"
-                    android:padding="15dp">
-
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp">
 
                         <ImageView
                             android:id="@+id/iconMessage"
@@ -341,6 +295,41 @@
                             android:layout_toEndOf="@+id/icAbout"
                             android:fontFamily="@font/opensans_bold"
                             android:text="Giới thiệu"
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:contentDescription="ic_arrow_right"
+                            android:src="@drawable/ic_arrow_right" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp">
+
+                        <ImageView
+                            android:id="@+id/iconSecurity"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/circle_red"
+                            android:contentDescription="ic_security"
+                            android:padding="6dp"
+                            android:src="@drawable/ic_security" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="22dp"
+                            android:layout_toEndOf="@+id/iconSecurity"
+                            android:fontFamily="@font/opensans_bold"
+                            android:text="Chính sách bảo mật"
                             android:textColor="@color/white"
                             android:textSize="16sp" />
 

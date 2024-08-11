@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fh.app_student_management.R;
-import com.fh.app_student_management.adapters.admin.ClassRecycleViewAdapter;
+import com.fh.app_student_management.adapters.admin.ClassListRecycleViewAdapter;
 import com.fh.app_student_management.data.AppDatabase;
 import com.fh.app_student_management.data.entities.AcademicYear;
 import com.fh.app_student_management.data.entities.Class;
@@ -36,7 +36,7 @@ public class ClassListActivity extends AppCompatActivity {
     private AcademicYear selectedAcademicYear;
     private ArrayList<AcademicYear> academicYears;
     private String[] academicYearNames;
-    private ClassRecycleViewAdapter classRecycleViewAdapter;
+    private ClassListRecycleViewAdapter classListRecycleViewAdapter;
 
     private RelativeLayout layoutClass;
     private ImageView btnBack;
@@ -78,9 +78,9 @@ public class ClassListActivity extends AppCompatActivity {
         ArrayList<ClassWithRelations> classes = new ArrayList<>(db.classDAO().getAllWithRelations());
 
         RecyclerView rvClass = findViewById(R.id.rvClass);
-        classRecycleViewAdapter = new ClassRecycleViewAdapter(this, classes);
+        classListRecycleViewAdapter = new ClassListRecycleViewAdapter(this, classes);
         rvClass.setLayoutManager(new LinearLayoutManager(this));
-        rvClass.setAdapter(classRecycleViewAdapter);
+        rvClass.setAdapter(classListRecycleViewAdapter);
     }
 
     @SuppressLint("InflateParams")
@@ -96,13 +96,13 @@ public class ClassListActivity extends AppCompatActivity {
         searchViewClass.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                classRecycleViewAdapter.getFilter().filter(query);
+                classListRecycleViewAdapter.getFilter().filter(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                classRecycleViewAdapter.getFilter().filter(newText);
+                classListRecycleViewAdapter.getFilter().filter(newText);
                 return false;
             }
         });
@@ -117,8 +117,6 @@ public class ClassListActivity extends AppCompatActivity {
         BottomSheetBehavior<View> behavior = BottomSheetBehavior.from((View) view.getParent());
         behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         behavior.setSkipCollapsed(true);
-        behavior.setDraggable(false);
-        behavior.setHideable(true);
         bottomSheetDialog.show();
 
         view.findViewById(R.id.edtMajor).setOnClickListener(v -> new AlertDialog.Builder(this)
@@ -157,7 +155,7 @@ public class ClassListActivity extends AppCompatActivity {
         classWithRelations.setMajor(selectedMajor);
         classWithRelations.setAcademicYear(selectedAcademicYear);
 
-        classRecycleViewAdapter.addClass(classWithRelations);
+        classListRecycleViewAdapter.addClass(classWithRelations);
         bottomSheetDialog.dismiss();
         Utils.showToast(this, "Thêm thành công");
     }

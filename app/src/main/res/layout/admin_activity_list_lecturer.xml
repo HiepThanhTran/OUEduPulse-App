@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:fontFamily="@font/opensans_bold"
-            android:text="Quản lý nguời dùng"
+            android:text="Quản lý giảng viên"
             android:textColor="@color/white"
             android:textSize="20sp" />
 

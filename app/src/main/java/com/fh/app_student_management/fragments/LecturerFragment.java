@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import com.fh.app_student_management.R;
 import com.fh.app_student_management.data.AppDatabase;
 import com.fh.app_student_management.data.entities.User;
-import com.fh.app_student_management.ui.SemesterActivity;
+import com.fh.app_student_management.ui.SemesterListActivity;
 import com.fh.app_student_management.ui.lecturer.StatisticalScoreActivity;
 import com.fh.app_student_management.utilities.Constants;
 
@@ -69,7 +69,7 @@ public class LecturerFragment extends Fragment {
         bundle.putLong(Constants.USER_ID, user.getId());
 
         btnToSemester.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), SemesterActivity.class);
+            Intent intent = new Intent(getActivity(), SemesterListActivity.class);
             intent.putExtras(bundle);
             startActivity(intent);
         });

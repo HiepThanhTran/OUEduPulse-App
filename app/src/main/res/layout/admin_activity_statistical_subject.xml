@@ -57,13 +57,14 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:background="@drawable/custom_input"
-            android:clickable="true"
+            android:clickable="false"
             android:drawableStart="@drawable/ic_clock"
             android:drawablePadding="12dp"
             android:ems="10"
-            android:focusable="true"
+            android:focusable="false"
             android:focusableInTouchMode="false"
             android:fontFamily="@font/opensans_bold"
+            android:hint="--- Chọn học kỳ ---"
             android:inputType="none"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
@@ -93,13 +94,48 @@
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/txtSemesterName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/opensans_bold"
             android:text="Học kỳ 1 - năm 2024 - 2025"
-            android:textColor="@color/white"
+            android:textColor="@color/orange"
             android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/opensans_bold"
+                android:text="Số lượng: "
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtSubjectCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/opensans_bold"
+                android:text="50"
+                android:textColor="@color/green"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/opensans_bold"
+                android:text=" môn"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -117,8 +153,9 @@
         <TableRow tools:ignore="UselessParent">
 
             <TextView
-                android:layout_width="61dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="2"
                 android:fontFamily="@font/opensans_bold"
                 android:gravity="center"
                 android:padding="8dp"
@@ -127,22 +164,48 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:layout_width="211dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="2"
                 android:fontFamily="@font/opensans_bold"
                 android:gravity="center"
                 android:padding="8dp"
-                android:text="Tên môn học"
+                android:text="Môn"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="2"
                 android:fontFamily="@font/opensans_bold"
                 android:gravity="center"
                 android:padding="8dp"
-                android:text="Số tín chỉ"
+                android:text="Tín chỉ"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:fontFamily="@font/opensans_bold"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="Lớp"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:fontFamily="@font/opensans_bold"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="Sinh viên"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -151,13 +214,19 @@
 
     </TableLayout>
 
-    <ListView
-        android:id="@+id/lvSubject"
+    <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/table"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        tools:listitem="@layout/admin_layout_list_view_statistical_subject" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/table">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSubject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            tools:listitem="@layout/admin_layout_recycle_view_statistical_subject" />
+
+    </HorizontalScrollView>
 
 </RelativeLayout>

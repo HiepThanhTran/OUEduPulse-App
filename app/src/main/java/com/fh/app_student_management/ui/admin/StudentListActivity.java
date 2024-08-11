@@ -2,6 +2,7 @@ package com.fh.app_student_management.ui.admin;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,7 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fh.app_student_management.R;
-import com.fh.app_student_management.adapters.admin.StudentRecycleViewAdapter;
+import com.fh.app_student_management.adapters.admin.StudentListRecycleViewAdapter;
 import com.fh.app_student_management.data.AppDatabase;
 import com.fh.app_student_management.data.entities.AcademicYear;
 import com.fh.app_student_management.data.entities.Class;
@@ -43,6 +44,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class StudentListActivity extends AppCompatActivity {
 
@@ -62,15 +64,13 @@ public class StudentListActivity extends AppCompatActivity {
     private ArrayList<AcademicYear> academicYears;
     private ArrayList<String> academicYearNames;
     private long selectedAcademicYearId;
-    private StudentRecycleViewAdapter studentRecycleViewAdapter;
+    private StudentListRecycleViewAdapter studentListRecycleViewAdapter;
 
     private RelativeLayout layoutStudent;
     private ImageView btnBack;
     private SearchView searchViewStudent;
-    private EditText edtSemester;
-    private EditText edtClass;
-    private EditText edtSubject;
     private Button btnAddStudent;
+    private ImageView btnFilter;
 
     private BottomSheetDialog bottomSheetDialog;
 
@@ -99,10 +99,8 @@ public class StudentListActivity extends AppCompatActivity {
         layoutStudent = findViewById(R.id.layoutStudent);
         btnBack = findViewById(R.id.btnBack);
         searchViewStudent = findViewById(R.id.searchViewStudent);
-        edtSemester = findViewById(R.id.edtSemester);
-        edtClass = findViewById(R.id.edtClass);
-        edtSubject = findViewById(R.id.edtSubject);
         btnAddStudent = findViewById(R.id.btnAddStudent);
+        btnFilter = findViewById(R.id.btnFilter);
         bottomSheetDialog = new BottomSheetDialog(this);
 
         db = AppDatabase.getInstance(this);
@@ -140,10 +138,10 @@ public class StudentListActivity extends AppCompatActivity {
 
         ArrayList<StudentWithRelations> students = new ArrayList<>(db.studentDAO().getAllWithRelations());
 
-        studentRecycleViewAdapter = new StudentRecycleViewAdapter(this, students);
+        studentListRecycleViewAdapter = new StudentListRecycleViewAdapter(this, students);
         RecyclerView rvStudent = findViewById(R.id.rvStudent);
         rvStudent.setLayoutManager(new LinearLayoutManager(this));
-        rvStudent.setAdapter(studentRecycleViewAdapter);
+        rvStudent.setAdapter(studentListRecycleViewAdapter);
     }
 
     @SuppressLint("InflateParams")
@@ -159,116 +157,20 @@ public class StudentListActivity extends AppCompatActivity {
         searchViewStudent.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                studentRecycleViewAdapter.getFilter().filter(query);
+                studentListRecycleViewAdapter.getFilter().filter(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                studentRecycleViewAdapter.getFilter().filter(newText);
+                studentListRecycleViewAdapter.getFilter().filter(newText);
                 return false;
             }
         });
 
-        edtSemester.setOnClickListener(v -> new AlertDialog.Builder(this)
-                .setTitle("Chọn học kỳ")
-                .setItems(semesterNames.toArray(new CharSequence[0]), (dialog, which) -> {
-                    if (which == 0) {
-                        edtSemester.setText("");
-                        edtClass.setText("");
-                        edtSubject.setText("");
-                        selectedSemesterId = 0;
-                        selectedClassId = 0;
-                        selectedSubjectId = 0;
-                        studentRecycleViewAdapter.resetFilteredList();
-                        return;
-                    }
-
-                    selectedSemesterId = semesters.get(which - 1).getId();
-                    edtSemester.setText(semesterNames.get(which));
-                    edtClass.setText("");
-                    edtSubject.setText("");
-                    selectedClassId = 0;
-                    selectedSubjectId = 0;
-
-                    studentRecycleViewAdapter.setFilteredList(new ArrayList<>(db.studentDAO().getBySemester(selectedSemesterId)));
-                    searchViewStudent.setQuery("", false);
-                    searchViewStudent.clearFocus();
-                })
-                .show());
-
-        edtClass.setOnClickListener(v -> {
-            if (edtSemester.getText().toString().isEmpty()) {
-                Utils.showToast(this, "Chưa chọn học kỳ");
-                return;
-            }
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Chọn lớp");
-            builder.setItems(classNames.toArray(new CharSequence[0]), (dialog, which) -> {
-                if (which == 0) {
-                    edtClass.setText("");
-                    edtSubject.setText("");
-                    selectedClassId = 0;
-                    selectedSubjectId = 0;
-                    studentRecycleViewAdapter.setFilteredList(new ArrayList<>(db.studentDAO().getBySemester(selectedSemesterId)));
-                    searchViewStudent.setQuery("", false);
-                    searchViewStudent.clearFocus();
-                    return;
-                }
-
-                selectedClassId = classes.get(which - 1).getId();
-                edtClass.setText(classNames.get(which));
-                edtSubject.setText("");
-                selectedSubjectId = 0;
-
-                studentRecycleViewAdapter.setFilteredList(new ArrayList<>(db.studentDAO().getBySemesterAndClass(selectedSemesterId, selectedClassId)));
-                searchViewStudent.setQuery("", false);
-                searchViewStudent.clearFocus();
-            });
-            builder.show();
-        });
-
-        edtSubject.setOnClickListener(v -> {
-            if (edtSemester.getText().toString().isEmpty()) {
-                Utils.showToast(this, "Chưa chọn học kỳ");
-                return;
-            }
-
-            if (edtClass.getText().toString().isEmpty()) {
-                Utils.showToast(this, "Chưa chọn lớp");
-                return;
-            }
-
-            subjects = new ArrayList<>(db.subjectDAO().getByClassAndSemester(selectedClassId, selectedSemesterId));
-            subjectNames = new ArrayList<>(subjects.size() + 1);
-            subjectNames.add(0, "--- Chọn môn học ---");
-            for (int i = 0; i < subjects.size(); i++) {
-                subjectNames.add(subjects.get(i).getSubject().getName());
-            }
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Chọn môn học");
-            builder.setItems(subjectNames.toArray(new CharSequence[0]), (dialog, which) -> {
-                if (which == 0) {
-                    edtSubject.setText("");
-                    selectedSubjectId = 0;
-                    studentRecycleViewAdapter.setFilteredList(new ArrayList<>(db.studentDAO().getBySemesterAndClass(selectedSemesterId, selectedClassId)));
-                    searchViewStudent.setQuery("", false);
-                    searchViewStudent.clearFocus();
-                    return;
-                }
-
-                selectedSubjectId = subjects.get(which - 1).getSubject().getId();
-                edtSubject.setText(subjectNames.get(which));
-
-                studentRecycleViewAdapter.setFilteredList(new ArrayList<>(db.studentDAO().getBySemesterAndClassAndSubject(selectedSemesterId, selectedClassId, selectedSubjectId)));
-                searchViewStudent.setQuery("", false);
-                searchViewStudent.clearFocus();
-            });
-            builder.show();
-        });
-
         btnAddStudent.setOnClickListener(v -> showAddStudentDialog());
+
+        btnFilter.setOnClickListener(v -> showFilterStudentDialog());
     }
 
     @SuppressLint("InflateParams")
@@ -279,7 +181,6 @@ public class StudentListActivity extends AppCompatActivity {
         behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         behavior.setSkipCollapsed(true);
         behavior.setDraggable(false);
-        behavior.setHideable(true);
         bottomSheetDialog.show();
 
         view.findViewById(R.id.iconCamera).setOnClickListener(v -> ImagePicker.with(this)
@@ -347,7 +248,7 @@ public class StudentListActivity extends AppCompatActivity {
             throw new RuntimeException(e);
         }
 
-        studentRecycleViewAdapter.addStudent(studentWithRelations);
+        studentListRecycleViewAdapter.addStudent(studentWithRelations);
         bottomSheetDialog.dismiss();
         Utils.showToast(this, "Thêm thành công");
     }
@@ -387,5 +288,131 @@ public class StudentListActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    @SuppressLint("InflateParams")
+    private void showFilterStudentDialog() {
+        View view = LayoutInflater.from(this).inflate(R.layout.admin_bottom_sheet_filter_student, null);
+        bottomSheetDialog.setContentView(view);
+        BottomSheetBehavior<View> behavior = BottomSheetBehavior.from((View) view.getParent());
+        behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        behavior.setSkipCollapsed(true);
+        behavior.setDraggable(false);
+        bottomSheetDialog.show();
+
+        EditText edtSemester = view.findViewById(R.id.edtSemester);
+        EditText edtClass = view.findViewById(R.id.edtClass);
+        EditText edtSubject = view.findViewById(R.id.edtSubject);
+
+        edtSemester.setOnClickListener(v -> showSelectionDialog("Chọn học kỳ", semesterNames, (dialog, which) -> {
+                    if (which == 0) {
+                        resetSelections(edtSemester, edtClass, edtSubject);
+                    } else {
+                        selectedSemesterId = semesters.get(which - 1).getId();
+                        edtSemester.setText(semesterNames.get(which));
+                        resetSelections(edtClass, edtSubject);
+                    }
+                }
+        ));
+
+        edtClass.setOnClickListener(v -> {
+            if (edtSemester.getText().toString().isEmpty()) {
+                Utils.showToast(this, "Chưa chọn học kỳ");
+                return;
+            }
+
+            showSelectionDialog("Chọn lớp", classNames, (dialog, which) -> {
+                        if (which == 0) {
+                            resetSelections(edtClass, edtSubject);
+                        } else {
+                            selectedClassId = classes.get(which - 1).getId();
+                            edtClass.setText(classNames.get(which));
+                            resetSelections(edtSubject);
+                        }
+                    }
+            );
+        });
+
+        edtSubject.setOnClickListener(v -> {
+            if (edtSemester.getText().toString().isEmpty()) {
+                Utils.showToast(this, "Chưa chọn học kỳ");
+                return;
+            }
+
+            if (edtClass.getText().toString().isEmpty()) {
+                Utils.showToast(this, "Chưa chọn lớp");
+                return;
+            }
+
+            subjects = new ArrayList<>(db.subjectDAO().getBySemesterClass(selectedSemesterId, selectedClassId));
+            subjectNames = new ArrayList<>(subjects.size() + 1);
+            subjectNames.add(0, "--- Chọn môn học ---");
+            for (SubjectWithRelations subject : subjects) {
+                subjectNames.add(subject.getSubject().getName());
+            }
+
+            showSelectionDialog("Chọn môn học", subjectNames, (dialog, which) -> {
+                        if (which == 0) {
+                            resetSelections(edtSubject);
+                        } else {
+                            selectedSubjectId = subjects.get(which - 1).getSubject().getId();
+                            edtSubject.setText(subjectNames.get(which));
+                        }
+                    }
+            );
+        });
+
+        view.findViewById(R.id.btnConfirm).setOnClickListener(v -> updateStudentList());
+    }
+
+    private void updateStudentList() {
+        List<StudentWithRelations> students = null;
+
+        if (selectedSemesterId > 0) {
+            if (selectedClassId > 0) {
+                if (selectedSubjectId > 0) {
+                    students = db.studentDAO().getBySemesterClassSubject(selectedSemesterId, selectedClassId, selectedSubjectId);
+                } else {
+                    students = db.studentDAO().getBySemesterClass(selectedSemesterId, selectedClassId);
+                }
+            } else {
+                students = db.studentDAO().getBySemester(selectedSemesterId);
+            }
+        }
+
+        if (students != null) {
+            studentListRecycleViewAdapter.setFilteredList(new ArrayList<>(students));
+        } else {
+            studentListRecycleViewAdapter.resetFilteredList();
+        }
+        searchViewStudent.setQuery("", false);
+        searchViewStudent.clearFocus();
+        bottomSheetDialog.dismiss();
+    }
+
+    private void showSelectionDialog(String title, @NonNull List<String> options, DialogInterface.OnClickListener listener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setItems(options.toArray(new CharSequence[0]), listener);
+        builder.show();
+    }
+
+    private void resetSelections(@NonNull EditText edtSemester, EditText edtClass, EditText edtSubject) {
+        studentListRecycleViewAdapter.resetFilteredList();
+        edtSemester.setText("");
+        selectedSemesterId = 0;
+        resetSelections(edtClass, edtSubject);
+    }
+
+    private void resetSelections(@NonNull EditText edtClass, EditText edtSubject) {
+        edtClass.setText("");
+        selectedClassId = 0;
+        resetSelections(edtSubject);
+    }
+
+    private void resetSelections(@NonNull EditText edtSubject) {
+        edtSubject.setText("");
+        selectedSubjectId = 0;
+        subjectNames = null;
     }
 }

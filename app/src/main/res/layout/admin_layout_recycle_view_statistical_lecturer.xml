@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/grey"
+    android:gravity="center"
     android:orientation="horizontal"
-    android:padding="8dp"
+    android:padding="10dp"
     tools:ignore="HardcodedText">
 
     <TextView
-        android:id="@+id/txtSubjectId"
-        android:layout_width="wrap_content"
+        android:id="@+id/txtLecturerNumber"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
@@ -20,21 +21,31 @@
 
     <TextView
         android:id="@+id/txtSubjectName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:gravity="center"
         android:text="Lập trình di động"
         android:textColor="@color/white"
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/txtSubjectCredits"
-        android:layout_width="wrap_content"
+        android:id="@+id/txtClassName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:gravity="center"
+        android:text="DH21IT01"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/txtSemesterName"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:gravity="center"
-        android:text="3"
+        android:text="Học kỳ 2"
         android:textColor="@color/white"
         android:textSize="16sp" />
 

@@ -1,10 +1,13 @@
 package com.fh.app_student_management.ui.lecturer;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -25,24 +28,26 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class StatisticalScoreActivity extends AppCompatActivity {
 
     private AppDatabase db;
     private ArrayList<Semester> semesters;
     private ArrayList<String> semesterNames;
+    private long selectedSemesterId;
     private ArrayList<SubjectWithRelations> subjects;
     private ArrayList<String> subjectNames;
-    private long semesterId;
+    private long selectedSubjectId;
     private long userId;
     private PieData pieData;
     private PieDataSet pieDataSet;
     private ArrayList<PieEntry> entries;
-    private ScoreDistribution scoreDistribution;
 
     private ImageView btnBack;
     private EditText edtSemester;
     private EditText edtSubject;
+    private LinearLayout titleChart;
     private TextView txtSemesterName;
     private TextView txtSubjectName;
     private PieChart chart;
@@ -66,9 +71,12 @@ public class StatisticalScoreActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
         edtSemester = findViewById(R.id.edtSemester);
         edtSubject = findViewById(R.id.edtSubject);
+        titleChart = findViewById(R.id.titleChart);
         txtSemesterName = findViewById(R.id.txtSemesterName);
         txtSubjectName = findViewById(R.id.txtSubjectName);
         chart = findViewById(R.id.chart);
+
+        titleChart.setVisibility(View.GONE);
 
         db = AppDatabase.getInstance(this);
 
@@ -83,6 +91,7 @@ public class StatisticalScoreActivity extends AppCompatActivity {
         }
 
         entries = new ArrayList<>();
+
         pieDataSet = new PieDataSet(entries, "Thống kê điểm số của sinh viên");
         pieDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
         pieDataSet.setValueTextSize(14f);
@@ -102,87 +111,87 @@ public class StatisticalScoreActivity extends AppCompatActivity {
     private void handleEventListener() {
         btnBack.setOnClickListener(v -> finish());
 
-        edtSemester.setOnClickListener(v -> showSemesterDialog());
-
-        edtSubject.setOnClickListener(v -> showSubjectDialog());
-    }
-
-    @SuppressLint("SetTextI18n")
-    private void showSemesterDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Chọn học kỳ");
-        builder.setItems(semesterNames.toArray(new CharSequence[0]), (dialog, which) -> {
+        edtSemester.setOnClickListener(v -> showSelectionDialog("Chọn học kỳ", semesterNames, (dialog, which) -> {
             if (which == 0) {
-                txtSemesterName.setText("");
-                txtSubjectName.setText("");
-                edtSemester.setText("");
-                edtSubject.setText("");
+                resetSelections(edtSemester, edtSubject);
+            } else {
+                selectedSemesterId = semesters.get(which - 1).getId();
+                edtSemester.setText(semesterNames.get(which));
+                resetSelections(edtSubject);
+            }
+        }));
+
+        edtSubject.setOnClickListener(v -> {
+            if (edtSemester.getText().toString().isEmpty()) {
+                Utils.showToast(this, "Chưa chọn học kỳ");
                 return;
             }
 
-            semesterId = semesters.get(which - 1).getId();
-            edtSemester.setText(semesterNames.get(which));
-            edtSubject.setText("");
-            txtSemesterName.setText("");
-            txtSubjectName.setText("");
+            subjects = new ArrayList<>(db.subjectDAO().getByLecturerSemester(userId, selectedSemesterId));
+            subjectNames = new ArrayList<>(subjects.size() + 1);
+            subjectNames.add(0, "--- Chọn môn học ---");
+            for (int i = 0; i < subjects.size(); i++) {
+                subjectNames.add(subjects.get(i).getSubject().getName());
+            }
 
-            pieDataSet.setValues(new ArrayList<>());
-            pieData.notifyDataChanged();
-            chart.notifyDataSetChanged();
-            chart.invalidate();
+            showSelectionDialog("Chọn môn học", subjectNames, (dialog, which) -> {
+                if (which == 0) {
+                    resetSelections(edtSubject);
+                } else {
+                    selectedSubjectId = subjects.get(which - 1).getSubject().getId();
+                    edtSubject.setText(subjectNames.get(which));
+                    titleChart.setVisibility(View.VISIBLE);
+                    txtSemesterName.setText(edtSemester.getText().toString());
+                    txtSubjectName.setText(subjectNames.get(which));
+
+                    ScoreDistribution scoreDistribution = db.scoreDAO().getStatisticalBySemesterSubject(selectedSemesterId, selectedSubjectId);
+
+                    entries.clear();
+                    if (scoreDistribution.getExcellent() > 0) {
+                        entries.add(new PieEntry(scoreDistribution.getExcellent(), "Xuất sắc"));
+                    }
+                    if (scoreDistribution.getGood() > 0) {
+                        entries.add(new PieEntry(scoreDistribution.getGood(), "Giỏi"));
+                    }
+                    if (scoreDistribution.getFair() > 0) {
+                        entries.add(new PieEntry(scoreDistribution.getFair(), "Khá"));
+                    }
+                    if (scoreDistribution.getAverage() > 0) {
+                        entries.add(new PieEntry(scoreDistribution.getAverage(), "Trung bình"));
+                    }
+
+                    updateChart(entries);
+                }
+            });
         });
+    }
+
+    private void updateChart(ArrayList<PieEntry> entries) {
+        pieDataSet.setValues(entries);
+        pieData.notifyDataChanged();
+        chart.notifyDataSetChanged();
+        chart.invalidate();
+    }
+
+    private void showSelectionDialog(String title, List<String> options, DialogInterface.OnClickListener listener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setItems(options.toArray(new CharSequence[0]), listener);
         builder.show();
     }
 
-    private void showSubjectDialog() {
-        if (edtSemester.getText().toString().isEmpty()) {
-            Utils.showToast(this, "Chưa chọn học kỳ");
-            return;
-        }
+    private void resetSelections(EditText edtSemester, EditText edtSubject) {
+        titleChart.setVisibility(View.GONE);
+        selectedSemesterId = 0;
+        edtSemester.setText("");
+        resetSelections(edtSubject);
+    }
 
-        subjects = new ArrayList<>(db.subjectDAO().getByLecturerAndSemester(userId, semesterId));
-        subjectNames = new ArrayList<>(subjects.size() + 1);
-        subjectNames.add(0, "--- Chọn môn học ---");
-        for (int i = 0; i < subjects.size(); i++) {
-            subjectNames.add(subjects.get(i).getSubject().getName());
-        }
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Chọn môn học");
-        builder.setItems(subjectNames.toArray(new CharSequence[0]), (dialog, which) -> {
-            if (which == 0) {
-                txtSemesterName.setText("");
-                txtSubjectName.setText("");
-                edtSubject.setText("");
-                return;
-            }
-
-            txtSemesterName.setText(edtSemester.getText().toString());
-            txtSubjectName.setText(subjectNames.get(which));
-            edtSubject.setText(subjectNames.get(which));
-
-            long subjectId = subjects.get(which - 1).getSubject().getId();
-            scoreDistribution = db.scoreDAO().getScoreDistribution(subjectId, semesterId);
-            entries.clear();
-
-            if (scoreDistribution.getExcellent() > 0) {
-                entries.add(new PieEntry(scoreDistribution.getExcellent(), "Xuất sắc"));
-            }
-            if (scoreDistribution.getGood() > 0) {
-                entries.add(new PieEntry(scoreDistribution.getGood(), "Giỏi"));
-            }
-            if (scoreDistribution.getAverage() > 0) {
-                entries.add(new PieEntry(scoreDistribution.getAverage(), "Khá"));
-            }
-            if (scoreDistribution.getPoor() > 0) {
-                entries.add(new PieEntry(scoreDistribution.getPoor(), "Trung bình"));
-            }
-
-            pieDataSet.setValues(entries);
-            pieData.notifyDataChanged();
-            chart.notifyDataSetChanged();
-            chart.invalidate();
-        });
-        builder.show();
+    private void resetSelections(EditText edtSubject) {
+        titleChart.setVisibility(View.GONE);
+        selectedSubjectId = 0;
+        edtSubject.setText("");
+        subjectNames = null;
+        updateChart(new ArrayList<>());
     }
 }

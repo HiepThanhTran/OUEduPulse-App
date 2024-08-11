@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class LecturerRecycleViewAdapter extends RecyclerView.Adapter<LecturerRecycleViewAdapter.LecturerViewHolder> implements Filterable {
+public class LecturerListRecycleViewAdapter extends RecyclerView.Adapter<LecturerListRecycleViewAdapter.LecturerViewHolder> implements Filterable {
 
     private final Context context;
     private final ArrayList<LecturerAndUser> originalList;
@@ -47,7 +47,7 @@ public class LecturerRecycleViewAdapter extends RecyclerView.Adapter<LecturerRec
     private Constants.Role selectedRole;
     private ArrayList<LecturerAndUser> filteredList;
 
-    public LecturerRecycleViewAdapter(Context context, ArrayList<LecturerAndUser> originalList) {
+    public LecturerListRecycleViewAdapter(Context context, ArrayList<LecturerAndUser> originalList) {
         this.context = context;
         this.originalList = originalList;
         this.filteredList = originalList;
@@ -173,7 +173,7 @@ public class LecturerRecycleViewAdapter extends RecyclerView.Adapter<LecturerRec
         behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         behavior.setSkipCollapsed(true);
         behavior.setDraggable(false);
-        behavior.setHideable(true);
+        bottomSheetDialog.show();
 
         ImageView iconCamera = view.findViewById(R.id.iconCamera);
         ImageView avatar = view.findViewById(R.id.avatar);
@@ -236,8 +236,6 @@ public class LecturerRecycleViewAdapter extends RecyclerView.Adapter<LecturerRec
                 .setPositiveButton("Có", (dialog, which) -> performEditLecturer(lecturerAndUser, view))
                 .setNegativeButton("Không", (dialog, which) -> dialog.dismiss())
                 .show());
-
-        bottomSheetDialog.show();
     }
 
     private void performEditLecturer(LecturerAndUser lecturerAndUser, View view) {

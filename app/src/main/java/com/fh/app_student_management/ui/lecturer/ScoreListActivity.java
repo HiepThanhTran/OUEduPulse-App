@@ -11,21 +11,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fh.app_student_management.R;
-import com.fh.app_student_management.adapters.lecturer.ScoreRecycleViewAdapter;
+import com.fh.app_student_management.adapters.lecturer.ScoreListRecycleViewAdapter;
 import com.fh.app_student_management.data.AppDatabase;
 import com.fh.app_student_management.data.relations.StudentWithScores;
 import com.fh.app_student_management.utilities.Constants;
 
 import java.util.ArrayList;
 
-public class ScoreActivity extends AppCompatActivity {
+public class ScoreListActivity extends AppCompatActivity {
 
     private ImageView btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.lecturer_activity_score);
+        setContentView(R.layout.lecturer_activity_list_score);
 
         initScoreView();
         handleEventListener();
@@ -44,12 +44,12 @@ public class ScoreActivity extends AppCompatActivity {
         txtSubjectName.setText(subjectName);
 
         AppDatabase db = AppDatabase.getInstance(this);
-        ArrayList<StudentWithScores> students = new ArrayList<>(db.studentDAO().getScoresBySubjectAndSemester(subjectId, semesterId));
-        ScoreRecycleViewAdapter scoreRecycleViewAdapter = new ScoreRecycleViewAdapter(
+        ArrayList<StudentWithScores> students = new ArrayList<>(db.studentDAO().getScoresBySemesterSubject(semesterId, subjectId));
+        ScoreListRecycleViewAdapter scoreListRecycleViewAdapter = new ScoreListRecycleViewAdapter(
                 this, getIntent(), students
         );
         rvScore.setLayoutManager(new LinearLayoutManager(this));
-        rvScore.setAdapter(scoreRecycleViewAdapter);
+        rvScore.setAdapter(scoreListRecycleViewAdapter);
     }
 
     @SuppressLint("InflateParams")

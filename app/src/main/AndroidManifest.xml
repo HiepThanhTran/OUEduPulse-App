@@ -77,7 +77,7 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".ui.lecturer.ScoreActivity"
+            android:name=".ui.lecturer.ScoreListActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
@@ -87,7 +87,7 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".ui.SemesterActivity"
+            android:name=".ui.SemesterListActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
@@ -97,7 +97,7 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".ui.lecturer.SubjectActivity"
+            android:name=".ui.lecturer.SubjectListActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
