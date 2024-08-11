@@ -25,7 +25,7 @@ public interface ScoreDAO {
             "AND subject_id = :subjectId " +
             "AND semester_id = :semesterId " +
             "ORDER BY id DESC")
-    List<Score> getByStudent(long studentId, long subjectId, long semesterId);
+    List<Score> getByStudent(long semesterId, long subjectId, long studentId);
 
     @Query("SELECT " +
             "COUNT(CASE WHEN point >= 9 THEN 1 END) AS excellent, " +
@@ -33,8 +33,8 @@ public interface ScoreDAO {
             "COUNT(CASE WHEN point >= 5 AND point < 7 THEN 1 END) AS fair, " +
             "COUNT(CASE WHEN point < 5 THEN 1 END) AS average " +
             "FROM scores " +
-            "WHERE type = 'TB' AND subject_id = :subjectId AND semester_id = :semesterId")
-    ScoreDistribution getScoreDistribution(long subjectId, long semesterId);
+            "WHERE type = 'TB' AND semester_id = :semesterId AND subject_id = :subjectId")
+    ScoreDistribution getStatisticalBySemesterSubject(long semesterId, long subjectId);
 
     @Query("SELECT COUNT(*) FROM scores")
     int count();

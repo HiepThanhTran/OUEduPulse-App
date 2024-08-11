@@ -94,7 +94,7 @@ public class ScoreListRecycleViewAdapter extends RecyclerView.Adapter<ScoreListR
                 float ckScore = Float.parseFloat(ck);
                 float tb = (gkScore + ckScore) / 2;
 
-                List<Score> scores = db.scoreDAO().getByStudent(student.getStudentId(), subject.getId(), semesterId);
+                List<Score> scores = db.scoreDAO().getByStudent(semesterId, subject.getId(), student.getStudentId());
                 if (scores.isEmpty()) {
                     db.scoreDAO().insert(new Score("GK", gkScore, student.getStudentId(), subject.getId(), semesterId));
                     db.scoreDAO().insert(new Score("CK", ckScore, student.getStudentId(), subject.getId(), semesterId));

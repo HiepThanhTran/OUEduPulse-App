@@ -36,6 +36,7 @@ public class StatisticalSubjectActivity extends AppCompatActivity {
     private EditText edtSemester;
     private LinearLayout titleTable;
     private TextView txtSemesterName;
+    private TextView txtSubjectCount;
     private RecyclerView rvSubject;
 
     @Override
@@ -52,6 +53,7 @@ public class StatisticalSubjectActivity extends AppCompatActivity {
         edtSemester = findViewById(R.id.edtSemester);
         titleTable = findViewById(R.id.titleTable);
         txtSemesterName = findViewById(R.id.txtSemesterName);
+        txtSubjectCount = findViewById(R.id.txtSubjectCount);
         rvSubject = findViewById(R.id.rvSubject);
 
         titleTable.setVisibility(View.GONE);
@@ -96,6 +98,7 @@ public class StatisticalSubjectActivity extends AppCompatActivity {
         rvSubject.setLayoutManager(new LinearLayoutManager(this));
         rvSubject.setAdapter(new SubjectStatisticalRecycleViewAdapter(this, new ArrayList<>(statisticalOfSubjects)));
         txtSemesterName.setText(selectedSemesterName);
+        txtSubjectCount.setText(String.valueOf(statisticalOfSubjects.size()));
         titleTable.setVisibility(View.VISIBLE);
     }
 }

@@ -52,9 +52,9 @@ public interface StudentDAO {
             "    FROM scores " +
             "    WHERE type = 'TB' " +
             ") tb ON s.id = tb.student_id AND ssr.subject_id = tb.subject_id " +
-            "WHERE ssr.subject_id = :subjectId AND ssc.semester_id = :semesterId " +
+            "WHERE ssc.semester_id = :semesterId AND ssr.subject_id = :subjectId " +
             "ORDER BY studentId DESC")
-    List<StudentWithScores> getScoresBySubjectSemester(long subjectId, long semesterId);
+    List<StudentWithScores> getScoresBySemesterSubject(long semesterId, long subjectId);
 
     @Query("SELECT s.* FROM students s " +
             "JOIN student_semester_cross_ref ssc ON s.id = ssc.student_id " +

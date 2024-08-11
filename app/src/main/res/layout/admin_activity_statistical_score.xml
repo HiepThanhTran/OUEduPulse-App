@@ -81,7 +81,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/academicYearContainer"
+            android:id="@+id/subjectContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/semesterContainer"
@@ -119,45 +119,6 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/classContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/academicYearContainer"
-            android:layout_marginBottom="20dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:fontFamily="@font/opensans_bold"
-                android:text="Lớp"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-
-            <EditText
-                android:id="@+id/edtClass"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="@drawable/custom_input"
-                android:clickable="false"
-                android:drawableStart="@drawable/ic_class"
-                android:drawablePadding="12dp"
-                android:ems="10"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:fontFamily="@font/opensans_bold"
-                android:hint="--- Chọn lớp ---"
-                android:inputType="none"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:textColor="@color/grey"
-                android:textSize="16sp"
-                tools:ignore="Autofill,LabelFor" />
-
-        </LinearLayout>
-
     </RelativeLayout>
 
     <LinearLayout
@@ -180,19 +141,21 @@
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/txtSemesterName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/opensans_bold"
             android:text="Học kỳ 1 - năm 2024 - 2025"
-            android:textColor="@color/white"
+            android:textColor="@color/orange"
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/txtSubjectName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/opensans_bold"
-            android:text="môn Lập trình di động"
-            android:textColor="@color/white"
+            android:text="Lập trình di động"
+            android:textColor="@color/medium_orange"
             android:textSize="16sp" />
 
     </LinearLayout>

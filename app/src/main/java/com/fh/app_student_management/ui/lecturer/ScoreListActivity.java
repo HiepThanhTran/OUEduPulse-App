@@ -44,7 +44,7 @@ public class ScoreListActivity extends AppCompatActivity {
         txtSubjectName.setText(subjectName);
 
         AppDatabase db = AppDatabase.getInstance(this);
-        ArrayList<StudentWithScores> students = new ArrayList<>(db.studentDAO().getScoresBySubjectSemester(subjectId, semesterId));
+        ArrayList<StudentWithScores> students = new ArrayList<>(db.studentDAO().getScoresBySemesterSubject(semesterId, subjectId));
         ScoreListRecycleViewAdapter scoreListRecycleViewAdapter = new ScoreListRecycleViewAdapter(
                 this, getIntent(), students
         );

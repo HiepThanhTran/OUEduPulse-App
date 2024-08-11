@@ -38,6 +38,7 @@ public class StatisticalScoreActivity extends AppCompatActivity {
     private long selectedSemesterId;
     private ArrayList<SubjectWithRelations> subjects;
     private ArrayList<String> subjectNames;
+    private long selectedSubjectId;
     private long userId;
     private PieData pieData;
     private PieDataSet pieDataSet;
@@ -90,6 +91,7 @@ public class StatisticalScoreActivity extends AppCompatActivity {
         }
 
         entries = new ArrayList<>();
+
         pieDataSet = new PieDataSet(entries, "Thống kê điểm số của sinh viên");
         pieDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
         pieDataSet.setValueTextSize(14f);
@@ -116,7 +118,6 @@ public class StatisticalScoreActivity extends AppCompatActivity {
                 selectedSemesterId = semesters.get(which - 1).getId();
                 edtSemester.setText(semesterNames.get(which));
                 resetSelections(edtSubject);
-                updateChart(new ArrayList<>());
             }
         }));
 
@@ -137,15 +138,15 @@ public class StatisticalScoreActivity extends AppCompatActivity {
                 if (which == 0) {
                     resetSelections(edtSubject);
                 } else {
-                    long subjectId = subjects.get(which - 1).getSubject().getId();
+                    selectedSubjectId = subjects.get(which - 1).getSubject().getId();
                     edtSubject.setText(subjectNames.get(which));
                     titleChart.setVisibility(View.VISIBLE);
                     txtSemesterName.setText(edtSemester.getText().toString());
                     txtSubjectName.setText(subjectNames.get(which));
 
-                    ScoreDistribution scoreDistribution = db.scoreDAO().getScoreDistribution(subjectId, selectedSemesterId);
-                    entries.clear();
+                    ScoreDistribution scoreDistribution = db.scoreDAO().getStatisticalBySemesterSubject(selectedSemesterId, selectedSubjectId);
 
+                    entries.clear();
                     if (scoreDistribution.getExcellent() > 0) {
                         entries.add(new PieEntry(scoreDistribution.getExcellent(), "Xuất sắc"));
                     }
@@ -165,18 +166,18 @@ public class StatisticalScoreActivity extends AppCompatActivity {
         });
     }
 
-    private void showSelectionDialog(String title, List<String> options, DialogInterface.OnClickListener listener) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title);
-        builder.setItems(options.toArray(new CharSequence[0]), listener);
-        builder.show();
-    }
-
     private void updateChart(ArrayList<PieEntry> entries) {
         pieDataSet.setValues(entries);
         pieData.notifyDataChanged();
         chart.notifyDataSetChanged();
         chart.invalidate();
+    }
+
+    private void showSelectionDialog(String title, List<String> options, DialogInterface.OnClickListener listener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setItems(options.toArray(new CharSequence[0]), listener);
+        builder.show();
     }
 
     private void resetSelections(EditText edtSemester, EditText edtSubject) {
@@ -188,7 +189,9 @@ public class StatisticalScoreActivity extends AppCompatActivity {
 
     private void resetSelections(EditText edtSubject) {
         titleChart.setVisibility(View.GONE);
+        selectedSubjectId = 0;
         edtSubject.setText("");
         subjectNames = null;
+        updateChart(new ArrayList<>());
     }
 }

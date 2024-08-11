@@ -24,11 +24,17 @@ public interface SubjectDAO {
     Subject getById(long id);
 
     @Query("SELECT s.* FROM subjects s " +
+            "JOIN subject_semester_cross_ref ssr ON s.id = ssr.subject_id " +
+            "WHERE ssr.semester_id = :semesterId " +
+            "ORDER BY id DESC")
+    List<SubjectWithRelations> getBySemester(long semesterId);
+
+    @Query("SELECT s.* FROM subjects s " +
             "JOIN lecturer_subject_cross_ref lsr ON s.id = lsr.subject_id " +
             "JOIN subject_semester_cross_ref ssr ON s.id = ssr.subject_id " +
             "JOIN lecturers l ON lsr.lecturer_id = l.id " +
             "JOIN users u ON l.user_id = u.id " +
-            "WHERE ssr.semester_id = :semesterId AND u.id = :userId " +
+            "WHERE u.id = :userId AND ssr.semester_id = :semesterId " +
             "ORDER BY id DESC")
     List<SubjectWithRelations> getByLecturerSemester(long userId, long semesterId);
 
@@ -37,7 +43,7 @@ public interface SubjectDAO {
             "JOIN subject_semester_cross_ref ssr ON s.id = ssr.subject_id " +
             "WHERE ssr.semester_id = :semesterId AND c.id = :classId " +
             "ORDER BY id DESC")
-    List<SubjectWithRelations> getByClassSemester(long classId, long semesterId);
+    List<SubjectWithRelations> getBySemesterClass(long semesterId, long classId);
 
     @Query("SELECT COUNT(*) FROM subjects")
     int count();

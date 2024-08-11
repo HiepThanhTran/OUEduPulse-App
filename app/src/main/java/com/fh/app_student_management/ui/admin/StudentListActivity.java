@@ -344,7 +344,7 @@ public class StudentListActivity extends AppCompatActivity {
                 return;
             }
 
-            subjects = new ArrayList<>(db.subjectDAO().getByClassSemester(selectedClassId, selectedSemesterId));
+            subjects = new ArrayList<>(db.subjectDAO().getBySemesterClass(selectedSemesterId, selectedClassId));
             subjectNames = new ArrayList<>(subjects.size() + 1);
             subjectNames.add(0, "--- Chọn môn học ---");
             for (SubjectWithRelations subject : subjects) {
