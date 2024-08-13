@@ -2,6 +2,7 @@ package com.fh.app_student_management.adapters.admin;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +17,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fh.app_student_management.R;
+import com.fh.app_student_management.adapters.listener.ItemClickListener;
 import com.fh.app_student_management.data.AppDatabase;
 import com.fh.app_student_management.data.entities.AcademicYear;
 import com.fh.app_student_management.data.entities.Faculty;
 import com.fh.app_student_management.data.entities.Major;
 import com.fh.app_student_management.data.relations.ClassWithRelations;
+import com.fh.app_student_management.ui.StudentListActivity;
+import com.fh.app_student_management.utilities.Constants;
 import com.fh.app_student_management.utilities.Utils;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -79,6 +83,13 @@ public class ClassListRecycleViewAdapter extends RecyclerView.Adapter<ClassListR
         holder.txtFacultyName.setText(faculty.getName());
         holder.txtMajorName.setText(classWithRelations.getMajor().getName());
         holder.txtAcademicYearName.setText(classWithRelations.getAcademicYear().getName());
+
+        holder.setItemClickListener((view, position1, isLongClick) -> {
+            Intent intent = new Intent(context, StudentListActivity.class);
+            intent.putExtra("isStudentClass", true);
+            intent.putExtra(Constants.CLASS_ID, classWithRelations.getClazz().getId());
+            context.startActivity(intent);
+        });
 
         holder.btnEditClass.setOnClickListener(v -> showEditClassDialog(classWithRelations));
 
@@ -233,7 +244,7 @@ public class ClassListRecycleViewAdapter extends RecyclerView.Adapter<ClassListR
         return true;
     }
 
-    public static class ClassViewHolder extends RecyclerView.ViewHolder {
+    public static class ClassViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         private final TextView txtClassName;
         private final TextView txtFacultyName;
@@ -241,6 +252,7 @@ public class ClassListRecycleViewAdapter extends RecyclerView.Adapter<ClassListR
         private final TextView txtAcademicYearName;
         private final Button btnEditClass;
         private final Button btnDeleteClass;
+        private ItemClickListener itemClickListener;
 
         public ClassViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -251,6 +263,24 @@ public class ClassListRecycleViewAdapter extends RecyclerView.Adapter<ClassListR
             txtAcademicYearName = itemView.findViewById(R.id.txtAcademicYearName);
             btnEditClass = itemView.findViewById(R.id.btnEditClass);
             btnDeleteClass = itemView.findViewById(R.id.btnDeleteClass);
+
+            itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
+        }
+
+        public void setItemClickListener(ItemClickListener itemClickListener) {
+            this.itemClickListener = itemClickListener;
+        }
+
+        @Override
+        public void onClick(View view) {
+            itemClickListener.onClick(view, getAdapterPosition(), false);
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            itemClickListener.onClick(view, getAdapterPosition(), true);
+            return true;
         }
     }
 }

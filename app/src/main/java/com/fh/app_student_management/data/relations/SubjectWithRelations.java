@@ -15,6 +15,7 @@ public class SubjectWithRelations {
     private Class clazz;
     @Relation(parentColumn = "major_id", entityColumn = "id")
     private Major major;
+    private long semesterId;
 
     public Subject getSubject() {
         return subject;
@@ -38,5 +39,13 @@ public class SubjectWithRelations {
 
     public void setMajor(Major major) {
         this.major = major;
+    }
+
+    public long getSemesterId() {
+        return semesterId;
+    }
+
+    public void setSemesterId(long semesterId) {
+        this.semesterId = semesterId;
     }
 }

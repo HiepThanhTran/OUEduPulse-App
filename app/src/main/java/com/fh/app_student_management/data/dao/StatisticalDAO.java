@@ -3,6 +3,7 @@ package com.fh.app_student_management.data.dao;
 import androidx.room.Dao;
 import androidx.room.Query;
 
+import com.fh.app_student_management.data.relations.ScoreDistribution;
 import com.fh.app_student_management.data.relations.StatisticalOfLecturer;
 import com.fh.app_student_management.data.relations.StatisticalOfSubject;
 
@@ -43,4 +44,13 @@ public interface StatisticalDAO {
             "GROUP BY s.id " +
             "ORDER BY s.name, c.name")
     List<StatisticalOfSubject> getStatisticalOfSubject(long semesterId);
+
+    @Query("SELECT " +
+            "COUNT(CASE WHEN point >= 9 THEN 1 END) AS excellent, " +
+            "COUNT(CASE WHEN point >= 7 AND point < 9 THEN 1 END) AS good, " +
+            "COUNT(CASE WHEN point >= 5 AND point < 7 THEN 1 END) AS fair, " +
+            "COUNT(CASE WHEN point < 5 THEN 1 END) AS average " +
+            "FROM scores " +
+            "WHERE type = 'TB' AND semester_id = :semesterId AND subject_id = :subjectId")
+    ScoreDistribution getStatisticalBySemesterSubject(long semesterId, long subjectId);
 }

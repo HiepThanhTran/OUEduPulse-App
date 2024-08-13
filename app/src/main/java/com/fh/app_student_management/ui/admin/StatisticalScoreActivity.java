@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.fh.app_student_management.R;
 import com.fh.app_student_management.data.AppDatabase;
@@ -56,6 +59,11 @@ public class StatisticalScoreActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_activity_statistical_score);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         initStatisticalScoreView();
         handleEventListener();
@@ -169,7 +177,7 @@ public class StatisticalScoreActivity extends AppCompatActivity {
                     txtSubjectName.setText(subjectNames.get(which));
 
                     ScoreDistribution scoreDistribution = AppDatabase.getInstance(this)
-                            .scoreDAO().getStatisticalBySemesterSubject(selectedSemesterId, selectedSubjectId);
+                            .statisticalDAO().getStatisticalBySemesterSubject(selectedSemesterId, selectedSubjectId);
 
                     entries.clear();
                     if (scoreDistribution.getExcellent() > 0) {

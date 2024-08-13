@@ -92,6 +92,10 @@ public class StudentListRecycleViewAdapter extends RecyclerView.Adapter<StudentL
         notifyDataSetChanged();
     }
 
+    public ArrayList<StudentWithRelations> getFilteredList() {
+        return filteredList;
+    }
+
     public void resetFilteredList() {
         setFilteredList(originalList);
     }
@@ -167,6 +171,10 @@ public class StudentListRecycleViewAdapter extends RecyclerView.Adapter<StudentL
         }
         studentWithRelations.getStudent().setUserId(userId);
         AppDatabase.getInstance(context).studentDAO().insert(studentWithRelations.getStudent());
+        updateStudentList(studentWithRelations);
+    }
+
+    public void updateStudentList(StudentWithRelations studentWithRelations) {
         originalList.add(0, studentWithRelations);
         notifyItemInserted(0);
     }

@@ -21,10 +21,11 @@ public interface LecturerDAO {
     List<LecturerAndUser> getAllLecturerAndUser();
 
     @Query("SELECT l.* FROM lecturers l " +
+            "JOIN users u ON u.id = l.user_id " +
             "JOIN lecturer_subject_cross_ref lsc ON l.id = lsc.lecturer_id " +
             "JOIN subject_semester_cross_ref ssc ON lsc.subject_id = ssc.subject_id " +
             "WHERE ssc.semester_id = :semesterId " +
-            "GROUP BY l.id, ssc.semester_id")
+            "GROUP BY u.full_name")
     List<LecturerAndUser> getAllLecturerAndUserBySemester(long semesterId);
 
     @Query("SELECT * FROM lecturers WHERE id = :id")

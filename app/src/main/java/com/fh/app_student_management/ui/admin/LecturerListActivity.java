@@ -18,6 +18,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -53,6 +56,11 @@ public class LecturerListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_activity_list_lecturer);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.layoutLecturer), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         initLecturerListView();
         handleEventListeners();
@@ -78,8 +86,8 @@ public class LecturerListActivity extends AppCompatActivity {
         btnAddLecturer = findViewById(R.id.btnAddLecturer);
         bottomSheetDialog = new BottomSheetDialog(this);
 
-        ArrayList<LecturerAndUser> lectures = new ArrayList<>(AppDatabase.getInstance(this).lecturerDAO().getAllLecturerAndUser());
-
+        ArrayList<LecturerAndUser> lectures = new ArrayList<>(AppDatabase.getInstance(this)
+                .lecturerDAO().getAllLecturerAndUser());
         RecyclerView rvLecturer = findViewById(R.id.rvLecturer);
         lecturerListRecycleViewAdapter = new LecturerListRecycleViewAdapter(this, lectures);
         rvLecturer.setLayoutManager(new LinearLayoutManager(this));

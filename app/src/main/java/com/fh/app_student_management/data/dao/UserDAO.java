@@ -14,7 +14,7 @@ import java.util.List;
 @Dao
 public interface UserDAO {
 
-    @Query("SELECT * FROM users ORDER BY id DESC")
+    @Query("SELECT * FROM users ORDER BY full_name")
     List<User> getAll();
 
     @Query("SELECT * FROM users WHERE id = :id")

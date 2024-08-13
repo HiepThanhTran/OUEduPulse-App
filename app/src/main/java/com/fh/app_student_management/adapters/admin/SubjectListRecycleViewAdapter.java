@@ -2,6 +2,7 @@ package com.fh.app_student_management.adapters.admin;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,13 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fh.app_student_management.R;
+import com.fh.app_student_management.adapters.listener.ItemClickListener;
 import com.fh.app_student_management.data.AppDatabase;
 import com.fh.app_student_management.data.entities.Class;
 import com.fh.app_student_management.data.entities.Major;
 import com.fh.app_student_management.data.relations.SubjectWithRelations;
+import com.fh.app_student_management.ui.StudentListActivity;
+import com.fh.app_student_management.utilities.Constants;
 import com.fh.app_student_management.utilities.Utils;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -77,6 +81,15 @@ public class SubjectListRecycleViewAdapter extends RecyclerView.Adapter<SubjectL
         holder.txtClassName.setText(subjectWithRelations.getClazz().getName());
         holder.txtMajorName.setText(subjectWithRelations.getMajor().getName());
         holder.txtSubjectCredits.setText(String.valueOf(subjectWithRelations.getSubject().getCredits()));
+
+        holder.setItemClickListener((view, position1, isLongClick) -> {
+            Intent intent = new Intent(context, StudentListActivity.class);
+            intent.putExtra("isStudentSubject", true);
+            intent.putExtra(Constants.SEMESTER_ID, subjectWithRelations.getSemesterId());
+            intent.putExtra(Constants.CLASS_ID, subjectWithRelations.getClazz().getId());
+            intent.putExtra(Constants.SUBJECT_ID, subjectWithRelations.getSubject().getId());
+            context.startActivity(intent);
+        });
 
         holder.btnEditSubject.setOnClickListener(v -> showEditSubjectDialog(subjectWithRelations));
 
@@ -234,7 +247,7 @@ public class SubjectListRecycleViewAdapter extends RecyclerView.Adapter<SubjectL
         return true;
     }
 
-    public static class SubjectViewHolder extends RecyclerView.ViewHolder {
+    public static class SubjectViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         private final TextView txtSubjectName;
         private final TextView txtClassName;
@@ -242,6 +255,7 @@ public class SubjectListRecycleViewAdapter extends RecyclerView.Adapter<SubjectL
         private final TextView txtSubjectCredits;
         private final Button btnEditSubject;
         private final Button btnDeleteSubject;
+        private ItemClickListener itemClickListener;
 
         public SubjectViewHolder(View itemView) {
             super(itemView);
@@ -252,6 +266,24 @@ public class SubjectListRecycleViewAdapter extends RecyclerView.Adapter<SubjectL
             txtSubjectCredits = itemView.findViewById(R.id.txtSubjectCredits);
             btnEditSubject = itemView.findViewById(R.id.btnEditSubject);
             btnDeleteSubject = itemView.findViewById(R.id.btnDeleteSubject);
+
+            itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
+        }
+
+        public void setItemClickListener(ItemClickListener itemClickListener) {
+            this.itemClickListener = itemClickListener;
+        }
+
+        @Override
+        public void onClick(View view) {
+            itemClickListener.onClick(view, getAdapterPosition(), false);
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            itemClickListener.onClick(view, getAdapterPosition(), true);
+            return true;
         }
     }
 }
