@@ -11,7 +11,6 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.fh.app_student_management.R;
-import com.fh.app_student_management.data.AppDatabase;
 import com.fh.app_student_management.data.entities.User;
 import com.fh.app_student_management.ui.SemesterListActivity;
 import com.fh.app_student_management.ui.lecturer.StatisticalScoreActivity;
@@ -22,7 +21,7 @@ import java.util.Objects;
 
 public class LecturerFragment extends Fragment {
 
-    private User user;
+    private long userId;
 
     private CardView btnToSemester;
     private CardView btnToStatistical;
@@ -42,8 +41,7 @@ public class LecturerFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            long userId = Long.parseLong(Objects.requireNonNull(requireArguments().getString(Constants.USER_ID)));
-            user = AppDatabase.getInstance(requireContext()).userDAO().getById(userId);
+            userId = Long.parseLong(Objects.requireNonNull(requireArguments().getString(Constants.USER_ID)));
         }
     }
 
@@ -66,7 +64,7 @@ public class LecturerFragment extends Fragment {
 
     private void handleEventListener() {
         Bundle bundle = new Bundle();
-        bundle.putLong(Constants.USER_ID, user.getId());
+        bundle.putLong(Constants.USER_ID, userId);
 
         btnToSemester.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), SemesterListActivity.class);

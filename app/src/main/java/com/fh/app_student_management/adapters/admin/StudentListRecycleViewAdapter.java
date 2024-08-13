@@ -103,7 +103,7 @@ public class StudentListRecycleViewAdapter extends RecyclerView.Adapter<StudentL
     @NonNull
     @Override
     public StudentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.admin_layout_recycle_view_list_student, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.z_layout_recycle_view_student, parent, false);
 
         return new StudentViewHolder(view);
     }

@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -24,6 +25,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fh.app_student_management.R;
 import com.fh.app_student_management.data.AppDatabase;
+import com.fh.app_student_management.data.entities.Lecturer;
+import com.fh.app_student_management.data.entities.User;
 import com.fh.app_student_management.data.relations.LecturerAndUser;
 import com.fh.app_student_management.utilities.Constants;
 import com.fh.app_student_management.utilities.Utils;
@@ -36,17 +39,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class LecturerListRecycleViewAdapter extends RecyclerView.Adapter<LecturerListRecycleViewAdapter.LecturerViewHolder> implements Filterable {
+public class UserListRecycleViewAdapter extends RecyclerView.Adapter<UserListRecycleViewAdapter.LecturerViewHolder> implements Filterable {
 
     private final Context context;
-    private final ArrayList<LecturerAndUser> originalList;
+    private final ArrayList<User> originalList;
     private final BottomSheetDialog bottomSheetDialog;
 
     private String currentFilterText = "";
     private Constants.Role selectedRole;
-    private ArrayList<LecturerAndUser> filteredList;
+    private ArrayList<User> filteredList;
 
-    public LecturerListRecycleViewAdapter(Context context, ArrayList<LecturerAndUser> originalList) {
+    public UserListRecycleViewAdapter(Context context, ArrayList<User> originalList) {
         this.context = context;
         this.originalList = originalList;
         this.filteredList = originalList;
@@ -64,17 +67,17 @@ public class LecturerListRecycleViewAdapter extends RecyclerView.Adapter<Lecture
 
     @Override
     public void onBindViewHolder(@NonNull LecturerViewHolder holder, int position) {
-        LecturerAndUser lecturerAndUser = filteredList.get(position);
-        holder.avatar.setImageBitmap(Utils.getBitmapFromBytes(lecturerAndUser.getUser().getAvatar()));
-        holder.txtUsername.setText(lecturerAndUser.getUser().getFullName());
-        holder.txtSpecialization.setText(lecturerAndUser.getLecturer().getSpecialization());
+        User user = filteredList.get(position);
+        holder.avatar.setImageBitmap(Utils.getBitmapFromBytes(user.getAvatar()));
+        holder.txtUsername.setText(user.getFullName());
+        holder.txtRoleName.setText(Utils.getRoleName(user.getRole()));
 
-        holder.btnEditLecturer.setOnClickListener(v -> showEditLecturerDialog(lecturerAndUser));
+        holder.btnEditUser.setOnClickListener(v -> showEditLecturerDialog(user));
 
-        holder.btnDeleteLecturer.setOnClickListener(v -> new AlertDialog.Builder(context)
+        holder.btnDeleteUser.setOnClickListener(v -> new AlertDialog.Builder(context)
                 .setTitle("Thông báo")
-                .setMessage("Xác nhận xóa giảng viên?")
-                .setPositiveButton("Có", (dialog, which) -> deleteLecturer(originalList.indexOf(lecturerAndUser)))
+                .setMessage("Xác nhận xóa người dùng?")
+                .setPositiveButton("Có", (dialog, which) -> deleteUser(user))
                 .setNegativeButton("Không", (dialog, which) -> dialog.dismiss())
                 .show());
     }
@@ -95,12 +98,12 @@ public class LecturerListRecycleViewAdapter extends RecyclerView.Adapter<Lecture
                 if (query.isEmpty()) {
                     filteredList = originalList;
                 } else {
-                    ArrayList<LecturerAndUser> filtered = new ArrayList<>();
-                    for (LecturerAndUser lecturerAndUser : originalList) {
-                        String lecturerName = Utils.removeVietnameseAccents(lecturerAndUser.getUser().getFullName().toLowerCase(Locale.getDefault()));
+                    ArrayList<User> filtered = new ArrayList<>();
+                    for (User user : originalList) {
+                        String lecturerName = Utils.removeVietnameseAccents(user.getFullName().toLowerCase(Locale.getDefault()));
 
                         if (lecturerName.contains(query)) {
-                            filtered.add(lecturerAndUser);
+                            filtered.add(user);
                         }
                     }
                     filteredList = filtered;
@@ -116,7 +119,7 @@ public class LecturerListRecycleViewAdapter extends RecyclerView.Adapter<Lecture
             @SuppressWarnings("unchecked")
             @SuppressLint("NotifyDataSetChanged")
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                filteredList = (ArrayList<LecturerAndUser>) filterResults.values;
+                filteredList = (ArrayList<User>) filterResults.values;
                 notifyDataSetChanged();
             }
         };
@@ -132,7 +135,7 @@ public class LecturerListRecycleViewAdapter extends RecyclerView.Adapter<Lecture
         }
     }
 
-    public void addLecturer(LecturerAndUser lecturerAndUser) {
+    public void addUser(LecturerAndUser lecturerAndUser) {
         long userId;
         try {
             userId = AppDatabase.getInstance(context).userDAO().insert(lecturerAndUser.getUser());
@@ -140,33 +143,36 @@ public class LecturerListRecycleViewAdapter extends RecyclerView.Adapter<Lecture
             Utils.showToast(context, "Email đã tồn tại!");
             return;
         }
-        lecturerAndUser.getLecturer().setUserId(userId);
-        AppDatabase.getInstance(context).lecturerDAO().insert(lecturerAndUser.getLecturer());
-        originalList.add(0, lecturerAndUser);
+
+        if (lecturerAndUser.getLecturer() != null) {
+            lecturerAndUser.getLecturer().setUserId(userId);
+            AppDatabase.getInstance(context).lecturerDAO().insert(lecturerAndUser.getLecturer());
+        }
+
+        originalList.add(0, lecturerAndUser.getUser());
         notifyItemInserted(0);
     }
 
-    private void editLecturer(int position) {
-        LecturerAndUser lecturerAndUser = filteredList.get(position);
-        AppDatabase.getInstance(context).lecturerDAO().update(lecturerAndUser.getLecturer());
-        AppDatabase.getInstance(context).userDAO().update(lecturerAndUser.getUser());
+    private void editUser(User user) {
+        AppDatabase.getInstance(context).userDAO().update(user);
         getFilter().filter(currentFilterText);
-        notifyItemChanged(position);
+        notifyItemChanged(originalList.indexOf(user));
     }
 
-    private void deleteLecturer(int position) {
-        LecturerAndUser lecturerAndUser = filteredList.get(position);
-        AppDatabase.getInstance(context).lecturerDAO().delete(lecturerAndUser.getLecturer());
-        AppDatabase.getInstance(context).userDAO().delete(lecturerAndUser.getUser());
-        originalList.remove(lecturerAndUser);
-        filteredList.remove(lecturerAndUser);
+    private void deleteUser(User user) {
+        if (user.getRole() == Constants.Role.LECTURER) {
+            AppDatabase.getInstance(context).lecturerDAO().deleteByUser(user.getId());
+        }
+        AppDatabase.getInstance(context).userDAO().delete(user);
+        originalList.remove(user);
+        filteredList.remove(user);
         getFilter().filter(currentFilterText);
-        notifyItemRemoved(position);
+        notifyItemRemoved(originalList.indexOf(user));
     }
 
     @SuppressLint("InflateParams")
-    private void showEditLecturerDialog(LecturerAndUser lecturerAndUser) {
-        View view = LayoutInflater.from(context).inflate(R.layout.admin_bottom_sheet_edit_lecturer, null);
+    private void showEditLecturerDialog(User user) {
+        View view = LayoutInflater.from(context).inflate(R.layout.admin_bottom_sheet_edit_user, null);
         bottomSheetDialog.setContentView(view);
         BottomSheetBehavior<View> behavior = BottomSheetBehavior.from((View) view.getParent());
         behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
@@ -178,37 +184,48 @@ public class LecturerListRecycleViewAdapter extends RecyclerView.Adapter<Lecture
         ImageView avatar = view.findViewById(R.id.avatar);
         EditText edtEmail = view.findViewById(R.id.edtEmail);
         EditText edtFullName = view.findViewById(R.id.edtFullName);
+        EditText txtRole = view.findViewById(R.id.txtRole);
         RadioGroup radioGroupGender = view.findViewById(R.id.radioGroupGender);
         EditText edtDob = view.findViewById(R.id.edtDob);
         EditText edtAddress = view.findViewById(R.id.edtAddress);
         EditText edtSpecialization = view.findViewById(R.id.edtSpecialization);
         EditText edtDegree = view.findViewById(R.id.edtDegree);
         EditText edtCertificate = view.findViewById(R.id.edtCertificate);
-        TextView txtRole = view.findViewById(R.id.txtRole);
-        Button btnEdit = view.findViewById(R.id.btnEditLecturer);
+        Button btnEdit = view.findViewById(R.id.btnEditUser);
 
-        avatar.setImageBitmap(Utils.getBitmapFromBytes(lecturerAndUser.getUser().getAvatar()));
-        edtEmail.setText(lecturerAndUser.getUser().getEmail());
-        edtFullName.setText(lecturerAndUser.getUser().getFullName());
-        if (lecturerAndUser.getUser().getGender() == Constants.MALE) {
+        selectedRole = user.getRole();
+
+        ((LinearLayout) edtSpecialization.getParent()).setVisibility(View.GONE);
+        ((LinearLayout) edtDegree.getParent()).setVisibility(View.GONE);
+        ((LinearLayout) edtCertificate.getParent()).setVisibility(View.GONE);
+
+        avatar.setImageBitmap(Utils.getBitmapFromBytes(user.getAvatar()));
+        edtEmail.setText(user.getEmail());
+        edtFullName.setText(user.getFullName());
+        txtRole.setText(Utils.getRoleName(user.getRole()));
+        if (user.getGender() == Constants.MALE) {
             radioGroupGender.check(R.id.radioButtonMale);
         } else {
             radioGroupGender.check(R.id.radioButtonFemale);
         }
-        edtDob.setText(Utils.formatDate("dd/MM/YYYY").format(lecturerAndUser.getUser().getDob()));
-        edtAddress.setText(lecturerAndUser.getUser().getAddress());
-        edtSpecialization.setText(lecturerAndUser.getLecturer().getSpecialization());
-        edtDegree.setText(lecturerAndUser.getLecturer().getDegree());
-        edtCertificate.setText(lecturerAndUser.getLecturer().getCertificate());
-        txtRole.setText(Utils.getRoleName(lecturerAndUser.getUser().getRole()));
+        edtDob.setText(Utils.formatDate("dd/MM/YYYY").format(user.getDob()));
+        edtAddress.setText(user.getAddress());
+
+        if (user.getRole() == Constants.Role.LECTURER) {
+            Lecturer lecturer = AppDatabase.getInstance(context).lecturerDAO().getByUser(user.getId());
+            edtSpecialization.setVisibility(View.VISIBLE);
+            edtDegree.setVisibility(View.VISIBLE);
+            edtCertificate.setVisibility(View.VISIBLE);
+            edtSpecialization.setText(lecturer.getSpecialization());
+            edtDegree.setText(lecturer.getDegree());
+            edtCertificate.setText(lecturer.getCertificate());
+        }
 
         iconCamera.setOnClickListener(v1 -> ImagePicker.with((Activity) context)
                 .crop()
                 .compress(1024)
                 .maxResultSize(1080, 1080)
                 .start());
-
-        edtDob.setOnClickListener(this::showDatePickerDialog);
 
         String[] roleNames = {"Quản trị viên", "Chuyên viên", "Giảng viên"};
         txtRole.setOnClickListener(v -> new AlertDialog.Builder(context)
@@ -219,25 +236,36 @@ public class LecturerListRecycleViewAdapter extends RecyclerView.Adapter<Lecture
                     switch (which) {
                         case 0:
                             selectedRole = Constants.Role.ADMIN;
+                            ((LinearLayout) edtSpecialization.getParent()).setVisibility(View.GONE);
+                            ((LinearLayout) edtDegree.getParent()).setVisibility(View.GONE);
+                            ((LinearLayout) edtCertificate.getParent()).setVisibility(View.GONE);
                             break;
                         case 1:
                             selectedRole = Constants.Role.SPECIALIST;
+                            ((LinearLayout) edtSpecialization.getParent()).setVisibility(View.GONE);
+                            ((LinearLayout) edtDegree.getParent()).setVisibility(View.GONE);
+                            ((LinearLayout) edtCertificate.getParent()).setVisibility(View.GONE);
                             break;
                         case 2:
                             selectedRole = Constants.Role.LECTURER;
+                            ((LinearLayout) edtSpecialization.getParent()).setVisibility(View.VISIBLE);
+                            ((LinearLayout) edtDegree.getParent()).setVisibility(View.VISIBLE);
+                            ((LinearLayout) edtCertificate.getParent()).setVisibility(View.VISIBLE);
                     }
                 })
                 .show());
 
+        edtDob.setOnClickListener(this::showDatePickerDialog);
+
         btnEdit.setOnClickListener(v -> new AlertDialog.Builder(context)
                 .setTitle("Thông báo")
-                .setMessage("Xác nhận chỉnh sửa thông tin giảng viên?")
-                .setPositiveButton("Có", (dialog, which) -> performEditLecturer(lecturerAndUser, view))
+                .setMessage("Xác nhận chỉnh sửa thông tin người dùng?")
+                .setPositiveButton("Có", (dialog, which) -> performEditLecturer(user, view))
                 .setNegativeButton("Không", (dialog, which) -> dialog.dismiss())
                 .show());
     }
 
-    private void performEditLecturer(LecturerAndUser lecturerAndUser, View view) {
+    private void performEditLecturer(User user, View view) {
         if (!validateInputs(view)) return;
 
         ImageView avatar = view.findViewById(R.id.avatar);
@@ -251,22 +279,27 @@ public class LecturerListRecycleViewAdapter extends RecyclerView.Adapter<Lecture
 
         try {
             // TODO: Thêm khoa vào user, giảng viên làm việc ở khoa nào?
-            lecturerAndUser.getUser().setAvatar(Utils.getBytesFromBitmap(Utils.getBitmapFromView(avatar)));
-            lecturerAndUser.getUser().setFullName(edtFullName.getText().toString());
-            lecturerAndUser.getUser().setDob(Utils.formatDate("dd/MM/YYYY").parse(edtDob.getText().toString()));
-            lecturerAndUser.getUser().setAddress(edtAddress.getText().toString());
-            lecturerAndUser.getUser().setRole(selectedRole);
-            lecturerAndUser.getLecturer().setSpecialization(edtSpecialization.getText().toString());
-            lecturerAndUser.getLecturer().setDegree(edtDegree.getText().toString());
-            lecturerAndUser.getLecturer().setCertificate(edtCertificate.getText().toString());
-
+            user.setAvatar(Utils.getBytesFromBitmap(Utils.getBitmapFromView(avatar)));
+            user.setFullName(edtFullName.getText().toString());
+            user.setRole(selectedRole);
+            user.setDob(Utils.formatDate("dd/MM/YYYY").parse(edtDob.getText().toString()));
+            user.setAddress(edtAddress.getText().toString());
             int genderId = radioGroupGender.getCheckedRadioButtonId();
-            lecturerAndUser.getUser().setGender(genderId == R.id.radioButtonMale ? Constants.MALE : Constants.FEMALE);
+            user.setGender(genderId == R.id.radioButtonMale ? Constants.MALE : Constants.FEMALE);
+
+            if (user.getRole() == Constants.Role.LECTURER) {
+                Lecturer lecturer = AppDatabase.getInstance(context).lecturerDAO().getByUser(user.getId());
+                lecturer.setSpecialization(edtSpecialization.getText().toString());
+                lecturer.setDegree(edtDegree.getText().toString());
+                lecturer.setCertificate(edtCertificate.getText().toString());
+
+                AppDatabase.getInstance(context).lecturerDAO().update(lecturer);
+            }
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
 
-        editLecturer(originalList.indexOf(lecturerAndUser));
+        editUser(user);
         bottomSheetDialog.dismiss();
         Utils.showToast(context, "Sửa thành công");
     }
@@ -282,6 +315,7 @@ public class LecturerListRecycleViewAdapter extends RecyclerView.Adapter<Lecture
     private boolean validateInputs(View view) {
         return validateNotEmpty(view, R.id.edtEmail, "Email không được để trống")
                 && validateNotEmpty(view, R.id.edtFullName, "Họ và tên không được để trống")
+                && validateNotEmpty(view, R.id.txtRole, "Vai trò không được trống")
                 && validateNotEmpty(view, R.id.edtDob, "Ngày sinh không được để trống")
                 && validateNotEmpty(view, R.id.edtAddress, "Địa chỉ không được để trống")
                 && validateNotEmpty(view, R.id.edtSpecialization, "Chuyên ngành không được để trống")
@@ -291,7 +325,7 @@ public class LecturerListRecycleViewAdapter extends RecyclerView.Adapter<Lecture
 
     private boolean validateNotEmpty(View view, int viewId, String errorMessage) {
         EditText editText = view.findViewById(viewId);
-        if (editText == null || editText.getText().toString().trim().isEmpty()) {
+        if (editText.getVisibility() == View.VISIBLE && editText.getText().toString().trim().isEmpty()) {
             Utils.showToast(context, errorMessage);
             return false;
         }
@@ -302,18 +336,18 @@ public class LecturerListRecycleViewAdapter extends RecyclerView.Adapter<Lecture
 
         private final ImageView avatar;
         private final TextView txtUsername;
-        private final TextView txtSpecialization;
-        private final Button btnEditLecturer;
-        private final Button btnDeleteLecturer;
+        private final TextView txtRoleName;
+        private final Button btnEditUser;
+        private final Button btnDeleteUser;
 
         public LecturerViewHolder(View itemView) {
             super(itemView);
 
             avatar = itemView.findViewById(R.id.avatar);
             txtUsername = itemView.findViewById(R.id.txtUsername);
-            txtSpecialization = itemView.findViewById(R.id.txtSpecialization);
-            btnEditLecturer = itemView.findViewById(R.id.btnEditLecturer);
-            btnDeleteLecturer = itemView.findViewById(R.id.btnDeleteLecturer);
+            txtRoleName = itemView.findViewById(R.id.txtRoleName);
+            btnEditUser = itemView.findViewById(R.id.btnEditUser);
+            btnDeleteUser = itemView.findViewById(R.id.btnDeleteUser);
         }
     }
 }

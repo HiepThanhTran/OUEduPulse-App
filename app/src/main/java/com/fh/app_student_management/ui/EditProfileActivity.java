@@ -24,8 +24,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.fh.app_student_management.R;
 import com.fh.app_student_management.data.AppDatabase;
+import com.fh.app_student_management.data.entities.Lecturer;
 import com.fh.app_student_management.data.entities.User;
-import com.fh.app_student_management.data.relations.LecturerAndUser;
 import com.fh.app_student_management.utilities.Constants;
 import com.fh.app_student_management.utilities.Utils;
 import com.github.dhaval2404.imagepicker.ImagePicker;
@@ -36,7 +36,7 @@ import java.util.Objects;
 
 public class EditProfileActivity extends AppCompatActivity {
 
-    private LecturerAndUser lecturer;
+    private Lecturer lecturer;
     private User user;
 
     private LinearLayout layoutEditProfile;
@@ -44,12 +44,12 @@ public class EditProfileActivity extends AppCompatActivity {
     private ImageView iconCamera;
     private ImageView avatar;
     private EditText edtFullName;
+    private RadioGroup radioGroupGender;
     private EditText edtDob;
     private EditText edtAddress;
     private EditText edtSpecialization;
     private EditText edtDegree;
     private EditText edtCertificate;
-    private RadioGroup radioGroupGender;
     private Button btnSaveProfile;
 
     @Override
@@ -96,23 +96,29 @@ public class EditProfileActivity extends AppCompatActivity {
         radioGroupGender = findViewById(R.id.radioGroupGender);
         btnSaveProfile = findViewById(R.id.btnSaveProfile);
 
+        edtSpecialization.setVisibility(View.GONE);
+        edtDegree.setVisibility(View.GONE);
+        edtCertificate.setVisibility(View.GONE);
+
         avatar.setImageBitmap(Utils.getBitmapFromBytes(user.getAvatar()));
         edtEmail.setText(user.getEmail());
         edtFullName.setText(user.getFullName());
-        setTextOrHint(edtDob, user.getDob());
-        setTextOrHint(edtAddress, user.getAddress());
-        if (user.getRole() == Constants.Role.LECTURER) {
-            lecturer = AppDatabase.getInstance(this).lecturerDAO().getByUser(user.getId());
-            setTextOrHint(edtSpecialization, lecturer.getLecturer().getSpecialization());
-            setTextOrHint(edtDegree, lecturer.getLecturer().getDegree());
-            setTextOrHint(edtCertificate, lecturer.getLecturer().getCertificate());
-        } else {
-            setNonEditableFields();
-        }
         if (user.getGender() == Constants.MALE) {
             radioGroupGender.check(R.id.radioButtonMale);
         } else {
             radioGroupGender.check(R.id.radioButtonFemale);
+        }
+        setTextOrHint(edtDob, user.getDob());
+        setTextOrHint(edtAddress, user.getAddress());
+
+        if (user.getRole() == Constants.Role.LECTURER) {
+            lecturer = AppDatabase.getInstance(this).lecturerDAO().getByUser(user.getId());
+            edtSpecialization.setVisibility(View.VISIBLE);
+            edtDegree.setVisibility(View.VISIBLE);
+            edtCertificate.setVisibility(View.VISIBLE);
+            setTextOrHint(edtSpecialization, lecturer.getSpecialization());
+            setTextOrHint(edtDegree, lecturer.getDegree());
+            setTextOrHint(edtCertificate, lecturer.getCertificate());
         }
     }
 
@@ -154,17 +160,15 @@ public class EditProfileActivity extends AppCompatActivity {
             user.setFullName(edtFullName.getText().toString());
             user.setDob(Utils.formatDate("dd/MM/yyyy").parse(edtDob.getText().toString()));
             user.setAddress(edtAddress.getText().toString());
-            if (user.getRole() == Constants.Role.LECTURER) {
-                lecturer.getLecturer().setSpecialization(edtSpecialization.getText().toString());
-                lecturer.getLecturer().setDegree(edtDegree.getText().toString());
-                lecturer.getLecturer().setCertificate(edtCertificate.getText().toString());
+            int genderId = radioGroupGender.getCheckedRadioButtonId();
+            user.setGender(genderId == R.id.radioButtonMale ? Constants.MALE : Constants.FEMALE);
 
-                AppDatabase.getInstance(this).lecturerDAO().update(lecturer.getLecturer());
-            }
-            if (radioGroupGender.getCheckedRadioButtonId() == R.id.radioButtonMale) {
-                user.setGender(Constants.MALE);
-            } else {
-                user.setGender(Constants.FEMALE);
+            if (user.getRole() == Constants.Role.LECTURER) {
+                lecturer.setSpecialization(edtSpecialization.getText().toString());
+                lecturer.setDegree(edtDegree.getText().toString());
+                lecturer.setCertificate(edtCertificate.getText().toString());
+
+                AppDatabase.getInstance(this).lecturerDAO().update(lecturer);
             }
 
             AppDatabase.getInstance(this).userDAO().update(user);
@@ -198,7 +202,9 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private boolean validateNotEmpty(int viewId, String errorMessage) {
         EditText editText = findViewById(viewId);
-        if (editText == null || editText.getText().toString().trim().isEmpty()) {
+        System.out.println(editText.getVisibility());
+        System.out.println(View.VISIBLE);
+        if (editText.getVisibility() == View.VISIBLE && editText.getText().toString().trim().isEmpty()) {
             Utils.showToast(this, errorMessage);
             return false;
         }

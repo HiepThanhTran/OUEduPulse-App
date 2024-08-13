@@ -17,6 +17,9 @@ public interface UserDAO {
     @Query("SELECT * FROM users ORDER BY full_name")
     List<User> getAll();
 
+    @Query("SELECT * FROM users WHERE role != :role ORDER BY full_name")
+    List<User> getAllRoleWithoutSelectedRole(Constants.Role role);
+
     @Query("SELECT * FROM users WHERE id = :id")
     User getById(long id);
 

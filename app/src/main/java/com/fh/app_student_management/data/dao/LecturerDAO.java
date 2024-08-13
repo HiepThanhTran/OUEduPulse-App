@@ -7,6 +7,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.fh.app_student_management.data.entities.Lecturer;
+import com.fh.app_student_management.data.entities.User;
 import com.fh.app_student_management.data.relations.LecturerAndUser;
 
 import java.util.List;
@@ -16,9 +17,6 @@ public interface LecturerDAO {
 
     @Query("SELECT * FROM lecturers ORDER BY id DESC")
     List<Lecturer> getAll();
-
-    @Query("SELECT * FROM lecturers ORDER BY id DESC")
-    List<LecturerAndUser> getAllLecturerAndUser();
 
     @Query("SELECT l.* FROM lecturers l " +
             "JOIN users u ON u.id = l.user_id " +
@@ -32,7 +30,7 @@ public interface LecturerDAO {
     Lecturer getById(long id);
 
     @Query("SELECT * FROM lecturers WHERE user_id = :userId")
-    LecturerAndUser getByUser(long userId);
+    Lecturer getByUser(long userId);
 
     @Query("SELECT COUNT(*) FROM lecturers")
     int count();
@@ -48,4 +46,7 @@ public interface LecturerDAO {
 
     @Delete
     void delete(Lecturer Lecturer);
+
+    @Query("DELETE FROM lecturers WHERE user_id = :userId")
+    void deleteByUser(long userId);
 }

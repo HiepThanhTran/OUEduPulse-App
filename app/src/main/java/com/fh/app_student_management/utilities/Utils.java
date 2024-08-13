@@ -85,6 +85,8 @@ public final class Utils {
         switch (role) {
             case ADMIN:
                 return "Quản trị viên";
+            case SPECIALIST:
+                return "Chuyên viên";
             case LECTURER:
                 return "Giảng viên";
             default:

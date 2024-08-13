@@ -62,9 +62,6 @@ public class StudentListActivity extends AppCompatActivity {
         subjectId = intent.getLongExtra(Constants.SUBJECT_ID, 0);
         boolean isStudentClass = intent.getBooleanExtra("isStudentClass", false);
         boolean isStudentSubject = intent.getBooleanExtra("isStudentSubject", false);
-        System.out.println("semesterId: " + semesterId);
-        System.out.println("classId: " + classId);
-        System.out.println("subjectId: " + subjectId);
 
         layoutStudent = findViewById(R.id.layoutStudent);
         btnBack = findViewById(R.id.btnBack);

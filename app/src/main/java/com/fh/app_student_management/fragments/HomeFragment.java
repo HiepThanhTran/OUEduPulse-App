@@ -63,7 +63,7 @@ public class HomeFragment extends Fragment {
 
         switch (user.getRole()) {
             case ADMIN:
-                loadFragment(new AdminFragment());
+                loadFragment(AdminFragment.newInstance(params));
                 break;
             case SPECIALIST:
                 break;

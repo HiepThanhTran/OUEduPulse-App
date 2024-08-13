@@ -12,20 +12,44 @@ import androidx.fragment.app.Fragment;
 
 import com.fh.app_student_management.R;
 import com.fh.app_student_management.ui.admin.ClassListActivity;
-import com.fh.app_student_management.ui.admin.LecturerListActivity;
-import com.fh.app_student_management.ui.admin.OpenClassActivity;
-import com.fh.app_student_management.ui.admin.StatisticalActivity;
+import com.fh.app_student_management.ui.admin.FeatureActivity;
 import com.fh.app_student_management.ui.admin.StudentListActivity;
 import com.fh.app_student_management.ui.admin.SubjectListActivity;
+import com.fh.app_student_management.ui.admin.UserListActivity;
+import com.fh.app_student_management.utilities.Constants;
+
+import java.util.Map;
+import java.util.Objects;
 
 public class AdminFragment extends Fragment {
 
+    private long userId;
+
     private CardView btnToUserManagement;
-    private CardView btnToSubjectManagement;
-    private CardView btnToClassManagement;
     private CardView btnToStudentManagement;
-    private CardView btnToOpenClass;
-    private CardView btnToStatisticalAdmin;
+    private CardView btnToScoreManagement;
+    private CardView btnToClassManagement;
+    private CardView btnToSubjectManagement;
+    private CardView btnToFeature;
+
+    public static AdminFragment newInstance(Map<String, String> params) {
+        AdminFragment fragment = new AdminFragment();
+        Bundle args = new Bundle();
+
+        args.putString(Constants.USER_ID, params.get(Constants.USER_ID));
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+            userId = Long.parseLong(Objects.requireNonNull(requireArguments().getString(Constants.USER_ID)));
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,26 +65,19 @@ public class AdminFragment extends Fragment {
 
     private void initAdminView(View view) {
         btnToUserManagement = view.findViewById(R.id.btnToUserManagement);
-        btnToSubjectManagement = view.findViewById(R.id.btnToSubjectManagement);
-        btnToClassManagement = view.findViewById(R.id.btnToClassManagement);
         btnToStudentManagement = view.findViewById(R.id.btnToStudentManagement);
-        btnToOpenClass = view.findViewById(R.id.btnToOpenClass);
-        btnToStatisticalAdmin = view.findViewById(R.id.btnToStatisticalAdmin);
+        btnToScoreManagement = view.findViewById(R.id.btnToScoreManagement);
+        btnToClassManagement = view.findViewById(R.id.btnToClassManagement);
+        btnToSubjectManagement = view.findViewById(R.id.btnToSubjectManagement);
+        btnToFeature = view.findViewById(R.id.btnToFeature);
     }
 
     private void handleEventListener() {
         btnToUserManagement.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), LecturerListActivity.class);
-            startActivity(intent);
-        });
-
-        btnToSubjectManagement.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), SubjectListActivity.class);
-            startActivity(intent);
-        });
-
-        btnToClassManagement.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ClassListActivity.class);
+            Intent intent = new Intent(getActivity(), UserListActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putLong(Constants.USER_ID, userId);
+            intent.putExtras(bundle);
             startActivity(intent);
         });
 
@@ -69,13 +86,22 @@ public class AdminFragment extends Fragment {
             startActivity(intent);
         });
 
-        btnToOpenClass.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), OpenClassActivity.class);
+        btnToScoreManagement.setOnClickListener(v -> {
+
+        });
+
+        btnToClassManagement.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), ClassListActivity.class);
             startActivity(intent);
         });
 
-        btnToStatisticalAdmin.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), StatisticalActivity.class);
+        btnToSubjectManagement.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), SubjectListActivity.class);
+            startActivity(intent);
+        });
+
+        btnToFeature.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), FeatureActivity.class);
             startActivity(intent);
         });
     }

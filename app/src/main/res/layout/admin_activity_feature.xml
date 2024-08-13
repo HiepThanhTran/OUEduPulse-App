@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:fontFamily="@font/opensans_bold"
-            android:text="Thống kê"
+            android:text="Các chức năng khác"
             android:textColor="@color/white"
             android:textSize="20sp" />
 
@@ -45,7 +45,7 @@
         android:textAlignment="textEnd">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/btnToStatisticalClass"
+            android:id="@+id/btnToStatisticalAdmin"
             android:layout_width="160dp"
             android:layout_height="160dp"
             android:layout_margin="10dp"
@@ -61,9 +61,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:contentDescription="classes"
+                    android:contentDescription="statistical"
                     android:padding="10dp"
-                    android:src="@drawable/classes" />
+                    android:src="@drawable/statistical" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -71,7 +71,7 @@
                     android:layout_marginBottom="10dp"
                     android:fontFamily="@font/opensans_bold"
                     android:gravity="center"
-                    android:text="Lớp học"
+                    android:text="Thống kê"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
 
@@ -80,7 +80,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/btnToStatisticalLecturer"
+            android:id="@+id/btnToOpenClass"
             android:layout_width="160dp"
             android:layout_height="160dp"
             android:layout_margin="10dp"
@@ -96,9 +96,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:contentDescription="teacher"
+                    android:contentDescription="statistical"
                     android:padding="10dp"
-                    android:src="@drawable/teacher" />
+                    android:src="@drawable/create_class" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -106,77 +106,7 @@
                     android:layout_marginBottom="10dp"
                     android:fontFamily="@font/opensans_bold"
                     android:gravity="center"
-                    android:text="Giảng viên"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/btnToStatisticalScore"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:layout_margin="10dp"
-            android:backgroundTint="@color/grey_sub"
-            app:cardCornerRadius="16dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:contentDescription="score"
-                    android:padding="10dp"
-                    android:src="@drawable/score" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:fontFamily="@font/opensans_bold"
-                    android:gravity="center"
-                    android:text="Điểm số"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/btnToStatisticalSubject"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:layout_margin="10dp"
-            android:backgroundTint="@color/grey_sub"
-            app:cardCornerRadius="16dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:contentDescription="subject"
-                    android:padding="10dp"
-                    android:src="@drawable/subject" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:fontFamily="@font/opensans_bold"
-                    android:gravity="center"
-                    android:text="Môn học"
+                    android:text="Mở lớp"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
 
