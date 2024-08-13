@@ -1,27 +1,25 @@
 package com.fh.app_student_management.data.entities;
 
-import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-import java.util.Objects;
-
-@Entity(tableName = "subjects", foreignKeys = {
-        @ForeignKey(
-                entity = Major.class,
-                parentColumns = "id",
-                childColumns = "major_id",
-                onDelete = ForeignKey.CASCADE
-        ),
-        @ForeignKey(
-                entity = Class.class,
-                parentColumns = "id",
-                childColumns = "class_id",
-                onDelete = ForeignKey.CASCADE
-        )
-})
+@Entity(tableName = "subjects",
+        foreignKeys = {
+                @ForeignKey(
+                        entity = Major.class,
+                        parentColumns = "id",
+                        childColumns = "major_id",
+                        onDelete = ForeignKey.CASCADE
+                ),
+                @ForeignKey(
+                        entity = Class.class,
+                        parentColumns = "id",
+                        childColumns = "class_id",
+                        onDelete = ForeignKey.CASCADE
+                )
+        })
 public class Subject {
 
     @PrimaryKey(autoGenerate = true)
@@ -71,24 +69,5 @@ public class Subject {
 
     public void setClassId(long classId) {
         this.classId = classId;
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return this.name;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Subject subject = (Subject) o;
-        return id == subject.id && Objects.equals(name, subject.name);
     }
 }

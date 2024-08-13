@@ -78,8 +78,7 @@ public class LecturerListActivity extends AppCompatActivity {
         btnAddLecturer = findViewById(R.id.btnAddLecturer);
         bottomSheetDialog = new BottomSheetDialog(this);
 
-        AppDatabase db = AppDatabase.getInstance(this);
-        ArrayList<LecturerAndUser> lectures = new ArrayList<>(db.lecturerDAO().getAllLecturerAndUser());
+        ArrayList<LecturerAndUser> lectures = new ArrayList<>(AppDatabase.getInstance(this).lecturerDAO().getAllLecturerAndUser());
 
         RecyclerView rvLecturer = findViewById(R.id.rvLecturer);
         lecturerListRecycleViewAdapter = new LecturerListRecycleViewAdapter(this, lectures);

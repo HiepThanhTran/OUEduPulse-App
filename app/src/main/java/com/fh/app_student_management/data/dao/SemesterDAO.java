@@ -26,7 +26,7 @@ public interface SemesterDAO {
     long insert(Semester semester);
 
     @Insert
-    void insertAll(Semester... semesters);
+    void insert(Semester... semesters);
 
     @Update
     void update(Semester semester);

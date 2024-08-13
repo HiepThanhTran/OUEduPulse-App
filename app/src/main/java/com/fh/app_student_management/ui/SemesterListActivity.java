@@ -39,8 +39,7 @@ public class SemesterListActivity extends AppCompatActivity {
         searchViewSemester = findViewById(R.id.searchViewSemester);
         RecyclerView rvSemester = findViewById(R.id.rvSemester);
 
-        AppDatabase db = AppDatabase.getInstance(this);
-        ArrayList<Semester> semesters = new ArrayList<>(db.semesterDAO().getAll());
+        ArrayList<Semester> semesters = new ArrayList<>(AppDatabase.getInstance(this).semesterDAO().getAll());
 
         semesterRecycleViewAdapter = new SemesterRecyclerViewAdapter(this, getIntent(), semesters);
         rvSemester.setLayoutManager(new LinearLayoutManager(this));

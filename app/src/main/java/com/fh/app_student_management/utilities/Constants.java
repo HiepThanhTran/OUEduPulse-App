@@ -10,7 +10,8 @@ public final class Constants {
     public static final String PREF_NOTIFICATION_SWITCH = "notification_switch";
     public static final String PREF_INSERT_DEFAULT_VALUES = "insertedDefaultValues";
 
-    public static final String USER_ID = "userEmail";
+    public static final String USER_ID = "userId";
+    public static final String SPECIALIST_ID = "specialistId";
     public static final String LECTURER_ID = "lecturerId";
     public static final String STUDENT_ID = "studentId";
     public static final String SEMESTER_ID = "semesterId";
@@ -21,6 +22,6 @@ public final class Constants {
     public static final boolean FEMALE = true;
 
     public enum Role {
-        ADMIN, LECTURER, STUDENT
+        ADMIN, SPECIALIST, LECTURER, STUDENT
     }
 }

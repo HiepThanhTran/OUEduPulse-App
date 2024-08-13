@@ -12,8 +12,8 @@ import androidx.fragment.app.Fragment;
 
 import com.fh.app_student_management.R;
 import com.fh.app_student_management.ui.admin.ClassListActivity;
-import com.fh.app_student_management.ui.admin.OpenClassActivity;
 import com.fh.app_student_management.ui.admin.LecturerListActivity;
+import com.fh.app_student_management.ui.admin.OpenClassActivity;
 import com.fh.app_student_management.ui.admin.StatisticalActivity;
 import com.fh.app_student_management.ui.admin.StudentListActivity;
 import com.fh.app_student_management.ui.admin.SubjectListActivity;

@@ -32,7 +32,6 @@ public class ClassListRecycleViewAdapter extends RecyclerView.Adapter<ClassListR
 
     private final Context context;
     private final ArrayList<ClassWithRelations> originalList;
-    private final AppDatabase db;
     private final BottomSheetDialog bottomSheetDialog;
     private final ArrayList<Major> majors;
     private final String[] majorNames;
@@ -49,16 +48,15 @@ public class ClassListRecycleViewAdapter extends RecyclerView.Adapter<ClassListR
         this.originalList = originalList;
         this.filteredList = originalList;
 
-        db = AppDatabase.getInstance(context);
         bottomSheetDialog = new BottomSheetDialog(context);
 
-        majors = new ArrayList<>(db.majorDAO().getAll());
+        majors = new ArrayList<>(AppDatabase.getInstance(context).majorDAO().getAll());
         majorNames = new String[majors.size()];
         for (int i = 0; i < majors.size(); i++) {
             majorNames[i] = majors.get(i).getName();
         }
 
-        academicYears = new ArrayList<>(db.academicYearDAO().getAll());
+        academicYears = new ArrayList<>(AppDatabase.getInstance(context).academicYearDAO().getAll());
         academicYearNames = new String[academicYears.size()];
         for (int i = 0; i < academicYears.size(); i++) {
             academicYearNames[i] = academicYears.get(i).getName();
@@ -76,7 +74,7 @@ public class ClassListRecycleViewAdapter extends RecyclerView.Adapter<ClassListR
     @Override
     public void onBindViewHolder(@NonNull ClassViewHolder holder, int position) {
         ClassWithRelations classWithRelations = filteredList.get(position);
-        Faculty faculty = db.facultyDAO().getById(classWithRelations.getMajor().getFacultyId());
+        Faculty faculty = AppDatabase.getInstance(context).facultyDAO().getById(classWithRelations.getMajor().getFacultyId());
         holder.txtClassName.setText(classWithRelations.getClazz().getName());
         holder.txtFacultyName.setText(faculty.getName());
         holder.txtMajorName.setText(classWithRelations.getMajor().getName());
@@ -127,29 +125,30 @@ public class ClassListRecycleViewAdapter extends RecyclerView.Adapter<ClassListR
 
             @Override
             @SuppressWarnings("unchecked")
+            @SuppressLint("NotifyDataSetChanged")
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 filteredList = (ArrayList<ClassWithRelations>) filterResults.values;
-                notifyItemRangeChanged(0, filteredList.size());
+                notifyDataSetChanged();
             }
         };
     }
 
     public void addClass(ClassWithRelations classWithRelations) {
-        db.classDAO().insert(classWithRelations.getClazz());
+        AppDatabase.getInstance(context).classDAO().insert(classWithRelations.getClazz());
         originalList.add(0, classWithRelations);
         notifyItemInserted(0);
     }
 
     private void editClass(int position) {
         ClassWithRelations classWithRelations = filteredList.get(position);
-        db.classDAO().update(classWithRelations.getClazz());
+        AppDatabase.getInstance(context).classDAO().update(classWithRelations.getClazz());
         getFilter().filter(currentFilterText);
         notifyItemChanged(position);
     }
 
     private void deleteClass(int position) {
         ClassWithRelations classWithRelations = filteredList.get(position);
-        db.classDAO().delete(classWithRelations.getClazz());
+        AppDatabase.getInstance(context).classDAO().delete(classWithRelations.getClazz());
         originalList.remove(classWithRelations);
         filteredList.remove(classWithRelations);
         getFilter().filter(currentFilterText);

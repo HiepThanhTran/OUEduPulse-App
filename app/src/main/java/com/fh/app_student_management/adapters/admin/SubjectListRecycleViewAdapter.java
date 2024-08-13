@@ -30,7 +30,6 @@ import java.util.Locale;
 public class SubjectListRecycleViewAdapter extends RecyclerView.Adapter<SubjectListRecycleViewAdapter.SubjectViewHolder> implements Filterable {
 
     private final Context context;
-    private final AppDatabase db;
     private final ArrayList<SubjectWithRelations> originalList;
     private final BottomSheetDialog bottomSheetDialog;
     private final ArrayList<Class> classes;
@@ -48,16 +47,15 @@ public class SubjectListRecycleViewAdapter extends RecyclerView.Adapter<SubjectL
         this.originalList = originalList;
         this.filteredList = originalList;
 
-        db = AppDatabase.getInstance(context);
         bottomSheetDialog = new BottomSheetDialog(context);
 
-        classes = new ArrayList<>(db.classDAO().getAll());
+        classes = new ArrayList<>(AppDatabase.getInstance(context).classDAO().getAll());
         classNames = new String[classes.size()];
         for (int i = 0; i < classes.size(); i++) {
             classNames[i] = classes.get(i).getName();
         }
 
-        majors = new ArrayList<>(db.majorDAO().getAll());
+        majors = new ArrayList<>(AppDatabase.getInstance(context).majorDAO().getAll());
         majorNames = new String[majors.size()];
         for (int i = 0; i < majors.size(); i++) {
             majorNames[i] = majors.get(i).getName();
@@ -125,29 +123,30 @@ public class SubjectListRecycleViewAdapter extends RecyclerView.Adapter<SubjectL
 
             @Override
             @SuppressWarnings("unchecked")
+            @SuppressLint("NotifyDataSetChanged")
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 filteredList = (ArrayList<SubjectWithRelations>) filterResults.values;
-                notifyItemRangeChanged(0, filteredList.size());
+                notifyDataSetChanged();
             }
         };
     }
 
     public void addSubject(SubjectWithRelations subjectWithRelations) {
-        db.subjectDAO().insert(subjectWithRelations.getSubject());
+        AppDatabase.getInstance(context).subjectDAO().insert(subjectWithRelations.getSubject());
         originalList.add(0, subjectWithRelations);
         notifyItemInserted(0);
     }
 
     private void editSubject(int position) {
         SubjectWithRelations subjectWithRelations = filteredList.get(position);
-        db.subjectDAO().update(subjectWithRelations.getSubject());
+        AppDatabase.getInstance(context).subjectDAO().update(subjectWithRelations.getSubject());
         getFilter().filter(currentFilterText);
         notifyItemChanged(position);
     }
 
     private void deleteSubject(int position) {
         SubjectWithRelations subjectWithRelations = filteredList.get(position);
-        db.subjectDAO().delete(subjectWithRelations.getSubject());
+        AppDatabase.getInstance(context).subjectDAO().delete(subjectWithRelations.getSubject());
         originalList.remove(subjectWithRelations);
         filteredList.remove(subjectWithRelations);
         getFilter().filter(currentFilterText);

@@ -8,14 +8,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fh.app_student_management.R;
 import com.fh.app_student_management.data.AppDatabase;
-import com.fh.app_student_management.data.entities.Class;
 import com.fh.app_student_management.data.entities.Semester;
+import com.fh.app_student_management.data.relations.ClassWithRelations;
 import com.fh.app_student_management.data.relations.ScoreDistribution;
 import com.fh.app_student_management.data.relations.SubjectWithRelations;
 import com.fh.app_student_management.utilities.Utils;
@@ -31,10 +30,12 @@ import java.util.List;
 
 public class StatisticalScoreActivity extends AppCompatActivity {
 
-    private AppDatabase db;
     private ArrayList<Semester> semesters;
     private ArrayList<String> semesterNames;
     private long selectedSemesterId;
+    private ArrayList<ClassWithRelations> classes;
+    private ArrayList<String> classNames;
+    private long selectedClassId;
     private ArrayList<SubjectWithRelations> subjects;
     private ArrayList<String> subjectNames;
     private long selectedSubjectId;
@@ -44,6 +45,7 @@ public class StatisticalScoreActivity extends AppCompatActivity {
 
     private ImageView btnBack;
     private EditText edtSemester;
+    private EditText edtClass;
     private EditText edtSubject;
     private LinearLayout titleChart;
     private TextView txtSemesterName;
@@ -62,6 +64,7 @@ public class StatisticalScoreActivity extends AppCompatActivity {
     private void initStatisticalScoreView() {
         btnBack = findViewById(R.id.btnBack);
         edtSemester = findViewById(R.id.edtSemester);
+        edtClass = findViewById(R.id.edtClass);
         edtSubject = findViewById(R.id.edtSubject);
         titleChart = findViewById(R.id.titleChart);
         txtSemesterName = findViewById(R.id.txtSemesterName);
@@ -70,9 +73,7 @@ public class StatisticalScoreActivity extends AppCompatActivity {
 
         titleChart.setVisibility(View.GONE);
 
-        db = AppDatabase.getInstance(this);
-
-        semesters = new ArrayList<>(db.semesterDAO().getAll());
+        semesters = new ArrayList<>(AppDatabase.getInstance(this).semesterDAO().getAll());
         semesterNames = new ArrayList<>(semesters.size() + 1);
         semesterNames.add(0, "--- Chọn học kỳ ---");
         for (int i = 0; i < semesters.size(); i++) {
@@ -105,7 +106,7 @@ public class StatisticalScoreActivity extends AppCompatActivity {
 
         edtSemester.setOnClickListener(v -> showSelectionDialog("Chọn học kỳ", semesterNames, (dialog, which) -> {
             if (which == 0) {
-                resetSelections(edtSemester, edtSubject);
+                resetSelections(edtSemester, edtClass, edtSubject);
             } else {
                 selectedSemesterId = semesters.get(which - 1).getId();
                 edtSemester.setText(semesterNames.get(which));
@@ -113,13 +114,43 @@ public class StatisticalScoreActivity extends AppCompatActivity {
             }
         }));
 
+        edtClass.setOnClickListener(v -> {
+            if (edtSemester.getText().toString().isEmpty()) {
+                Utils.showToast(this, "Chưa chọn học kỳ");
+                return;
+            }
+
+            classes = new ArrayList<>(AppDatabase.getInstance(this).classDAO().getBySemester(selectedSemesterId));
+            classNames = new ArrayList<>(classes.size() + 1);
+            classNames.add(0, "--- Chọn lớp ---");
+            for (int i = 0; i < classes.size(); i++) {
+                classNames.add(classes.get(i).getClazz().getName());
+            }
+
+            showSelectionDialog("Chọn lớp", classNames, (dialog, which) -> {
+                if (which == 0) {
+                    resetSelections(edtClass, edtSubject);
+                } else {
+                    selectedClassId = classes.get(which - 1).getClazz().getId();
+                    edtClass.setText(classNames.get(which));
+                    resetSelections(edtSubject);
+                }
+            });
+        });
+
         edtSubject.setOnClickListener(v -> {
             if (edtSemester.getText().toString().isEmpty()) {
                 Utils.showToast(this, "Chưa chọn học kỳ");
                 return;
             }
 
-            subjects = new ArrayList<>(db.subjectDAO().getBySemester(selectedSemesterId));
+            if (edtClass.getText().toString().isEmpty()) {
+                Utils.showToast(this, "Chưa chọn lớp");
+                return;
+            }
+
+            subjects = new ArrayList<>(AppDatabase.getInstance(this)
+                    .subjectDAO().getBySemesterClass(selectedSemesterId, selectedClassId));
             subjectNames = new ArrayList<>(subjects.size() + 1);
             subjectNames.add(0, "--- Chọn môn học ---");
             for (int i = 0; i < subjects.size(); i++) {
@@ -137,7 +168,8 @@ public class StatisticalScoreActivity extends AppCompatActivity {
                     txtSemesterName.setText(edtSemester.getText().toString());
                     txtSubjectName.setText(subjectNames.get(which));
 
-                    ScoreDistribution scoreDistribution = db.scoreDAO().getStatisticalBySemesterSubject(selectedSemesterId, selectedSubjectId);
+                    ScoreDistribution scoreDistribution = AppDatabase.getInstance(this)
+                            .scoreDAO().getStatisticalBySemesterSubject(selectedSemesterId, selectedSubjectId);
 
                     entries.clear();
                     if (scoreDistribution.getExcellent() > 0) {
@@ -173,10 +205,17 @@ public class StatisticalScoreActivity extends AppCompatActivity {
         builder.show();
     }
 
-    private void resetSelections(EditText edtSemester, EditText edtSubject) {
+    private void resetSelections(EditText edtSemester, EditText edtClass, EditText edtSubject) {
         titleChart.setVisibility(View.GONE);
         selectedSemesterId = 0;
         edtSemester.setText("");
+        resetSelections(edtClass, edtSubject);
+    }
+
+    private void resetSelections(EditText edtClass, EditText edtSubject) {
+        titleChart.setVisibility(View.GONE);
+        selectedClassId = 0;
+        edtClass.setText("");
         resetSelections(edtSubject);
     }
 
@@ -184,7 +223,6 @@ public class StatisticalScoreActivity extends AppCompatActivity {
         titleChart.setVisibility(View.GONE);
         selectedSubjectId = 0;
         edtSubject.setText("");
-        subjectNames = null;
         updateChart(new ArrayList<>());
     }
 }

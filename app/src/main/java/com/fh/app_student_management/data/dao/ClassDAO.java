@@ -23,6 +23,21 @@ public interface ClassDAO {
     @Query("SELECT * FROM classes WHERE id = :id")
     Class getById(long id);
 
+    @Query("SELECT c.* from classes c " +
+            "JOIN subjects s ON s.class_id = c.id " +
+            "JOIN subject_semester_cross_ref ssc ON ssc.subject_id = s.id " +
+            "WHERE ssc.semester_id = :semesterId")
+    List<ClassWithRelations> getBySemester(long semesterId);
+
+    @Query("SELECT c.* from classes c " +
+            "JOIN subjects s ON s.class_id = c.id " +
+            "JOIN subject_semester_cross_ref ssc ON ssc.subject_id = s.id " +
+            "JOIN lecturer_subject_cross_ref lsc ON lsc.subject_id = s.id " +
+            "JOIN lecturers l ON l.id = lsc.lecturer_id " +
+            "JOIN users u ON u.id = l.user_id " +
+            "WHERE u.id = :userId AND ssc.semester_id = :semesterId")
+    List<ClassWithRelations> getByLecturerSemester(long userId, long semesterId);
+
     @Query("SELECT * FROM classes c " +
             "JOIN majors m ON m.id = c.major_id " +
             "JOIN faculties f ON f.id = m.faculty_id " +
@@ -73,7 +88,7 @@ public interface ClassDAO {
     long insert(Class Class);
 
     @Insert
-    void insertAll(Class... classes);
+    void insert(Class... classes);
 
     @Update
     void update(Class Class);

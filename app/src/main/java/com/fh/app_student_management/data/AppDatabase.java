@@ -218,6 +218,23 @@ public abstract class AppDatabase extends RoomDatabase {
         admin.setRole(Constants.Role.ADMIN);
         db.userDAO().insert(admin);
 
+        String[] specialistEmails = {
+                "specialist1@gmail.com", "specialist2@gmail.com",
+                "specialist3@gmail.com", "specialist4@gmail.com",
+                "specialist5@gmail.com", "specialist6@gmail.com",
+                "specialist7@gmail.com", "specialist8@gmail.com",
+                "specialist9@gmail.com", "specialist0@gmail.com"
+        };
+        String[] specialistNames = {
+                "John Doe", "Jane Smith", "Robert Brown", "Emily Jones", "Michael White",
+                "Susan Davis", "William Miller", "Olivia Garcia", "James Martin", "Isabella Wilson"
+        };
+
+        for (int i = 0; i < specialistEmails.length; i++) {
+            User user = getUser(context, specialistNames[i], specialistEmails[i], Constants.Role.SPECIALIST, i);
+            db.userDAO().insert(user);
+        }
+
         String[] lecturerEmails = {
                 "lecturer1@gmail.com", "lecturer2@gmail.com",
                 "lecturer3@gmail.com", "lecturer4@gmail.com",

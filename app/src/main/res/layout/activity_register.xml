@@ -7,7 +7,7 @@
     android:background="@color/grey"
     android:orientation="vertical"
     android:scrollbars="none"
-    tools:context=".ui.LoginActivity"
+    tools:context=".ui.RegisterActivity"
     tools:ignore="HardcodedText">
 
     <LinearLayout

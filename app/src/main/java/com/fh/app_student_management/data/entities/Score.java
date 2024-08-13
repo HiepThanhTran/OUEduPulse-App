@@ -1,38 +1,37 @@
 package com.fh.app_student_management.data.entities;
 
-import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-import java.util.Objects;
-
-@Entity(tableName = "scores", foreignKeys = {
-        @ForeignKey(
-                entity = Student.class,
-                parentColumns = "id",
-                childColumns = "student_id",
-                onDelete = ForeignKey.CASCADE
-        ),
-        @ForeignKey(
-                entity = Subject.class,
-                parentColumns = "id",
-                childColumns = "subject_id",
-                onDelete = ForeignKey.CASCADE
-        ),
-        @ForeignKey(
-                entity = Semester.class,
-                parentColumns = "id",
-                childColumns = "semester_id",
-                onDelete = ForeignKey.CASCADE
-        )
-})
+@Entity(tableName = "scores",
+        foreignKeys = {
+                @ForeignKey(
+                        entity = Student.class,
+                        parentColumns = "id",
+                        childColumns = "student_id",
+                        onDelete = ForeignKey.CASCADE
+                ),
+                @ForeignKey(
+                        entity = Subject.class,
+                        parentColumns = "id",
+                        childColumns = "subject_id",
+                        onDelete = ForeignKey.CASCADE
+                ),
+                @ForeignKey(
+                        entity = Semester.class,
+                        parentColumns = "id",
+                        childColumns = "semester_id",
+                        onDelete = ForeignKey.CASCADE
+                )
+        })
 public class Score {
 
     @PrimaryKey(autoGenerate = true)
     private long id;
     private String type;
+    @ColumnInfo(defaultValue = "0")
     private float point;
     @ColumnInfo(name = "student_id")
     private long studentId;
@@ -95,24 +94,5 @@ public class Score {
 
     public void setSemesterId(long semesterId) {
         this.semesterId = semesterId;
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return this.type;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, type);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Score score = (Score) o;
-        return id == score.id && Objects.equals(type, score.type);
     }
 }

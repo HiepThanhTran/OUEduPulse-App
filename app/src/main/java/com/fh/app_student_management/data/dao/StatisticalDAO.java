@@ -12,11 +12,10 @@ import java.util.List;
 public interface StatisticalDAO {
 
     @Query("SELECT " +
-            "   l.id AS lecturerId, " +
-            "   u.full_name AS lecturerName, " +
-            "   subj.name AS subjectName, " +
-            "   c.name AS className, " +
-            "   s.name AS semesterName " +
+            "   l.id AS lecturerId," +
+            "   u.full_name AS lecturerName," +
+            "   subj.name AS subjectName," +
+            "   c.name AS className " +
             "FROM lecturers l " +
             "JOIN users u ON l.user_id = u.id " +
             "JOIN lecturer_subject_cross_ref lsc ON l.id = lsc.lecturer_id " +
@@ -24,9 +23,9 @@ public interface StatisticalDAO {
             "JOIN classes c ON subj.class_id = c.id " +
             "JOIN subject_semester_cross_ref ssc ON subj.id = ssc.subject_id " +
             "JOIN semesters s ON ssc.semester_id = s.id " +
-            "WHERE l.id = :lecturerId " +
+            "WHERE s.id = :semesterId AND l.id = :lecturerId " +
             "ORDER BY subj.name, c.name")
-    List<StatisticalOfLecturer> getStatisticalOfLecturer(long lecturerId);
+    List<StatisticalOfLecturer> getStatisticalOfLecturer(long semesterId, long lecturerId);
 
     @Query("SELECT " +
             "s.id AS subjectId," +

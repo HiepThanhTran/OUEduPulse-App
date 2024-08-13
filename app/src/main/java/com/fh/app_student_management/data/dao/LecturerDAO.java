@@ -8,7 +8,6 @@ import androidx.room.Update;
 
 import com.fh.app_student_management.data.entities.Lecturer;
 import com.fh.app_student_management.data.relations.LecturerAndUser;
-import com.fh.app_student_management.data.relations.StatisticalOfLecturer;
 
 import java.util.List;
 
@@ -20,6 +19,13 @@ public interface LecturerDAO {
 
     @Query("SELECT * FROM lecturers ORDER BY id DESC")
     List<LecturerAndUser> getAllLecturerAndUser();
+
+    @Query("SELECT l.* FROM lecturers l " +
+            "JOIN lecturer_subject_cross_ref lsc ON l.id = lsc.lecturer_id " +
+            "JOIN subject_semester_cross_ref ssc ON lsc.subject_id = ssc.subject_id " +
+            "WHERE ssc.semester_id = :semesterId " +
+            "GROUP BY l.id, ssc.semester_id")
+    List<LecturerAndUser> getAllLecturerAndUserBySemester(long semesterId);
 
     @Query("SELECT * FROM lecturers WHERE id = :id")
     Lecturer getById(long id);
@@ -34,7 +40,7 @@ public interface LecturerDAO {
     long insert(Lecturer lecturer);
 
     @Insert
-    void insertAll(Lecturer... lecturers);
+    void insert(Lecturer... lecturers);
 
     @Update
     void update(Lecturer Lecturer);

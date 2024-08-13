@@ -23,7 +23,6 @@ import java.util.List;
 
 public class OpenClassActivity extends AppCompatActivity {
 
-    private AppDatabase db;
     private List<Subject> subjects;
     private String[] subjectNames;
     private Subject selectedSubject;
@@ -56,21 +55,19 @@ public class OpenClassActivity extends AppCompatActivity {
         edtSemester = findViewById(R.id.edtSemester);
         btnOpenClass = findViewById(R.id.btnOpenClass);
 
-        db = AppDatabase.getInstance(this);
-
-        subjects = db.subjectDAO().getAll();
+        subjects = AppDatabase.getInstance(this).subjectDAO().getAll();
         subjectNames = new String[subjects.size()];
         for (int i = 0; i < subjects.size(); i++) {
             subjectNames[i] = subjects.get(i).getName();
         }
 
-        lecturers = db.userDAO().getByRole(Constants.Role.LECTURER);
+        lecturers = AppDatabase.getInstance(this).userDAO().getByRole(Constants.Role.LECTURER);
         lecturerNames = new String[lecturers.size()];
         for (int i = 0; i < lecturers.size(); i++) {
             lecturerNames[i] = lecturers.get(i).getFullName();
         }
 
-        semesters = db.semesterDAO().getAll();
+        semesters = AppDatabase.getInstance(this).semesterDAO().getAll();
         semesterNames = new String[semesters.size()];
         for (int i = 0; i < semesters.size(); i++) {
             String startDate = Utils.formatDate("MM/yyyy").format(semesters.get(i).getStartDate());
@@ -102,7 +99,7 @@ public class OpenClassActivity extends AppCompatActivity {
         edtLecturer.setOnClickListener(v -> new AlertDialog.Builder(this)
                 .setTitle("Chọn giảng viên")
                 .setItems(lecturerNames, (dialog, which) -> {
-                    selectedLecturer = db.lecturerDAO().getByUser(lecturers.get(which).getId());
+                    selectedLecturer = AppDatabase.getInstance(this).lecturerDAO().getByUser(lecturers.get(which).getId());
                     edtLecturer.setText(lecturerNames[which]);
                 })
                 .show());
@@ -119,12 +116,12 @@ public class OpenClassActivity extends AppCompatActivity {
         LecturerSubjectCrossRef lecturerSubjectCrossRef = new LecturerSubjectCrossRef();
         lecturerSubjectCrossRef.setLecturerId(selectedLecturer.getLecturer().getId());
         lecturerSubjectCrossRef.setSubjectId(selectedSubject.getId());
-        db.crossRefDAO().insertLecturerSubjectCrossRef(lecturerSubjectCrossRef);
+        AppDatabase.getInstance(this).crossRefDAO().insertLecturerSubjectCrossRef(lecturerSubjectCrossRef);
 
         SubjectSemesterCrossRef subjectSemesterCrossRef = new SubjectSemesterCrossRef();
         subjectSemesterCrossRef.setSubjectId(selectedSubject.getId());
         subjectSemesterCrossRef.setSemesterId(selectedSemester.getId());
-        db.crossRefDAO().insertSubjectSemesterCrossRef(subjectSemesterCrossRef);
+        AppDatabase.getInstance(this).crossRefDAO().insertSubjectSemesterCrossRef(subjectSemesterCrossRef);
 
         Utils.showToast(this, "Tạo lớp thành công");
         finish();

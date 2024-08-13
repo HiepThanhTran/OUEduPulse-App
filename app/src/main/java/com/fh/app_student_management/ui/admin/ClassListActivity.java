@@ -61,21 +61,19 @@ public class ClassListActivity extends AppCompatActivity {
         searchViewClass = findViewById(R.id.searchViewClass);
         bottomSheetDialog = new BottomSheetDialog(this);
 
-        AppDatabase db = AppDatabase.getInstance(this);
-
-        majors = new ArrayList<>(db.majorDAO().getAll());
+        majors = new ArrayList<>(AppDatabase.getInstance(this).majorDAO().getAll());
         majorNames = new String[majors.size()];
         for (int i = 0; i < majors.size(); i++) {
             majorNames[i] = majors.get(i).getName();
         }
 
-        academicYears = new ArrayList<>(db.academicYearDAO().getAll());
+        academicYears = new ArrayList<>(AppDatabase.getInstance(this).academicYearDAO().getAll());
         academicYearNames = new String[academicYears.size()];
         for (int i = 0; i < academicYears.size(); i++) {
             academicYearNames[i] = academicYears.get(i).getName();
         }
 
-        ArrayList<ClassWithRelations> classes = new ArrayList<>(db.classDAO().getAllWithRelations());
+        ArrayList<ClassWithRelations> classes = new ArrayList<>(AppDatabase.getInstance(this).classDAO().getAllWithRelations());
 
         RecyclerView rvClass = findViewById(R.id.rvClass);
         classListRecycleViewAdapter = new ClassListRecycleViewAdapter(this, classes);

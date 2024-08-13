@@ -40,7 +40,6 @@ public class LecturerListRecycleViewAdapter extends RecyclerView.Adapter<Lecture
 
     private final Context context;
     private final ArrayList<LecturerAndUser> originalList;
-    private final AppDatabase db;
     private final BottomSheetDialog bottomSheetDialog;
 
     private String currentFilterText = "";
@@ -52,7 +51,6 @@ public class LecturerListRecycleViewAdapter extends RecyclerView.Adapter<Lecture
         this.originalList = originalList;
         this.filteredList = originalList;
 
-        db = AppDatabase.getInstance(context);
         bottomSheetDialog = new BottomSheetDialog(context);
     }
 
@@ -116,9 +114,10 @@ public class LecturerListRecycleViewAdapter extends RecyclerView.Adapter<Lecture
 
             @Override
             @SuppressWarnings("unchecked")
+            @SuppressLint("NotifyDataSetChanged")
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 filteredList = (ArrayList<LecturerAndUser>) filterResults.values;
-                notifyItemRangeChanged(0, filteredList.size());
+                notifyDataSetChanged();
             }
         };
     }
@@ -134,31 +133,31 @@ public class LecturerListRecycleViewAdapter extends RecyclerView.Adapter<Lecture
     }
 
     public void addLecturer(LecturerAndUser lecturerAndUser) {
-        Long userId;
+        long userId;
         try {
-            userId = db.userDAO().insert(lecturerAndUser.getUser());
+            userId = AppDatabase.getInstance(context).userDAO().insert(lecturerAndUser.getUser());
         } catch (SQLiteConstraintException ex) {
             Utils.showToast(context, "Email đã tồn tại!");
             return;
         }
         lecturerAndUser.getLecturer().setUserId(userId);
-        db.lecturerDAO().insert(lecturerAndUser.getLecturer());
+        AppDatabase.getInstance(context).lecturerDAO().insert(lecturerAndUser.getLecturer());
         originalList.add(0, lecturerAndUser);
         notifyItemInserted(0);
     }
 
     private void editLecturer(int position) {
         LecturerAndUser lecturerAndUser = filteredList.get(position);
-        db.lecturerDAO().update(lecturerAndUser.getLecturer());
-        db.userDAO().update(lecturerAndUser.getUser());
+        AppDatabase.getInstance(context).lecturerDAO().update(lecturerAndUser.getLecturer());
+        AppDatabase.getInstance(context).userDAO().update(lecturerAndUser.getUser());
         getFilter().filter(currentFilterText);
         notifyItemChanged(position);
     }
 
     private void deleteLecturer(int position) {
         LecturerAndUser lecturerAndUser = filteredList.get(position);
-        db.lecturerDAO().delete(lecturerAndUser.getLecturer());
-        db.userDAO().delete(lecturerAndUser.getUser());
+        AppDatabase.getInstance(context).lecturerDAO().delete(lecturerAndUser.getLecturer());
+        AppDatabase.getInstance(context).userDAO().delete(lecturerAndUser.getUser());
         originalList.remove(lecturerAndUser);
         filteredList.remove(lecturerAndUser);
         getFilter().filter(currentFilterText);
@@ -211,7 +210,7 @@ public class LecturerListRecycleViewAdapter extends RecyclerView.Adapter<Lecture
 
         edtDob.setOnClickListener(this::showDatePickerDialog);
 
-        String[] roleNames = {"Quản trị viên", "Giảng viên", "Sinh viên"};
+        String[] roleNames = {"Quản trị viên", "Chuyên viên", "Giảng viên"};
         txtRole.setOnClickListener(v -> new AlertDialog.Builder(context)
                 .setTitle("Chọn vai trò")
                 .setItems(roleNames, (dialog, which) -> {
@@ -222,10 +221,10 @@ public class LecturerListRecycleViewAdapter extends RecyclerView.Adapter<Lecture
                             selectedRole = Constants.Role.ADMIN;
                             break;
                         case 1:
-                            selectedRole = Constants.Role.LECTURER;
+                            selectedRole = Constants.Role.SPECIALIST;
                             break;
-                        default:
-                            selectedRole = Constants.Role.STUDENT;
+                        case 2:
+                            selectedRole = Constants.Role.LECTURER;
                     }
                 })
                 .show());

@@ -34,13 +34,13 @@ public class SplashActivity extends AppCompatActivity {
         }
 
         runnable = () -> {
-            boolean isOnboarding = sharedPreferences.getBoolean(Constants.IS_FIRST_TIME_LAUNCH, false);
+            boolean isFirstTimeLaunch = sharedPreferences.getBoolean(Constants.IS_FIRST_TIME_LAUNCH, false);
             long userId = sharedPreferences.getLong(Constants.USER_ID, 0);
 
             Class<?> targetActivity = LoginActivity.class;
 
-            targetActivity = !isOnboarding ? OnboardingActivity.class : targetActivity;
-            targetActivity = userId > 0 ? BottomNavigationActivity.class : targetActivity;
+            targetActivity = !isFirstTimeLaunch ? OnboardingActivity.class : targetActivity;
+            targetActivity = userId > 0 ? HomeActivity.class : targetActivity;
 
             Intent intent = new Intent(this, targetActivity);
 

@@ -26,7 +26,7 @@ public interface FacultyDAO {
     long insert(Faculty faculty);
 
     @Insert
-    void insertAll(Faculty... faculties);
+    void insert(Faculty... faculties);
 
     @Update
     void update(Faculty Faculty);

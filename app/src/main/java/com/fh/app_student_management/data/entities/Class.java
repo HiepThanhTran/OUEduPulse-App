@@ -1,27 +1,25 @@
 package com.fh.app_student_management.data.entities;
 
-import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-import java.util.Objects;
-
-@Entity(tableName = "classes", foreignKeys = {
-        @ForeignKey(
-                entity = Major.class,
-                parentColumns = "id",
-                childColumns = "major_id",
-                onDelete = ForeignKey.CASCADE
-        ),
-        @ForeignKey(
-                entity = AcademicYear.class,
-                parentColumns = "id",
-                childColumns = "academic_year_id",
-                onDelete = ForeignKey.SET_NULL
-        )
-})
+@Entity(tableName = "classes",
+        foreignKeys = {
+                @ForeignKey(
+                        entity = Major.class,
+                        parentColumns = "id",
+                        childColumns = "major_id",
+                        onDelete = ForeignKey.CASCADE
+                ),
+                @ForeignKey(
+                        entity = AcademicYear.class,
+                        parentColumns = "id",
+                        childColumns = "academic_year_id",
+                        onDelete = ForeignKey.SET_NULL
+                )
+        })
 public class Class {
 
     @PrimaryKey(autoGenerate = true)
@@ -62,24 +60,5 @@ public class Class {
 
     public void setAcademicYearId(Long academicYearId) {
         this.academicYearId = academicYearId;
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return this.name;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Class aClass = (Class) o;
-        return id == aClass.id && Objects.equals(name, aClass.name);
     }
 }

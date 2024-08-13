@@ -68,6 +68,12 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void initEditProfileView() {
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        assert bundle != null;
+        long userId = bundle.getLong(Constants.USER_ID, 0);
+        user = AppDatabase.getInstance(this).userDAO().getById(userId);
+
         layoutEditProfile = findViewById(R.id.layoutEditProfile);
         btnBack = findViewById(R.id.btnBack);
         iconCamera = findViewById(R.id.iconCamera);
@@ -82,30 +88,18 @@ public class EditProfileActivity extends AppCompatActivity {
         radioGroupGender = findViewById(R.id.radioGroupGender);
         btnSaveProfile = findViewById(R.id.btnSaveProfile);
 
-        AppDatabase db = AppDatabase.getInstance(this);
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-
-        assert bundle != null;
-        long userId = bundle.getLong(Constants.USER_ID, 0);
-        user = db.userDAO().getById(userId);
-
         avatar.setImageBitmap(Utils.getBitmapFromBytes(user.getAvatar()));
         edtEmail.setText(user.getEmail());
         edtFullName.setText(user.getFullName());
         setTextOrHint(edtDob, user.getDob());
         setTextOrHint(edtAddress, user.getAddress());
-        switch (user.getRole()) {
-            case ADMIN:
-                lecturer = null;
-                setNonEditableFields();
-                break;
-            case LECTURER:
-                lecturer = db.lecturerDAO().getByUser(user.getId());
-                setTextOrHint(edtSpecialization, lecturer.getLecturer().getSpecialization());
-                setTextOrHint(edtDegree, lecturer.getLecturer().getDegree());
-                setTextOrHint(edtCertificate, lecturer.getLecturer().getCertificate());
-                break;
+        if (user.getRole() == Constants.Role.LECTURER) {
+            lecturer = AppDatabase.getInstance(this).lecturerDAO().getByUser(user.getId());
+            setTextOrHint(edtSpecialization, lecturer.getLecturer().getSpecialization());
+            setTextOrHint(edtDegree, lecturer.getLecturer().getDegree());
+            setTextOrHint(edtCertificate, lecturer.getLecturer().getCertificate());
+        } else {
+            setNonEditableFields();
         }
         if (user.getGender() == Constants.MALE) {
             radioGroupGender.check(R.id.radioButtonMale);
@@ -147,23 +141,17 @@ public class EditProfileActivity extends AppCompatActivity {
     private void performEditProfile() {
         if (!validateInputs()) return;
 
-        AppDatabase db = AppDatabase.getInstance(this);
-
         try {
             user.setAvatar(Utils.getBytesFromBitmap(Utils.getBitmapFromView(avatar)));
             user.setFullName(edtFullName.getText().toString());
             user.setDob(Utils.formatDate("dd/MM/yyyy").parse(edtDob.getText().toString()));
             user.setAddress(edtAddress.getText().toString());
-            switch (user.getRole()) {
-                case ADMIN:
-                    break;
-                case LECTURER:
-                    lecturer.getLecturer().setSpecialization(edtSpecialization.getText().toString());
-                    lecturer.getLecturer().setDegree(edtDegree.getText().toString());
-                    lecturer.getLecturer().setCertificate(edtCertificate.getText().toString());
+            if (user.getRole() == Constants.Role.LECTURER) {
+                lecturer.getLecturer().setSpecialization(edtSpecialization.getText().toString());
+                lecturer.getLecturer().setDegree(edtDegree.getText().toString());
+                lecturer.getLecturer().setCertificate(edtCertificate.getText().toString());
 
-                    db.lecturerDAO().update(lecturer.getLecturer());
-                    break;
+                AppDatabase.getInstance(this).lecturerDAO().update(lecturer.getLecturer());
             }
             if (radioGroupGender.getCheckedRadioButtonId() == R.id.radioButtonMale) {
                 user.setGender(Constants.MALE);
@@ -171,10 +159,10 @@ public class EditProfileActivity extends AppCompatActivity {
                 user.setGender(Constants.FEMALE);
             }
 
-            db.userDAO().update(user);
+            AppDatabase.getInstance(this).userDAO().update(user);
 
             Intent resultIntent = new Intent();
-            resultIntent.putExtra(Constants.USER_ID, user.getEmail());
+            resultIntent.putExtra(Constants.USER_ID, user.getId());
             setResult(RESULT_OK, resultIntent);
             finish();
         } catch (ParseException e) {

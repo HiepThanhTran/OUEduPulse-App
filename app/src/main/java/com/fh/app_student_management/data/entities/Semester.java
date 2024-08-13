@@ -1,22 +1,21 @@
 package com.fh.app_student_management.data.entities;
 
-import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
-import java.util.Objects;
 
-@Entity(tableName = "semesters", foreignKeys = {
-        @ForeignKey(
-                entity = AcademicYear.class,
-                parentColumns = "id",
-                childColumns = "academic_year_id",
-                onDelete = ForeignKey.SET_NULL
-        )
-})
+@Entity(tableName = "semesters",
+        foreignKeys = {
+                @ForeignKey(
+                        entity = AcademicYear.class,
+                        parentColumns = "id",
+                        childColumns = "academic_year_id",
+                        onDelete = ForeignKey.SET_NULL
+                )
+        })
 public class Semester {
 
     @PrimaryKey(autoGenerate = true)
@@ -27,7 +26,7 @@ public class Semester {
     @ColumnInfo(name = "end_date")
     private Date endDate;
     @ColumnInfo(name = "academic_year_id")
-    private long academicYearId;
+    private Long academicYearId;
 
     public long getId() {
         return id;
@@ -61,30 +60,11 @@ public class Semester {
         this.endDate = endDate;
     }
 
-    public long getAcademicYearId() {
+    public Long getAcademicYearId() {
         return academicYearId;
     }
 
-    public void setAcademicYearId(long academicYearId) {
+    public void setAcademicYearId(Long academicYearId) {
         this.academicYearId = academicYearId;
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return String.format("%s - %s", this.startDate, this.endDate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Semester semester = (Semester) o;
-        return id == semester.id && Objects.equals(name, semester.name);
     }
 }

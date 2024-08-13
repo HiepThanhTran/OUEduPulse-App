@@ -33,7 +33,7 @@ public interface UserDAO {
     long insert(User user);
 
     @Insert
-    void insertAll(User... users);
+    void insert(User... users);
 
     @Update
     void update(User user);

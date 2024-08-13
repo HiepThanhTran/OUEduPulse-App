@@ -17,7 +17,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BottomNavigationActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     private Map<String, String> params;
 
@@ -26,7 +26,7 @@ public class BottomNavigationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bottom_navigation);
+        setContentView(R.layout.activity_home);
 
         initBottomNavigationView();
         handleEventListener(params);

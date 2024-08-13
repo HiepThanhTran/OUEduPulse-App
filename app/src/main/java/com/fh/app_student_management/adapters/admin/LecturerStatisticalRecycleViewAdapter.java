@@ -38,7 +38,6 @@ public class LecturerStatisticalRecycleViewAdapter extends RecyclerView.Adapter<
         holder.txtLecturerNumber.setText(String.valueOf(position + 1));
         holder.txtSubjectName.setText(statisticalOfLecturer.getSubjectName());
         holder.txtClassName.setText(statisticalOfLecturer.getClassName());
-        holder.txtSemesterName.setText(statisticalOfLecturer.getSemesterName());
     }
 
     @Override
@@ -51,7 +50,6 @@ public class LecturerStatisticalRecycleViewAdapter extends RecyclerView.Adapter<
         public final TextView txtLecturerNumber;
         public final TextView txtSubjectName;
         public final TextView txtClassName;
-        public final TextView txtSemesterName;
 
         public LecturerStatisticalViewHolder(View view) {
             super(view);
@@ -59,7 +57,6 @@ public class LecturerStatisticalRecycleViewAdapter extends RecyclerView.Adapter<
             txtLecturerNumber = view.findViewById(R.id.txtLecturerNumber);
             txtSubjectName = view.findViewById(R.id.txtSubjectName);
             txtClassName = view.findViewById(R.id.txtClassName);
-            txtSemesterName = view.findViewById(R.id.txtSemesterName);
         }
     }
 }

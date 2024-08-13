@@ -76,7 +76,7 @@ public interface StudentDAO {
             "JOIN subjects subj ON ssur.subject_id= subj.id " +
             "WHERE sscr.semester_id = :semesterId AND subj.class_id = :classId AND subj.id = :subjectId " +
             "ORDER BY s.id DESC")
-    List<StudentWithRelations> getBySemesterClassSubject( long semesterId, long classId, long subjectId);
+    List<StudentWithRelations> getBySemesterClassSubject(long semesterId, long classId, long subjectId);
 
     @Query("SELECT COUNT(*) FROM students")
     int count();
@@ -85,7 +85,7 @@ public interface StudentDAO {
     long insert(Student student);
 
     @Insert
-    void insertAll(Student... students);
+    void insert(Student... students);
 
     @Update
     void update(Student student);

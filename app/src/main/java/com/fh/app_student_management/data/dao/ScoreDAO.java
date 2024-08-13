@@ -43,7 +43,7 @@ public interface ScoreDAO {
     long insert(Score score);
 
     @Insert
-    void insertAll(Score... scores);
+    void insert(Score... scores);
 
     @Update
     void update(Score Score);

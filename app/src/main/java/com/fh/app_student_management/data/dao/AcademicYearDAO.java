@@ -23,14 +23,14 @@ public interface AcademicYearDAO {
     int count();
 
     @Insert
-    long insert(AcademicYear academic_year);
+    long insert(AcademicYear academicYear);
 
     @Insert
-    void insertAll(AcademicYear... academic_years);
+    void insert(AcademicYear... academicYears);
 
     @Update
-    void update(AcademicYear AcademicYear);
+    void update(AcademicYear academicYear);
 
     @Delete
-    void delete(AcademicYear AcademicYear);
+    void delete(AcademicYear academicYear);
 }

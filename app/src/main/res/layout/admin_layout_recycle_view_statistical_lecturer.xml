@@ -23,7 +23,7 @@
         android:id="@+id/txtSubjectName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="3"
+        android:layout_weight="2"
         android:gravity="center"
         android:text="Lập trình di động"
         android:textColor="@color/white"
@@ -33,19 +33,9 @@
         android:id="@+id/txtClassName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="3"
-        android:gravity="center"
-        android:text="DH21IT01"
-        android:textColor="@color/white"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/txtSemesterName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:layout_weight="2"
         android:gravity="center"
-        android:text="Học kỳ 2"
+        android:text="DH21IT01"
         android:textColor="@color/white"
         android:textSize="16sp" />
 

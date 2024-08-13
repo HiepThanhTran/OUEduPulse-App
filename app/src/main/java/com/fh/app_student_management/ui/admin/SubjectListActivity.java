@@ -61,21 +61,20 @@ public class SubjectListActivity extends AppCompatActivity {
         btnAddSubject = findViewById(R.id.btnAddSubject);
         bottomSheetDialog = new BottomSheetDialog(this);
 
-        AppDatabase db = AppDatabase.getInstance(this);
-
-        classes = new ArrayList<>(db.classDAO().getAll());
+        classes = new ArrayList<>(AppDatabase.getInstance(this).classDAO().getAll());
         classNames = new String[classes.size()];
         for (int i = 0; i < classes.size(); i++) {
             classNames[i] = classes.get(i).getName();
         }
 
-        majors = new ArrayList<>(db.majorDAO().getAll());
+        majors = new ArrayList<>(AppDatabase.getInstance(this).majorDAO().getAll());
         majorNames = new String[majors.size()];
         for (int i = 0; i < majors.size(); i++) {
             majorNames[i] = majors.get(i).getName();
         }
 
-        ArrayList<SubjectWithRelations> subjects = new ArrayList<>(db.subjectDAO().getAllWithRelations());
+        ArrayList<SubjectWithRelations> subjects = new ArrayList<>(AppDatabase.getInstance(this)
+                .subjectDAO().getAllWithRelations());
 
         RecyclerView rvSubject = findViewById(R.id.rvSubject);
         subjectListRecycleViewAdapter = new SubjectListRecycleViewAdapter(this, subjects);

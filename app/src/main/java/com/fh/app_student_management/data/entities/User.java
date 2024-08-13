@@ -1,6 +1,5 @@
 package com.fh.app_student_management.data.entities;
 
-import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -10,16 +9,17 @@ import androidx.room.PrimaryKey;
 import com.fh.app_student_management.utilities.Constants;
 
 import java.util.Date;
-import java.util.Objects;
 
-@Entity(tableName = "users", indices = {@Index(value = {"email"}, unique = true)}, foreignKeys = {
-        @ForeignKey(
-                entity = Faculty.class,
-                parentColumns = "id",
-                childColumns = "faculty_id",
-                onDelete = ForeignKey.SET_NULL
-        )
-})
+@Entity(tableName = "users",
+        indices = {@Index(value = {"email"}, unique = true)},
+        foreignKeys = {
+                @ForeignKey(
+                        entity = Faculty.class,
+                        parentColumns = "id",
+                        childColumns = "faculty_id",
+                        onDelete = ForeignKey.SET_NULL
+                )
+        })
 public class User {
 
     @PrimaryKey(autoGenerate = true)
@@ -116,25 +116,5 @@ public class User {
 
     public void setFacultyId(Long facultyId) {
         this.facultyId = facultyId;
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return this.fullName;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, email, password);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id && Objects.equals(email, user.email) && Objects.equals(password,
-                user.password);
     }
 }

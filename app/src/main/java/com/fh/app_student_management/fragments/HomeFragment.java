@@ -65,6 +65,8 @@ public class HomeFragment extends Fragment {
             case ADMIN:
                 loadFragment(new AdminFragment());
                 break;
+            case SPECIALIST:
+                break;
             case LECTURER:
                 loadFragment(LecturerFragment.newInstance(params));
             default:

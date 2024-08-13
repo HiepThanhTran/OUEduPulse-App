@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey"
-    tools:context=".ui.admin.StatisticalSubjectActivity"
+    tools:context=".ui.admin.StatisticalLecturerActivity"
     tools:ignore="HardcodedText">
 
     <RelativeLayout
@@ -33,14 +33,54 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/edSemester"
+        android:id="@+id/semesterContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/top"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/opensans_bold"
+            android:text="Học kỳ"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/edtSemester"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/custom_input"
+            android:clickable="false"
+            android:drawableStart="@drawable/ic_clock"
+            android:drawablePadding="12dp"
+            android:ems="10"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:fontFamily="@font/opensans_bold"
+            android:hint="--- Chọn học kỳ ---"
+            android:inputType="none"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:textColor="@color/grey"
+            android:textSize="16sp"
+            tools:ignore="Autofill,LabelFor" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lecturerContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/semesterContainer"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
         android:orientation="vertical">
 
         <TextView
@@ -78,9 +118,8 @@
         android:id="@+id/titleTable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/edSemester"
+        android:layout_below="@id/lecturerContainer"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="10dp"
         android:layout_marginEnd="12dp"
         android:gravity="center"
         android:orientation="vertical">
@@ -119,6 +158,16 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/txtSemesterName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/opensans_bold"
+            android:text="Học kỳ 1 - năm 2024 - 2025"
+            android:textColor="@color/orange"
+            android:textSize="16sp" />
+
     </LinearLayout>
 
     <TableLayout
@@ -137,7 +186,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:fontFamily="@font/opensans_bold"
                 android:gravity="center"
                 android:padding="8dp"
@@ -148,7 +197,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="2"
                 android:fontFamily="@font/opensans_bold"
                 android:gravity="center"
                 android:padding="8dp"
@@ -160,25 +209,13 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="2"
                 android:fontFamily="@font/opensans_bold"
                 android:gravity="center"
                 android:padding="8dp"
                 android:text="Lớp"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:fontFamily="@font/opensans_bold"
-                android:gravity="center"
-                android:padding="8dp"
-                android:text="Học kỳ"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textStyle="bold" />
 
         </TableRow>
 
