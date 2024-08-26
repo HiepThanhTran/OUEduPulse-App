@@ -86,14 +86,14 @@ public class StudentListRecycleViewAdapter extends RecyclerView.Adapter<StudentL
         }
     }
 
+    public ArrayList<StudentWithRelations> getFilteredList() {
+        return filteredList;
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     public void setFilteredList(ArrayList<StudentWithRelations> originalList) {
         this.filteredList = originalList;
         notifyDataSetChanged();
-    }
-
-    public ArrayList<StudentWithRelations> getFilteredList() {
-        return filteredList;
     }
 
     public void resetFilteredList() {
@@ -161,7 +161,7 @@ public class StudentListRecycleViewAdapter extends RecyclerView.Adapter<StudentL
         };
     }
 
-    public void addStudent(StudentWithRelations studentWithRelations) {
+    public void addStudent(@NonNull StudentWithRelations studentWithRelations) {
         long userId;
         try {
             userId = AppDatabase.getInstance(context).userDAO().insert(studentWithRelations.getUser());
@@ -172,6 +172,7 @@ public class StudentListRecycleViewAdapter extends RecyclerView.Adapter<StudentL
         studentWithRelations.getStudent().setUserId(userId);
         AppDatabase.getInstance(context).studentDAO().insert(studentWithRelations.getStudent());
         updateStudentList(studentWithRelations);
+        Utils.showToast(context, "Thêm thành công");
     }
 
     public void updateStudentList(StudentWithRelations studentWithRelations) {
@@ -198,7 +199,7 @@ public class StudentListRecycleViewAdapter extends RecyclerView.Adapter<StudentL
     }
 
     @SuppressLint("InflateParams")
-    private void showEditStudentDialog(StudentWithRelations studentWithRelations) {
+    private void showEditStudentDialog(@NonNull StudentWithRelations studentWithRelations) {
         View view = LayoutInflater.from(context).inflate(R.layout.admin_bottom_sheet_edit_student, null);
         bottomSheetDialog.setContentView(view);
         BottomSheetBehavior<View> behavior = BottomSheetBehavior.from((View) view.getParent());

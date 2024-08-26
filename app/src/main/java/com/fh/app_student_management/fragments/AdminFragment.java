@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
@@ -32,7 +33,8 @@ public class AdminFragment extends Fragment {
     private CardView btnToSubjectManagement;
     private CardView btnToFeature;
 
-    public static AdminFragment newInstance(Map<String, String> params) {
+    @NonNull
+    public static AdminFragment newInstance(@NonNull Map<String, String> params) {
         AdminFragment fragment = new AdminFragment();
         Bundle args = new Bundle();
 
@@ -52,7 +54,7 @@ public class AdminFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.z_fragment_admin, container, false);
         Window window = requireActivity().getWindow();
         window.setStatusBarColor(getResources().getColor(R.color.grey, requireActivity().getTheme()));
@@ -63,7 +65,7 @@ public class AdminFragment extends Fragment {
         return view;
     }
 
-    private void initAdminView(View view) {
+    private void initAdminView(@NonNull View view) {
         btnToUserManagement = view.findViewById(R.id.btnToUserManagement);
         btnToStudentManagement = view.findViewById(R.id.btnToStudentManagement);
         btnToScoreManagement = view.findViewById(R.id.btnToScoreManagement);

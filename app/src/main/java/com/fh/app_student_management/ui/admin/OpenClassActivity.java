@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -150,20 +151,20 @@ public class OpenClassActivity extends AppCompatActivity {
         finish();
     }
 
-    private void showSelectionDialog(String title, List<String> options, DialogInterface.OnClickListener listener) {
+    private void showSelectionDialog(String title, @NonNull List<String> options, DialogInterface.OnClickListener listener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title);
         builder.setItems(options.toArray(new CharSequence[0]), listener);
         builder.show();
     }
 
-    private void resetSelections(EditText edtSemester, EditText edtSubject) {
+    private void resetSelections(@NonNull EditText edtSemester, EditText edtSubject) {
         selectedSemesterId = 0;
         edtSemester.setText("");
         resetSelections(edtSubject);
     }
 
-    private void resetSelections(EditText edtSubject) {
+    private void resetSelections(@NonNull EditText edtSubject) {
         selectedSubjectId = 0;
         edtSubject.setText("");
     }

@@ -8,6 +8,7 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -26,7 +27,8 @@ public class HomeFragment extends Fragment {
 
     private User user;
 
-    public static HomeFragment newInstance(Map<String, String> params) {
+    @NonNull
+    public static HomeFragment newInstance(@NonNull Map<String, String> params) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
 
@@ -47,7 +49,7 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.z_fragment_home, container, false);
         Window window = Objects.requireNonNull(requireActivity()).getWindow();
         window.setStatusBarColor(getResources().getColor(R.color.grey_sub, requireActivity().getTheme()));

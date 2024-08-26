@@ -25,8 +25,6 @@ import com.fh.app_student_management.data.relations.StudentWithRelations;
 import com.fh.app_student_management.utilities.Constants;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 public class StudentListActivity extends AppCompatActivity {
 

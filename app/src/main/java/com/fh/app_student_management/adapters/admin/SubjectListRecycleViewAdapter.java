@@ -144,7 +144,7 @@ public class SubjectListRecycleViewAdapter extends RecyclerView.Adapter<SubjectL
         };
     }
 
-    public void addSubject(SubjectWithRelations subjectWithRelations) {
+    public void addSubject(@NonNull SubjectWithRelations subjectWithRelations) {
         AppDatabase.getInstance(context).subjectDAO().insert(subjectWithRelations.getSubject());
         originalList.add(0, subjectWithRelations);
         notifyItemInserted(0);
@@ -167,7 +167,7 @@ public class SubjectListRecycleViewAdapter extends RecyclerView.Adapter<SubjectL
     }
 
     @SuppressLint("InflateParams")
-    private void showEditSubjectDialog(SubjectWithRelations subjectWithRelations) {
+    private void showEditSubjectDialog(@NonNull SubjectWithRelations subjectWithRelations) {
         View view = LayoutInflater.from(context).inflate(R.layout.admin_bottom_sheet_edit_subject, null);
         bottomSheetDialog.setContentView(view);
         BottomSheetBehavior<View> behavior = BottomSheetBehavior.from((View) view.getParent());
@@ -238,7 +238,7 @@ public class SubjectListRecycleViewAdapter extends RecyclerView.Adapter<SubjectL
                 && validateNotEmpty(view, R.id.edtMajor, "Ngành không được để trống");
     }
 
-    private boolean validateNotEmpty(View view, int viewId, String errorMessage) {
+    private boolean validateNotEmpty(@NonNull View view, int viewId, String errorMessage) {
         EditText editText = view.findViewById(viewId);
         if (editText == null || editText.getText().toString().trim().isEmpty()) {
             Utils.showToast(context, errorMessage);

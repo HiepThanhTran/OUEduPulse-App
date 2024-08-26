@@ -47,9 +47,9 @@ public interface StatisticalDAO {
 
     @Query("SELECT " +
             "COUNT(CASE WHEN point >= 9 THEN 1 END) AS excellent, " +
-            "COUNT(CASE WHEN point >= 7 AND point < 9 THEN 1 END) AS good, " +
-            "COUNT(CASE WHEN point >= 5 AND point < 7 THEN 1 END) AS fair, " +
-            "COUNT(CASE WHEN point < 5 THEN 1 END) AS average " +
+            "COUNT(CASE WHEN point >= 8.5 AND point < 9 THEN 1 END) AS good, " +
+            "COUNT(CASE WHEN point >= 6.5 AND point < 8.5 THEN 1 END) AS fair, " +
+            "COUNT(CASE WHEN point < 6.5 THEN 1 END) AS average " +
             "FROM scores " +
             "WHERE type = 'TB' AND semester_id = :semesterId AND subject_id = :subjectId")
     ScoreDistribution getStatisticalBySemesterSubject(long semesterId, long subjectId);

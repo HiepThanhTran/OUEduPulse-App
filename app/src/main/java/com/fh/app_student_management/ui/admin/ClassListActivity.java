@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -171,7 +172,7 @@ public class ClassListActivity extends AppCompatActivity {
                 && validateNotEmpty(view, R.id.edtAcademicYear, "Năm học không được để trống");
     }
 
-    private boolean validateNotEmpty(View view, int viewId, String errorMessage) {
+    private boolean validateNotEmpty(@NonNull View view, int viewId, String errorMessage) {
         EditText editText = view.findViewById(viewId);
         if (editText == null || editText.getText().toString().trim().isEmpty()) {
             Utils.showToast(this, errorMessage);

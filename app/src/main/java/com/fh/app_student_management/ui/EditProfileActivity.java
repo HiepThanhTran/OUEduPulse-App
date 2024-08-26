@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -96,9 +97,13 @@ public class EditProfileActivity extends AppCompatActivity {
         radioGroupGender = findViewById(R.id.radioGroupGender);
         btnSaveProfile = findViewById(R.id.btnSaveProfile);
 
-        edtSpecialization.setVisibility(View.GONE);
-        edtDegree.setVisibility(View.GONE);
-        edtCertificate.setVisibility(View.GONE);
+        LinearLayout layoutSpecialization = findViewById(R.id.layoutSpecialization);
+        LinearLayout layoutDegree = findViewById(R.id.layoutDegree);
+        LinearLayout layoutCertificate = findViewById(R.id.layoutCertificate);
+
+        layoutSpecialization.setVisibility(View.GONE);
+        layoutDegree.setVisibility(View.GONE);
+        layoutCertificate.setVisibility(View.GONE);
 
         avatar.setImageBitmap(Utils.getBitmapFromBytes(user.getAvatar()));
         edtEmail.setText(user.getEmail());
@@ -113,9 +118,9 @@ public class EditProfileActivity extends AppCompatActivity {
 
         if (user.getRole() == Constants.Role.LECTURER) {
             lecturer = AppDatabase.getInstance(this).lecturerDAO().getByUser(user.getId());
-            edtSpecialization.setVisibility(View.VISIBLE);
-            edtDegree.setVisibility(View.VISIBLE);
-            edtCertificate.setVisibility(View.VISIBLE);
+            layoutSpecialization.setVisibility(View.VISIBLE);
+            layoutDegree.setVisibility(View.VISIBLE);
+            layoutCertificate.setVisibility(View.VISIBLE);
             setTextOrHint(edtSpecialization, lecturer.getSpecialization());
             setTextOrHint(edtDegree, lecturer.getDegree());
             setTextOrHint(edtCertificate, lecturer.getCertificate());
@@ -202,9 +207,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private boolean validateNotEmpty(int viewId, String errorMessage) {
         EditText editText = findViewById(viewId);
-        System.out.println(editText.getVisibility());
-        System.out.println(View.VISIBLE);
-        if (editText.getVisibility() == View.VISIBLE && editText.getText().toString().trim().isEmpty()) {
+        if (((LinearLayout) editText.getParent()).getVisibility() == View.VISIBLE && editText.getText().toString().trim().isEmpty()) {
             Utils.showToast(this, errorMessage);
             return false;
         }
@@ -236,7 +239,7 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     @SuppressLint("ResourceAsColor")
-    private void setFieldsNonEditable(EditText... fields) {
+    private void setFieldsNonEditable(@NonNull EditText... fields) {
         for (EditText field : fields) {
             field.setFocusable(false);
             field.setFocusableInTouchMode(false);

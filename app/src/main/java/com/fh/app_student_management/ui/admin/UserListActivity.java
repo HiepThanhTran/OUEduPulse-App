@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -238,16 +239,16 @@ public class UserListActivity extends AppCompatActivity {
                 && validateNotEmpty(view, R.id.edtCertificate, "Chứng chỉ không được để trống");
     }
 
-    private boolean validateNotEmpty(View view, int viewId, String errorMessage) {
+    private boolean validateNotEmpty(@NonNull View view, int viewId, String errorMessage) {
         EditText editText = view.findViewById(viewId);
-        if (editText.getVisibility() == View.VISIBLE && editText.getText().toString().trim().isEmpty()) {
+        if (((LinearLayout) editText.getParent()).getVisibility() == View.VISIBLE && editText.getText().toString().trim().isEmpty()) {
             Utils.showToast(this, errorMessage);
             return false;
         }
         return true;
     }
 
-    private boolean validateEmail(View view, int viewId) {
+    private boolean validateEmail(@NonNull View view, int viewId) {
         EditText editText = view.findViewById(viewId);
         if (editText != null && !Validator.isValidEmail(editText.getText().toString())) {
             Utils.showToast(this, "Email không hợp lệ");

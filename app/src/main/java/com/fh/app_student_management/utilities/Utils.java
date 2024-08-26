@@ -7,6 +7,9 @@ import android.graphics.Canvas;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
+import org.jetbrains.annotations.Contract;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.ByteArrayOutputStream;
@@ -19,6 +22,7 @@ import java.util.regex.Pattern;
 
 public final class Utils {
 
+    @NonNull
     public static String hashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }
@@ -27,7 +31,8 @@ public final class Utils {
         return BCrypt.checkpw(password, hashedPassword);
     }
 
-    public static byte[] getBytesFromDrawable(Context context, int drawableId) {
+    @NonNull
+    public static byte[] getBytesFromDrawable(@NonNull Context context, int drawableId) {
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), drawableId);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
@@ -35,7 +40,8 @@ public final class Utils {
         return stream.toByteArray();
     }
 
-    public static byte[] getBytesFromBitmap(Bitmap bitmap) {
+    @NonNull
+    public static byte[] getBytesFromBitmap(@NonNull Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
 
@@ -46,7 +52,8 @@ public final class Utils {
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 
-    public static Bitmap getBitmapFromView(View view) {
+    @NonNull
+    public static Bitmap getBitmapFromView(@NonNull View view) {
         view.layout(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
 
         Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
@@ -69,6 +76,8 @@ public final class Utils {
         return calendar.get(Calendar.YEAR);
     }
 
+    @NonNull
+    @Contract("_ -> new")
     public static SimpleDateFormat formatDate(String pattern) {
         return new SimpleDateFormat(pattern, Locale.getDefault());
     }
@@ -77,6 +86,8 @@ public final class Utils {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
+    @NonNull
+    @Contract(pure = true)
     public static String getRoleName(Constants.Role role) {
         if (role == null) {
             return "Không có";

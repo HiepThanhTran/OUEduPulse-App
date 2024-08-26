@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -161,7 +162,7 @@ public class StatisticalClassActivity extends AppCompatActivity {
         titleTable.setVisibility(View.VISIBLE);
     }
 
-    private void showSelectionDialog(String title, List<String> options, DialogInterface.OnClickListener listener) {
+    private void showSelectionDialog(String title, @NonNull List<String> options, DialogInterface.OnClickListener listener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title);
         builder.setItems(options.toArray(new CharSequence[0]), listener);

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -216,28 +217,28 @@ public class StatisticalScoreActivity extends AppCompatActivity {
         chart.invalidate();
     }
 
-    private void showSelectionDialog(String title, List<String> options, DialogInterface.OnClickListener listener) {
+    private void showSelectionDialog(String title, @NonNull List<String> options, DialogInterface.OnClickListener listener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title);
         builder.setItems(options.toArray(new CharSequence[0]), listener);
         builder.show();
     }
 
-    private void resetSelections(EditText edtSemester, EditText edtClass, EditText edtSubject) {
+    private void resetSelections(@NonNull EditText edtSemester, EditText edtClass, EditText edtSubject) {
         titleChart.setVisibility(View.GONE);
         selectedSemesterId = 0;
         edtSemester.setText("");
         resetSelections(edtClass, edtSubject);
     }
 
-    private void resetSelections(EditText edtClass, EditText edtSubject) {
+    private void resetSelections(@NonNull EditText edtClass, EditText edtSubject) {
         titleChart.setVisibility(View.GONE);
         selectedClassId = 0;
         edtClass.setText("");
         resetSelections(edtSubject);
     }
 
-    private void resetSelections(EditText edtSubject) {
+    private void resetSelections(@NonNull EditText edtSubject) {
         titleChart.setVisibility(View.GONE);
         selectedSubjectId = 0;
         edtSubject.setText("");

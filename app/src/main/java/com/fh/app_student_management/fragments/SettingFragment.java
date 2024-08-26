@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
@@ -77,7 +78,7 @@ public class SettingFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.z_fragment_settings, container, false);
         Window window = requireActivity().getWindow();
         window.setStatusBarColor(getResources().getColor(R.color.grey, requireActivity().getTheme()));
@@ -88,7 +89,7 @@ public class SettingFragment extends Fragment {
         return view;
     }
 
-    private void initSettingsView(View view) {
+    private void initSettingsView(@NonNull View view) {
         avatar = view.findViewById(R.id.avatar);
         txtUsername = view.findViewById(R.id.txtUsername);
         btnEditProfile = view.findViewById(R.id.btnEditProfile);

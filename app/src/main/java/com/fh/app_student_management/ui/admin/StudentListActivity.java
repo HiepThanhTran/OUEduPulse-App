@@ -255,7 +255,6 @@ public class StudentListActivity extends AppCompatActivity {
 
         studentListRecycleViewAdapter.addStudent(studentWithRelations);
         bottomSheetDialog.dismiss();
-        Utils.showToast(this, "Thêm thành công");
     }
 
     private void showDatePickerDialog(View view) {

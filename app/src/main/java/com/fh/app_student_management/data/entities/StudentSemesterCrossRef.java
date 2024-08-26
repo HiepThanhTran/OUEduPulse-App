@@ -3,7 +3,6 @@ package com.fh.app_student_management.data.entities;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
-import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "student_semester_cross_ref",

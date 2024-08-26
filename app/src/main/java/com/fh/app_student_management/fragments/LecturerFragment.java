@@ -7,11 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.fh.app_student_management.R;
-import com.fh.app_student_management.data.entities.User;
 import com.fh.app_student_management.ui.SemesterListActivity;
 import com.fh.app_student_management.ui.lecturer.StatisticalScoreActivity;
 import com.fh.app_student_management.utilities.Constants;
@@ -26,7 +26,8 @@ public class LecturerFragment extends Fragment {
     private CardView btnToSemester;
     private CardView btnToStatistical;
 
-    public static LecturerFragment newInstance(Map<String, String> params) {
+    @NonNull
+    public static LecturerFragment newInstance(@NonNull Map<String, String> params) {
         LecturerFragment fragment = new LecturerFragment();
         Bundle args = new Bundle();
 
@@ -46,7 +47,7 @@ public class LecturerFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.z_fragment_lecturer, container, false);
         Window window = requireActivity().getWindow();
         window.setStatusBarColor(getResources().getColor(R.color.grey, requireActivity().getTheme()));
@@ -57,7 +58,7 @@ public class LecturerFragment extends Fragment {
         return view;
     }
 
-    private void initLecturerView(View view) {
+    private void initLecturerView(@NonNull View view) {
         btnToSemester = view.findViewById(R.id.btnToSemester);
         btnToStatistical = view.findViewById(R.id.btnToStatistical);
     }

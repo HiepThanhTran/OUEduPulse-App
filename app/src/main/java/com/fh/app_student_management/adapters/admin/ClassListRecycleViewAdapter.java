@@ -144,7 +144,7 @@ public class ClassListRecycleViewAdapter extends RecyclerView.Adapter<ClassListR
         };
     }
 
-    public void addClass(ClassWithRelations classWithRelations) {
+    public void addClass(@NonNull ClassWithRelations classWithRelations) {
         AppDatabase.getInstance(context).classDAO().insert(classWithRelations.getClazz());
         originalList.add(0, classWithRelations);
         notifyItemInserted(0);
@@ -167,7 +167,7 @@ public class ClassListRecycleViewAdapter extends RecyclerView.Adapter<ClassListR
     }
 
     @SuppressLint("InflateParams")
-    private void showEditClassDialog(ClassWithRelations classWithRelations) {
+    private void showEditClassDialog(@NonNull ClassWithRelations classWithRelations) {
         View view = LayoutInflater.from(context).inflate(R.layout.admin_bottom_sheet_edit_class, null);
         bottomSheetDialog.setContentView(view);
         BottomSheetBehavior<View> behavior = BottomSheetBehavior.from((View) view.getParent());
@@ -235,7 +235,7 @@ public class ClassListRecycleViewAdapter extends RecyclerView.Adapter<ClassListR
                 && validateNotEmpty(view, R.id.edtAcademicYear, "Năm học không được để trống");
     }
 
-    private boolean validateNotEmpty(View view, int viewId, String errorMessage) {
+    private boolean validateNotEmpty(@NonNull View view, int viewId, String errorMessage) {
         EditText editText = view.findViewById(viewId);
         if (editText == null || editText.getText().toString().trim().isEmpty()) {
             Utils.showToast(context, errorMessage);

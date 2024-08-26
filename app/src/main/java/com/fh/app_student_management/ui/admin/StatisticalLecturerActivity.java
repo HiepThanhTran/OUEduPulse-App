@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -132,21 +133,21 @@ public class StatisticalLecturerActivity extends AppCompatActivity {
         rvLecturer.setAdapter(new LecturerStatisticalRecycleViewAdapter(this, new ArrayList<>(statisticalOfLecturers)));
     }
 
-    private void showSelectionDialog(String title, List<String> options, DialogInterface.OnClickListener listener) {
+    private void showSelectionDialog(String title, @NonNull List<String> options, DialogInterface.OnClickListener listener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title);
         builder.setItems(options.toArray(new CharSequence[0]), listener);
         builder.show();
     }
 
-    private void resetSelections(EditText edtSemester, EditText edtLecturer) {
+    private void resetSelections(@NonNull EditText edtSemester, EditText edtLecturer) {
         titleTable.setVisibility(View.GONE);
         selectedSemesterId = 0;
         edtSemester.setText("");
         resetSelections(edtLecturer);
     }
 
-    private void resetSelections(EditText edtLecturer) {
+    private void resetSelections(@NonNull EditText edtLecturer) {
         titleTable.setVisibility(View.GONE);
         selectedLecturerId = 0;
         edtLecturer.setText("");

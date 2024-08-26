@@ -173,14 +173,14 @@ public class ScoreListRecycleViewAdapter extends RecyclerView.Adapter<ScoreListR
         return originalList.size();
     }
 
-    private void updateGPA(Student student, float tb, float credits) {
+    private void updateGPA(@NonNull Student student, float tb, float credits) {
         float newTotalCredits = student.getTotalCredits() + credits;
         float newTotalScore = (student.getGpa() * student.getTotalCredits()) + (tb * credits);
         student.setGpa(newTotalScore / newTotalCredits);
         student.setTotalCredits(newTotalCredits);
     }
 
-    private void updateGPA(StudentSemesterCrossRef studentSemesterCrossRef, float tb, float credits) {
+    private void updateGPA(@NonNull StudentSemesterCrossRef studentSemesterCrossRef, float tb, float credits) {
         float newTotalCredits = studentSemesterCrossRef.getTotalCredits() + credits;
         float newTotalScore = (studentSemesterCrossRef.getGpa() * studentSemesterCrossRef.getTotalCredits()) + (tb * credits);
         studentSemesterCrossRef.setGpa(newTotalScore / newTotalCredits);

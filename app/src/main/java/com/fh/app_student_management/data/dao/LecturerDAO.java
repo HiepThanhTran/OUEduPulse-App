@@ -7,7 +7,6 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.fh.app_student_management.data.entities.Lecturer;
-import com.fh.app_student_management.data.entities.User;
 import com.fh.app_student_management.data.relations.LecturerAndUser;
 
 import java.util.List;

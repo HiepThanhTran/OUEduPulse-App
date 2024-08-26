@@ -135,7 +135,7 @@ public class UserListRecycleViewAdapter extends RecyclerView.Adapter<UserListRec
         }
     }
 
-    public void addUser(LecturerAndUser lecturerAndUser) {
+    public void addUser(@NonNull LecturerAndUser lecturerAndUser) {
         long userId;
         try {
             userId = AppDatabase.getInstance(context).userDAO().insert(lecturerAndUser.getUser());
@@ -159,7 +159,7 @@ public class UserListRecycleViewAdapter extends RecyclerView.Adapter<UserListRec
         notifyItemChanged(originalList.indexOf(user));
     }
 
-    private void deleteUser(User user) {
+    private void deleteUser(@NonNull User user) {
         if (user.getRole() == Constants.Role.LECTURER) {
             AppDatabase.getInstance(context).lecturerDAO().deleteByUser(user.getId());
         }
@@ -171,7 +171,7 @@ public class UserListRecycleViewAdapter extends RecyclerView.Adapter<UserListRec
     }
 
     @SuppressLint("InflateParams")
-    private void showEditLecturerDialog(User user) {
+    private void showEditLecturerDialog(@NonNull User user) {
         View view = LayoutInflater.from(context).inflate(R.layout.admin_bottom_sheet_edit_user, null);
         bottomSheetDialog.setContentView(view);
         BottomSheetBehavior<View> behavior = BottomSheetBehavior.from((View) view.getParent());
@@ -323,9 +323,9 @@ public class UserListRecycleViewAdapter extends RecyclerView.Adapter<UserListRec
                 && validateNotEmpty(view, R.id.edtCertificate, "Chứng chỉ không được để trống");
     }
 
-    private boolean validateNotEmpty(View view, int viewId, String errorMessage) {
+    private boolean validateNotEmpty(@NonNull View view, int viewId, String errorMessage) {
         EditText editText = view.findViewById(viewId);
-        if (editText.getVisibility() == View.VISIBLE && editText.getText().toString().trim().isEmpty()) {
+        if (((LinearLayout) editText.getParent()).getVisibility() == View.VISIBLE && editText.getText().toString().trim().isEmpty()) {
             Utils.showToast(context, errorMessage);
             return false;
         }
