@@ -8,7 +8,6 @@ import androidx.room.Update;
 
 import com.fh.app_student_management.data.entities.Lecturer;
 import com.fh.app_student_management.data.relations.LecturerAndUser;
-import com.fh.app_student_management.data.relations.StatisticalOfLecturer;
 
 import java.util.List;
 
@@ -18,14 +17,19 @@ public interface LecturerDAO {
     @Query("SELECT * FROM lecturers ORDER BY id DESC")
     List<Lecturer> getAll();
 
-    @Query("SELECT * FROM lecturers ORDER BY id DESC")
-    List<LecturerAndUser> getAllLecturerAndUser();
+    @Query("SELECT l.* FROM lecturers l " +
+            "JOIN users u ON u.id = l.user_id " +
+            "JOIN lecturer_subject_cross_ref lsc ON l.id = lsc.lecturer_id " +
+            "JOIN subject_semester_cross_ref ssc ON lsc.subject_id = ssc.subject_id " +
+            "WHERE ssc.semester_id = :semesterId " +
+            "GROUP BY u.full_name")
+    List<LecturerAndUser> getAllLecturerAndUserBySemester(long semesterId);
 
     @Query("SELECT * FROM lecturers WHERE id = :id")
     Lecturer getById(long id);
 
     @Query("SELECT * FROM lecturers WHERE user_id = :userId")
-    LecturerAndUser getByUser(long userId);
+    Lecturer getByUser(long userId);
 
     @Query("SELECT COUNT(*) FROM lecturers")
     int count();
@@ -34,11 +38,14 @@ public interface LecturerDAO {
     long insert(Lecturer lecturer);
 
     @Insert
-    void insertAll(Lecturer... lecturers);
+    void insert(Lecturer... lecturers);
 
     @Update
     void update(Lecturer Lecturer);
 
     @Delete
     void delete(Lecturer Lecturer);
+
+    @Query("DELETE FROM lecturers WHERE user_id = :userId")
+    void deleteByUser(long userId);
 }

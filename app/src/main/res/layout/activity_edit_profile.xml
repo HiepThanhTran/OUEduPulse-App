@@ -67,7 +67,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -105,9 +106,9 @@
                     android:ems="10"
                     android:enabled="false"
                     android:focusable="false"
-                    android:hint="Email"
                     android:focusableInTouchMode="false"
                     android:fontFamily="@font/opensans_bold"
+                    android:hint="Email"
                     android:inputType="textEmailAddress"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
@@ -142,8 +143,8 @@
                     android:drawableStart="@drawable/ic_full_name_edit_profile"
                     android:drawablePadding="12dp"
                     android:ems="10"
-                    android:hint="Họ và tên"
                     android:fontFamily="@font/opensans_bold"
+                    android:hint="Họ và tên"
                     android:inputType="textMultiLine"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
@@ -272,8 +273,8 @@
                     android:drawableStart="@drawable/ic_address"
                     android:drawablePadding="12dp"
                     android:ems="10"
-                    android:hint="Địa chỉ"
                     android:fontFamily="@font/opensans_bold"
+                    android:hint="Địa chỉ"
                     android:inputType="textMultiLine"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
@@ -284,6 +285,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layoutSpecialization"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
@@ -307,8 +309,8 @@
                     android:drawableStart="@drawable/ic_specialization"
                     android:drawablePadding="12dp"
                     android:ems="10"
-                    android:hint="Chuyên ngành"
                     android:fontFamily="@font/opensans_bold"
+                    android:hint="Chuyên ngành"
                     android:inputType="textMultiLine"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
@@ -319,6 +321,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layoutDegree"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
@@ -342,8 +345,8 @@
                     android:drawableStart="@drawable/ic_degree"
                     android:drawablePadding="12dp"
                     android:ems="10"
-                    android:hint="Bằng cấp"
                     android:fontFamily="@font/opensans_bold"
+                    android:hint="Bằng cấp"
                     android:inputType="textMultiLine"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
@@ -354,6 +357,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layoutCertificate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
@@ -377,8 +381,8 @@
                     android:drawableStart="@drawable/ic_certificate"
                     android:drawablePadding="12dp"
                     android:ems="10"
-                    android:hint="Chứng chỉ"
                     android:fontFamily="@font/opensans_bold"
+                    android:hint="Chứng chỉ"
                     android:inputType="textMultiLine"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"

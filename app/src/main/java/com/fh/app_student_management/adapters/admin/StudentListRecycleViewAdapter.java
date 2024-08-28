@@ -42,7 +42,6 @@ import java.util.Locale;
 public class StudentListRecycleViewAdapter extends RecyclerView.Adapter<StudentListRecycleViewAdapter.StudentViewHolder> implements Filterable {
 
     private final Context context;
-    private final AppDatabase db;
     private final ArrayList<StudentWithRelations> originalList;
     private final BottomSheetDialog bottomSheetDialog;
     private final ArrayList<Major> majors;
@@ -63,29 +62,32 @@ public class StudentListRecycleViewAdapter extends RecyclerView.Adapter<StudentL
         this.originalList = originalList;
         this.filteredList = originalList;
 
-        db = AppDatabase.getInstance(context);
         bottomSheetDialog = new BottomSheetDialog(context);
 
-        majors = new ArrayList<>(db.majorDAO().getAll());
+        majors = new ArrayList<>(AppDatabase.getInstance(context).majorDAO().getAll());
         majorNames = new ArrayList<>(majors.size() + 1);
         majorNames.add(0, "--- Chọn ngành ---");
         for (int i = 0; i < majors.size(); i++) {
             majorNames.add(majors.get(i).getName());
         }
 
-        classes = new ArrayList<>(db.classDAO().getAll());
+        classes = new ArrayList<>(AppDatabase.getInstance(context).classDAO().getAll());
         classNames = new ArrayList<>(classes.size() + 1);
         classNames.add(0, "--- Chọn lớp ---");
         for (int i = 0; i < classes.size(); i++) {
             classNames.add(classes.get(i).getName());
         }
 
-        academicYears = new ArrayList<>(db.academicYearDAO().getAll());
+        academicYears = new ArrayList<>(AppDatabase.getInstance(context).academicYearDAO().getAll());
         academicYearNames = new ArrayList<>(academicYears.size() + 1);
         academicYearNames.add(0, "--- Chọn khóa học ---");
         for (int i = 0; i < academicYears.size(); i++) {
             academicYearNames.add(academicYears.get(i).getName());
         }
+    }
+
+    public ArrayList<StudentWithRelations> getFilteredList() {
+        return filteredList;
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -101,7 +103,7 @@ public class StudentListRecycleViewAdapter extends RecyclerView.Adapter<StudentL
     @NonNull
     @Override
     public StudentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.admin_layout_recycle_view_list_student, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.z_layout_recycle_view_student, parent, false);
 
         return new StudentViewHolder(view);
     }
@@ -151,39 +153,45 @@ public class StudentListRecycleViewAdapter extends RecyclerView.Adapter<StudentL
 
             @Override
             @SuppressWarnings("unchecked")
+            @SuppressLint("NotifyDataSetChanged")
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 filteredList = (ArrayList<StudentWithRelations>) filterResults.values;
-                notifyItemRangeChanged(0, filteredList.size());
+                notifyDataSetChanged();
             }
         };
     }
 
-    public void addStudent(StudentWithRelations studentWithRelations) {
-        Long userId;
+    public void addStudent(@NonNull StudentWithRelations studentWithRelations) {
+        long userId;
         try {
-            userId = db.userDAO().insert(studentWithRelations.getUser());
+            userId = AppDatabase.getInstance(context).userDAO().insert(studentWithRelations.getUser());
         } catch (SQLiteConstraintException ex) {
             Utils.showToast(context, "Email đã tồn tại!");
             return;
         }
         studentWithRelations.getStudent().setUserId(userId);
-        db.studentDAO().insert(studentWithRelations.getStudent());
+        AppDatabase.getInstance(context).studentDAO().insert(studentWithRelations.getStudent());
+        updateStudentList(studentWithRelations);
+        Utils.showToast(context, "Thêm thành công");
+    }
+
+    public void updateStudentList(StudentWithRelations studentWithRelations) {
         originalList.add(0, studentWithRelations);
         notifyItemInserted(0);
     }
 
     private void editStudent(int position) {
         StudentWithRelations studentWithRelations = filteredList.get(position);
-        db.studentDAO().update(studentWithRelations.getStudent());
-        db.userDAO().update(studentWithRelations.getUser());
+        AppDatabase.getInstance(context).studentDAO().update(studentWithRelations.getStudent());
+        AppDatabase.getInstance(context).userDAO().update(studentWithRelations.getUser());
         getFilter().filter(currentFilterText);
         notifyItemChanged(position);
     }
 
     private void deleteStudent(int position) {
         StudentWithRelations studentWithRelations = filteredList.get(position);
-        db.studentDAO().delete(studentWithRelations.getStudent());
-        db.userDAO().delete(studentWithRelations.getUser());
+        AppDatabase.getInstance(context).studentDAO().delete(studentWithRelations.getStudent());
+        AppDatabase.getInstance(context).userDAO().delete(studentWithRelations.getUser());
         originalList.remove(studentWithRelations);
         filteredList.remove(studentWithRelations);
         getFilter().filter(currentFilterText);
@@ -191,7 +199,7 @@ public class StudentListRecycleViewAdapter extends RecyclerView.Adapter<StudentL
     }
 
     @SuppressLint("InflateParams")
-    private void showEditStudentDialog(StudentWithRelations studentWithRelations) {
+    private void showEditStudentDialog(@NonNull StudentWithRelations studentWithRelations) {
         View view = LayoutInflater.from(context).inflate(R.layout.admin_bottom_sheet_edit_student, null);
         bottomSheetDialog.setContentView(view);
         BottomSheetBehavior<View> behavior = BottomSheetBehavior.from((View) view.getParent());

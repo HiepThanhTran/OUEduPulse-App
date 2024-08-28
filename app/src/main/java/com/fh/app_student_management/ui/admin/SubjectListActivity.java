@@ -9,9 +9,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -49,6 +53,11 @@ public class SubjectListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_activity_list_subject);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.layoutSubject), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         initSubjectListView();
         handleEventListener();
@@ -61,22 +70,20 @@ public class SubjectListActivity extends AppCompatActivity {
         btnAddSubject = findViewById(R.id.btnAddSubject);
         bottomSheetDialog = new BottomSheetDialog(this);
 
-        AppDatabase db = AppDatabase.getInstance(this);
-
-        classes = new ArrayList<>(db.classDAO().getAll());
+        classes = new ArrayList<>(AppDatabase.getInstance(this).classDAO().getAll());
         classNames = new String[classes.size()];
         for (int i = 0; i < classes.size(); i++) {
             classNames[i] = classes.get(i).getName();
         }
 
-        majors = new ArrayList<>(db.majorDAO().getAll());
+        majors = new ArrayList<>(AppDatabase.getInstance(this).majorDAO().getAll());
         majorNames = new String[majors.size()];
         for (int i = 0; i < majors.size(); i++) {
             majorNames[i] = majors.get(i).getName();
         }
 
-        ArrayList<SubjectWithRelations> subjects = new ArrayList<>(db.subjectDAO().getAllWithRelations());
-
+        ArrayList<SubjectWithRelations> subjects = new ArrayList<>(AppDatabase.getInstance(this)
+                .subjectDAO().getAllWithRelations());
         RecyclerView rvSubject = findViewById(R.id.rvSubject);
         subjectListRecycleViewAdapter = new SubjectListRecycleViewAdapter(this, subjects);
         rvSubject.setLayoutManager(new LinearLayoutManager(this));
@@ -168,7 +175,7 @@ public class SubjectListActivity extends AppCompatActivity {
                 && validateNotEmpty(view, R.id.edtMajor, "Ngành không được để trống");
     }
 
-    private boolean validateNotEmpty(View view, int viewId, String errorMessage) {
+    private boolean validateNotEmpty(@NonNull View view, int viewId, String errorMessage) {
         EditText editText = view.findViewById(viewId);
         if (editText == null || editText.getText().toString().trim().isEmpty()) {
             Utils.showToast(this, errorMessage);

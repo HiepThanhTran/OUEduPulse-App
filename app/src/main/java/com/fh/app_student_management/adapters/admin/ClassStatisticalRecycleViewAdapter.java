@@ -1,7 +1,6 @@
 package com.fh.app_student_management.adapters.admin;
 
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fh.app_student_management.R;
-import com.fh.app_student_management.data.entities.Class;
 import com.fh.app_student_management.data.relations.ClassWithRelations;
 
 import java.util.ArrayList;

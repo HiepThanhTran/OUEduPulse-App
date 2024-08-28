@@ -46,7 +46,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -130,6 +131,45 @@
                     android:textColor="@color/grey"
                     android:textSize="16sp"
                     tools:ignore="LabelFor" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="@font/opensans_bold"
+                    android:text="Vai trò"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/txtRole"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="@drawable/custom_input"
+                    android:clickable="false"
+                    android:drawablePadding="12dp"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:fontFamily="@font/opensans_bold"
+                    android:gravity="center_vertical"
+                    android:hint="Vai trò"
+                    android:inputType="none"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:textColor="@color/grey"
+                    android:textSize="16sp"
+                    app:drawableStartCompat="@drawable/ic_role"
+                    tools:ignore="Autofill,LabelFor" />
 
             </LinearLayout>
 
@@ -367,45 +407,8 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:fontFamily="@font/opensans_bold"
-                    android:text="Vai trò"
-                    android:textColor="@color/white"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/txtRole"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="@drawable/custom_input"
-                    android:clickable="true"
-                    android:drawablePadding="12dp"
-                    android:ems="10"
-                    android:focusable="true"
-                    android:fontFamily="@font/opensans_bold"
-                    android:gravity="center_vertical"
-                    android:hint="Vai trò"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:textColor="@color/grey"
-                    android:textSize="16sp"
-                    app:drawableStartCompat="@drawable/ic_role"
-                    tools:ignore="Autofill,LabelFor" />
-
-            </LinearLayout>
-
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnEditLecturer"
+                android:id="@+id/btnEditUser"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_gravity="center"

@@ -21,6 +21,9 @@ public interface StudentDAO {
     @Query("SELECT * FROM students ORDER BY id DESC")
     List<StudentWithRelations> getAllWithRelations();
 
+    @Query("SELECT * FROM students WHERE class_id != :classId ORDER BY id DESC")
+    List<StudentWithRelations> getAllWithRelationsExclusiveClass(long classId);
+
     @Query("SELECT * FROM students WHERE id = :id")
     Student getById(long id);
 
@@ -53,30 +56,40 @@ public interface StudentDAO {
             "    WHERE type = 'TB' " +
             ") tb ON s.id = tb.student_id AND ssr.subject_id = tb.subject_id " +
             "WHERE ssc.semester_id = :semesterId AND ssr.subject_id = :subjectId " +
-            "ORDER BY studentId DESC")
+            "ORDER BY u.full_name")
     List<StudentWithScores> getScoresBySemesterSubject(long semesterId, long subjectId);
 
     @Query("SELECT s.* FROM students s " +
+            "JOIN users u ON s.user_id = u.id " +
             "JOIN student_semester_cross_ref ssc ON s.id = ssc.student_id " +
             "WHERE ssc.semester_id = :semesterId " +
-            "ORDER BY s.id DESC")
+            "ORDER BY u.full_name")
     List<StudentWithRelations> getBySemester(long semesterId);
 
     @Query("SELECT s.* FROM students s " +
+            "JOIN users u ON s.user_id = u.id " +
+            "WHERE s.class_id = :classId " +
+            "ORDER BY u.full_name")
+    List<StudentWithRelations> getByClass(long classId);
+
+    @Query("SELECT s.* FROM students s " +
+            "JOIN users u ON s.user_id = u.id " +
             "JOIN student_semester_cross_ref sscr ON s.id = sscr.student_id " +
             "JOIN student_subject_cross_ref ssur ON s.id = ssur.student_id " +
             "JOIN subjects subj ON ssur.subject_id= subj.id " +
             "WHERE sscr.semester_id = :semesterId AND subj.class_id = :classId " +
-            "ORDER BY s.id DESC")
+            "ORDER BY u.full_name")
     List<StudentWithRelations> getBySemesterClass(long semesterId, long classId);
 
     @Query("SELECT s.* FROM students s " +
+            "JOIN users u ON s.user_id = u.id " +
             "JOIN student_semester_cross_ref sscr ON s.id = sscr.student_id " +
             "JOIN student_subject_cross_ref  ssur ON s.id = ssur.student_id " +
             "JOIN subjects subj ON ssur.subject_id= subj.id " +
-            "WHERE sscr.semester_id = :semesterId AND subj.class_id = :classId AND subj.id = :subjectId " +
-            "ORDER BY s.id DESC")
-    List<StudentWithRelations> getBySemesterClassSubject( long semesterId, long classId, long subjectId);
+            "WHERE sscr.semester_id = :semesterId AND subj.class_id = :classId AND ssur.subject_id = :subjectId " +
+            "GROUP BY s.id " +
+            "ORDER BY u.full_name")
+    List<StudentWithRelations> getBySemesterClassSubject(long semesterId, long classId, long subjectId);
 
     @Query("SELECT COUNT(*) FROM students")
     int count();
@@ -85,7 +98,7 @@ public interface StudentDAO {
     long insert(Student student);
 
     @Insert
-    void insertAll(Student... students);
+    void insert(Student... students);
 
     @Update
     void update(Student student);

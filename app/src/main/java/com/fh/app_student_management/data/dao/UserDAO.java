@@ -14,8 +14,11 @@ import java.util.List;
 @Dao
 public interface UserDAO {
 
-    @Query("SELECT * FROM users ORDER BY id DESC")
+    @Query("SELECT * FROM users ORDER BY full_name")
     List<User> getAll();
+
+    @Query("SELECT * FROM users WHERE role != :role ORDER BY full_name")
+    List<User> getAllRoleWithoutSelectedRole(Constants.Role role);
 
     @Query("SELECT * FROM users WHERE id = :id")
     User getById(long id);
@@ -33,7 +36,7 @@ public interface UserDAO {
     long insert(User user);
 
     @Insert
-    void insertAll(User... users);
+    void insert(User... users);
 
     @Update
     void update(User user);

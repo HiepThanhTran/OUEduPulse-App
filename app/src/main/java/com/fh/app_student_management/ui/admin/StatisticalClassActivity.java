@@ -8,8 +8,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,7 +21,6 @@ import com.fh.app_student_management.R;
 import com.fh.app_student_management.adapters.admin.ClassStatisticalRecycleViewAdapter;
 import com.fh.app_student_management.data.AppDatabase;
 import com.fh.app_student_management.data.entities.AcademicYear;
-import com.fh.app_student_management.data.entities.Class;
 import com.fh.app_student_management.data.entities.Faculty;
 import com.fh.app_student_management.data.entities.Major;
 import com.fh.app_student_management.data.relations.ClassWithRelations;
@@ -27,7 +30,6 @@ import java.util.List;
 
 public class StatisticalClassActivity extends AppCompatActivity {
 
-    private AppDatabase db;
     private ArrayList<Faculty> faculties;
     private ArrayList<String> facultyNames;
     private long selectedFacultyId;
@@ -50,6 +52,11 @@ public class StatisticalClassActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_activity_statistical_class);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         initStatisticalClassView();
         handleEventListener();
@@ -66,23 +73,21 @@ public class StatisticalClassActivity extends AppCompatActivity {
 
         titleTable.setVisibility(View.GONE);
 
-        db = AppDatabase.getInstance(this);
-
-        faculties = new ArrayList<>(db.facultyDAO().getAll());
+        faculties = new ArrayList<>(AppDatabase.getInstance(this).facultyDAO().getAll());
         facultyNames = new ArrayList<>(faculties.size() + 1);
         facultyNames.add(0, "--- Chọn khoa ---");
         for (int i = 0; i < faculties.size(); i++) {
             facultyNames.add(faculties.get(i).getName());
         }
 
-        academicYears = new ArrayList<>(db.academicYearDAO().getAll());
+        academicYears = new ArrayList<>(AppDatabase.getInstance(this).academicYearDAO().getAll());
         academicYearNames = new ArrayList<>(academicYears.size() + 1);
         academicYearNames.add(0, "--- Chọn khóa ---");
         for (int i = 0; i < academicYears.size(); i++) {
             academicYearNames.add(academicYears.get(i).getName());
         }
 
-        majors = new ArrayList<>(db.majorDAO().getAll());
+        majors = new ArrayList<>(AppDatabase.getInstance(this).majorDAO().getAll());
         majorNames = new ArrayList<>(majors.size() + 1);
         majorNames.add(0, "--- Chọn ngành ---");
         for (int i = 0; i < majors.size(); i++) {
@@ -110,6 +115,7 @@ public class StatisticalClassActivity extends AppCompatActivity {
                 selectedMajorId = 0;
                 edtMajor.setText("");
                 updateClassList();
+                titleTable.setVisibility(View.VISIBLE);
             } else {
                 selectedMajorId = majors.get(which - 1).getId();
                 edtMajor.setText(majorNames.get(which));
@@ -134,19 +140,20 @@ public class StatisticalClassActivity extends AppCompatActivity {
         List<ClassWithRelations> classes = new ArrayList<>();
 
         if (selectedFacultyId > 0 && selectedMajorId > 0 && selectedAcademicYearId > 0) {
-            classes = db.classDAO().getByFacultyMajorAcademicYear(selectedFacultyId, selectedMajorId, selectedAcademicYearId);
+            classes = AppDatabase.getInstance(this)
+                    .classDAO().getByFacultyMajorAcademicYear(selectedFacultyId, selectedMajorId, selectedAcademicYearId);
         } else if (selectedFacultyId > 0 && selectedMajorId > 0) {
-            classes = db.classDAO().getByFacultyMajor(selectedFacultyId, selectedMajorId);
+            classes = AppDatabase.getInstance(this).classDAO().getByFacultyMajor(selectedFacultyId, selectedMajorId);
         } else if (selectedFacultyId > 0 && selectedAcademicYearId > 0) {
-            classes = db.classDAO().getByFacultyAcademicYear(selectedFacultyId, selectedAcademicYearId);
+            classes = AppDatabase.getInstance(this).classDAO().getByFacultyAcademicYear(selectedFacultyId, selectedAcademicYearId);
         } else if (selectedMajorId > 0 && selectedAcademicYearId > 0) {
-            classes = db.classDAO().getByMajorAcademicYear(selectedMajorId, selectedAcademicYearId);
+            classes = AppDatabase.getInstance(this).classDAO().getByMajorAcademicYear(selectedMajorId, selectedAcademicYearId);
         } else if (selectedFacultyId > 0) {
-            classes = db.classDAO().getByFaculty(selectedFacultyId);
+            classes = AppDatabase.getInstance(this).classDAO().getByFaculty(selectedFacultyId);
         } else if (selectedMajorId > 0) {
-            classes = db.classDAO().getByMajor(selectedMajorId);
+            classes = AppDatabase.getInstance(this).classDAO().getByMajor(selectedMajorId);
         } else if (selectedAcademicYearId > 0) {
-            classes = db.classDAO().getByAcademicYear(selectedAcademicYearId);
+            classes = AppDatabase.getInstance(this).classDAO().getByAcademicYear(selectedAcademicYearId);
         }
 
         rvClass.setLayoutManager(new LinearLayoutManager(this));
@@ -155,7 +162,7 @@ public class StatisticalClassActivity extends AppCompatActivity {
         titleTable.setVisibility(View.VISIBLE);
     }
 
-    private void showSelectionDialog(String title, List<String> options, DialogInterface.OnClickListener listener) {
+    private void showSelectionDialog(String title, @NonNull List<String> options, DialogInterface.OnClickListener listener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title);
         builder.setItems(options.toArray(new CharSequence[0]), listener);

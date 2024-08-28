@@ -12,11 +12,12 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
@@ -24,6 +25,7 @@ import androidx.fragment.app.Fragment;
 import com.fh.app_student_management.R;
 import com.fh.app_student_management.data.AppDatabase;
 import com.fh.app_student_management.data.entities.User;
+import com.fh.app_student_management.ui.ChangePasswordActivity;
 import com.fh.app_student_management.ui.EditProfileActivity;
 import com.fh.app_student_management.ui.LoginActivity;
 import com.fh.app_student_management.utilities.Constants;
@@ -34,32 +36,26 @@ import java.util.Objects;
 
 public class SettingFragment extends Fragment {
 
-    private final ActivityResultLauncher<Intent> editProfileLauncher;
-
     private SharedPreferences preferences;
     private User user;
-
     private ImageView avatar;
     private TextView txtUsername;
-    private Button btnEditProfile;
-    private LinearLayout btnLogout;
-    private SwitchCompat notificationSwitch;
+    private final ActivityResultLauncher<Intent> editProfileLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    long userId = result.getData().getLongExtra(Constants.USER_ID, 0);
+                    user = AppDatabase.getInstance(requireContext()).userDAO().getById(userId);
 
-    public SettingFragment() {
-        editProfileLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                        long userId = result.getData().getLongExtra(Constants.USER_ID, 0);
-                        AppDatabase db = AppDatabase.getInstance(requireContext());
-                        user = db.userDAO().getById(userId);
-
-                        txtUsername.setText(user.getFullName());
-                        avatar.setImageBitmap(Utils.getBitmapFromBytes(user.getAvatar()));
-                    }
+                    txtUsername.setText(user.getFullName());
+                    avatar.setImageBitmap(Utils.getBitmapFromBytes(user.getAvatar()));
                 }
-        );
-    }
+            }
+    );
+    private Button btnEditProfile;
+    private RelativeLayout btnChangePassword;
+    private RelativeLayout btnLogout;
+    private SwitchCompat notificationSwitch;
 
     public static SettingFragment newInstance(Map<String, String> params) {
         SettingFragment fragment = new SettingFragment();
@@ -82,7 +78,7 @@ public class SettingFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.z_fragment_settings, container, false);
         Window window = requireActivity().getWindow();
         window.setStatusBarColor(getResources().getColor(R.color.grey, requireActivity().getTheme()));
@@ -93,10 +89,11 @@ public class SettingFragment extends Fragment {
         return view;
     }
 
-    private void initSettingsView(View view) {
+    private void initSettingsView(@NonNull View view) {
         avatar = view.findViewById(R.id.avatar);
         txtUsername = view.findViewById(R.id.txtUsername);
         btnEditProfile = view.findViewById(R.id.btnEditProfile);
+        btnChangePassword = view.findViewById(R.id.btnChangePassword);
         btnLogout = view.findViewById(R.id.btnLogout);
         notificationSwitch = view.findViewById(R.id.notificationSwitch);
 
@@ -109,12 +106,19 @@ public class SettingFragment extends Fragment {
     }
 
     private void handleEventListener() {
+        Bundle bundle = new Bundle();
+        bundle.putLong(Constants.USER_ID, user.getId());
+
         btnEditProfile.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), EditProfileActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putLong(Constants.USER_ID, user.getId());
             intent.putExtras(bundle);
             editProfileLauncher.launch(intent);
+        });
+
+        btnChangePassword.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), ChangePasswordActivity.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
         });
 
         notificationSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> preferences.edit()

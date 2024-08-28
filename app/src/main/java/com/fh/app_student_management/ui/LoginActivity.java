@@ -14,6 +14,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.fh.app_student_management.R;
 import com.fh.app_student_management.data.AppDatabase;
@@ -37,6 +40,11 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         initLoginView();
         handleEventListener();
@@ -53,17 +61,21 @@ public class LoginActivity extends AppCompatActivity {
 
         // TODO: TEMP
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setItems(new CharSequence[]{"Admin", "Giảng viên"}, (dialog, which) -> {
-           switch (which) {
-               case 0:
-                   edtEmail.setText("admin@gmail.com");
-                   edtPassword.setText("admin@123");
-                   break;
-               case 1:
-                   edtEmail.setText("lecturer1@gmail.com");
-                   edtPassword.setText("user@123");
-                   break;
-           }
+        builder.setItems(new CharSequence[]{"Admin", "Chuyên viên", "Giảng viên"}, (dialog, which) -> {
+            switch (which) {
+                case 0:
+                    edtEmail.setText("admin@gmail.com");
+                    edtPassword.setText("admin@123");
+                    break;
+                case 1:
+                    edtEmail.setText("specialist1@gmail.com");
+                    edtPassword.setText("user@123");
+                    break;
+                case 2:
+                    edtEmail.setText("lecturer1@gmail.com");
+                    edtPassword.setText("user@123");
+                    break;
+            }
         });
         builder.show();
         chkRememberPassword.setChecked(true);
@@ -93,9 +105,7 @@ public class LoginActivity extends AppCompatActivity {
     private void performLogin() {
         if (!validateInputs()) return;
 
-        AppDatabase db = AppDatabase.getInstance(this);
-
-        User user = db.userDAO().getByEmail(edtEmail.getText().toString().trim());
+        User user = AppDatabase.getInstance(this).userDAO().getByEmail(edtEmail.getText().toString().trim());
 
         if (user == null ||
                 !Utils.verifyPassword(edtPassword.getText().toString().trim(), user.getPassword())) {
@@ -112,7 +122,7 @@ public class LoginActivity extends AppCompatActivity {
             editor.apply();
         }
 
-        Intent intent = new Intent(this, BottomNavigationActivity.class);
+        Intent intent = new Intent(this, HomeActivity.class);
         Bundle bundle = new Bundle();
         bundle.putLong(Constants.USER_ID, user.getId());
         intent.putExtras(bundle);

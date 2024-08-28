@@ -18,6 +18,8 @@ import com.fh.app_student_management.R;
 import com.fh.app_student_management.adapters.listener.ItemClickListener;
 import com.fh.app_student_management.data.AppDatabase;
 import com.fh.app_student_management.data.entities.Score;
+import com.fh.app_student_management.data.entities.Student;
+import com.fh.app_student_management.data.entities.StudentSemesterCrossRef;
 import com.fh.app_student_management.data.entities.Subject;
 import com.fh.app_student_management.data.relations.StudentWithScores;
 import com.fh.app_student_management.utilities.Constants;
@@ -34,15 +36,12 @@ public class ScoreListRecycleViewAdapter extends RecyclerView.Adapter<ScoreListR
     private final long semesterId;
     private final ArrayList<StudentWithScores> originalList;
 
-    private final AppDatabase db;
-
     public ScoreListRecycleViewAdapter(Context context, Intent intent, ArrayList<StudentWithScores> originalList) {
         this.context = context;
         this.originalList = originalList;
 
-        db = AppDatabase.getInstance(context);
         long subjectId = intent.getLongExtra(Constants.SUBJECT_ID, 0);
-        subject = db.subjectDAO().getById(subjectId);
+        subject = AppDatabase.getInstance(context).subjectDAO().getById(subjectId);
         semesterId = intent.getLongExtra(Constants.SEMESTER_ID, 0);
     }
 
@@ -57,13 +56,13 @@ public class ScoreListRecycleViewAdapter extends RecyclerView.Adapter<ScoreListR
     @Override
     @SuppressLint("InflateParams")
     public void onBindViewHolder(@NonNull ScoreViewHolder holder, int position) {
-        StudentWithScores student = originalList.get(position);
+        StudentWithScores studentWithScores = originalList.get(position);
 
-        holder.txtStudentId.setText(String.valueOf(student.getStudentId()));
-        holder.txtStudentName.setText(student.getStudentName());
-        holder.txtGK.setText(String.valueOf(student.getGkScore()));
-        holder.txtCK.setText(String.valueOf(student.getCkScore()));
-        holder.txtTB.setText(String.valueOf(student.getTbScore()));
+        holder.txtStudentId.setText(String.valueOf(studentWithScores.getStudentId()));
+        holder.txtStudentName.setText(studentWithScores.getStudentName());
+        holder.txtGK.setText(String.valueOf(studentWithScores.getGkScore()));
+        holder.txtCK.setText(String.valueOf(studentWithScores.getCkScore()));
+        holder.txtTB.setText(String.valueOf(studentWithScores.getTbScore()));
 
         holder.setItemClickListener((view, position1, isLongClick) -> {
             View view1 = LayoutInflater.from(context).inflate(R.layout.lecturer_bottom_sheet_add_score, null);
@@ -76,11 +75,11 @@ public class ScoreListRecycleViewAdapter extends RecyclerView.Adapter<ScoreListR
             EditText txtCK = view1.findViewById(R.id.edtCK);
             Button btnAddPoint = view1.findViewById(R.id.btnAddScore);
 
-            edtStudentId.setText(String.valueOf(student.getStudentId()));
-            edtStudentName.setText(student.getStudentName());
+            edtStudentId.setText(String.valueOf(studentWithScores.getStudentId()));
+            edtStudentName.setText(studentWithScores.getStudentName());
             edtSubjectName.setText(subject.getName());
-            txtGK.setText(String.valueOf(student.getGkScore()));
-            txtCK.setText(String.valueOf(student.getCkScore()));
+            txtGK.setText(String.valueOf(studentWithScores.getGkScore()));
+            txtCK.setText(String.valueOf(studentWithScores.getCkScore()));
 
             btnAddPoint.setOnClickListener(v -> {
                 String gk = txtGK.getText().toString();
@@ -94,32 +93,64 @@ public class ScoreListRecycleViewAdapter extends RecyclerView.Adapter<ScoreListR
                 float ckScore = Float.parseFloat(ck);
                 float tb = (gkScore + ckScore) / 2;
 
-                List<Score> scores = db.scoreDAO().getByStudent(semesterId, subject.getId(), student.getStudentId());
-                if (scores.isEmpty()) {
-                    db.scoreDAO().insert(new Score("GK", gkScore, student.getStudentId(), subject.getId(), semesterId));
-                    db.scoreDAO().insert(new Score("CK", ckScore, student.getStudentId(), subject.getId(), semesterId));
-                    db.scoreDAO().insert(new Score("TB", tb, student.getStudentId(), subject.getId(), semesterId));
-                } else {
-                    for (Score score : scores) {
-                        switch (score.getType()) {
-                            case "GK":
-                                score.setPoint(gkScore);
-                                break;
-                            case "CK":
-                                score.setPoint(ckScore);
-                                break;
-                            case "TB":
-                                score.setPoint(tb);
-                                break;
-                        }
-                        db.scoreDAO().update(score);
+                List<Score> scores = AppDatabase.getInstance(context)
+                        .scoreDAO().getByStudent(semesterId, subject.getId(), studentWithScores.getStudentId());
+
+                boolean hasGK = false, hasCK = false, hasTB = false;
+
+                for (Score score : scores) {
+                    switch (score.getType()) {
+                        case "GK":
+                            score.setPoint(gkScore);
+                            hasGK = true;
+                            break;
+                        case "CK":
+                            score.setPoint(ckScore);
+                            hasCK = true;
+                            break;
+                        case "TB":
+                            score.setPoint(tb);
+                            hasTB = true;
+                            break;
                     }
+                    AppDatabase.getInstance(context).scoreDAO().update(score);
                 }
 
-                student.setGkScore(gkScore);
-                student.setCkScore(ckScore);
-                student.setTbScore(tb);
-                originalList.set(position, student);
+                if (!hasGK) {
+                    AppDatabase.getInstance(context)
+                            .scoreDAO().insert(new Score("GK", gkScore, studentWithScores.getStudentId(), subject.getId(), semesterId));
+                }
+                if (!hasCK) {
+                    AppDatabase.getInstance(context)
+                            .scoreDAO().insert(new Score("CK", ckScore, studentWithScores.getStudentId(), subject.getId(), semesterId));
+                }
+                if (!hasTB) {
+                    AppDatabase.getInstance(context)
+                            .scoreDAO().insert(new Score("TB", tb, studentWithScores.getStudentId(), subject.getId(), semesterId));
+                }
+
+                Student student = AppDatabase.getInstance(context).studentDAO().getById(studentWithScores.getStudentId());
+                updateGPA(student, tb, subject.getCredits());
+                AppDatabase.getInstance(context).studentDAO().update(student);
+
+                StudentSemesterCrossRef studentSemesterCrossRef = AppDatabase.getInstance(context)
+                        .crossRefDAO().getStudentSemesterCrossRef(studentWithScores.getStudentId(), semesterId);
+                if (studentSemesterCrossRef != null) {
+                    updateGPA(studentSemesterCrossRef, tb, subject.getCredits());
+                    AppDatabase.getInstance(context).crossRefDAO().updateStudentSemesterCrossRef(studentSemesterCrossRef);
+                } else {
+                    studentSemesterCrossRef = new StudentSemesterCrossRef();
+                    studentSemesterCrossRef.setStudentId(studentWithScores.getStudentId());
+                    studentSemesterCrossRef.setSemesterId(semesterId);
+                    studentSemesterCrossRef.setGpa(tb / subject.getCredits());
+                    studentSemesterCrossRef.setTotalCredits(subject.getCredits());
+                    AppDatabase.getInstance(context).crossRefDAO().insertStudentSemesterCrossRef(studentSemesterCrossRef);
+                }
+
+                studentWithScores.setGkScore(gkScore);
+                studentWithScores.setCkScore(ckScore);
+                studentWithScores.setTbScore(tb);
+                originalList.set(position, studentWithScores);
                 bottomSheetDialog.dismiss();
                 notifyItemChanged(position);
             });
@@ -140,6 +171,20 @@ public class ScoreListRecycleViewAdapter extends RecyclerView.Adapter<ScoreListR
     @Override
     public int getItemCount() {
         return originalList.size();
+    }
+
+    private void updateGPA(@NonNull Student student, float tb, float credits) {
+        float newTotalCredits = student.getTotalCredits() + credits;
+        float newTotalScore = (student.getGpa() * student.getTotalCredits()) + (tb * credits);
+        student.setGpa(newTotalScore / newTotalCredits);
+        student.setTotalCredits(newTotalCredits);
+    }
+
+    private void updateGPA(@NonNull StudentSemesterCrossRef studentSemesterCrossRef, float tb, float credits) {
+        float newTotalCredits = studentSemesterCrossRef.getTotalCredits() + credits;
+        float newTotalScore = (studentSemesterCrossRef.getGpa() * studentSemesterCrossRef.getTotalCredits()) + (tb * credits);
+        studentSemesterCrossRef.setGpa(newTotalScore / newTotalCredits);
+        studentSemesterCrossRef.setTotalCredits(newTotalCredits);
     }
 
     public static class ScoreViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {

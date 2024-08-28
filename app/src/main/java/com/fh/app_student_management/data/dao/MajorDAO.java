@@ -26,7 +26,7 @@ public interface MajorDAO {
     long insert(Major major);
 
     @Insert
-    void insertAll(Major... majors);
+    void insert(Major... majors);
 
     @Update
     void update(Major Major);

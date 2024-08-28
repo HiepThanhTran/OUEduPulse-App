@@ -73,7 +73,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/frameRole"
-            android:layout_marginTop="40dp">
+            android:layout_marginTop="40dp"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -126,6 +127,7 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:id="@+id/btnChangePassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -159,6 +161,7 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:id="@+id/btnLanguage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp">
@@ -205,6 +208,7 @@
                     android:padding="15dp">
 
                     <RelativeLayout
+                        android:id="@+id/btnReport"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -239,6 +243,7 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:id="@+id/btnMessage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp">
@@ -274,6 +279,7 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:id="@+id/btnAbout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp">
@@ -309,6 +315,7 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:id="@+id/btnSecurity"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp">
@@ -344,6 +351,7 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:id="@+id/btnQuestion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp">
@@ -381,7 +389,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/btnLogout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
@@ -393,6 +400,7 @@
                     android:padding="15dp">
 
                     <RelativeLayout
+                        android:id="@+id/btnLogout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 

@@ -12,10 +12,12 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.fh.app_student_management.R;
 import com.fh.app_student_management.data.AppDatabase;
-import com.fh.app_student_management.data.entities.Lecturer;
 import com.fh.app_student_management.data.entities.User;
 import com.fh.app_student_management.utilities.Constants;
 import com.fh.app_student_management.utilities.Utils;
@@ -37,6 +39,11 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         initRegisterView();
         handleEventListener();
@@ -81,20 +88,15 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        AppDatabase db = AppDatabase.getInstance(this);
-
         User user = new User();
         user.setFullName(edtFullName.getText().toString().trim());
         user.setEmail(edtEmail.getText().toString().trim());
         user.setPassword(Utils.hashPassword(edtPassword.getText().toString()));
         user.setAvatar(Utils.getBytesFromDrawable(this, R.drawable.default_avatar));
-        user.setRole(Constants.Role.LECTURER);
+        user.setRole(Constants.Role.SPECIALIST);
 
         try {
-            Long userId = db.userDAO().insert(user);
-            Lecturer lecturer = new Lecturer();
-            lecturer.setUserId(userId);
-            db.lecturerDAO().insert(lecturer);
+            AppDatabase.getInstance(this).userDAO().insert(user);
         } catch (SQLiteConstraintException ex) {
             Utils.showToast(this, "Email đã tồn tại!");
             return;

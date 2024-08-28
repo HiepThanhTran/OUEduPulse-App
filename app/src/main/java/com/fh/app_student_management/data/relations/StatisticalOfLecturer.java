@@ -6,17 +6,15 @@ public class StatisticalOfLecturer {
     private String lecturerName;
     private String subjectName;
     private String className;
-    private String semesterName;
 
     public StatisticalOfLecturer() {
     }
 
-    public StatisticalOfLecturer(long lecturerId, String lecturerName, String subjectName, String className, String semesterName) {
+    public StatisticalOfLecturer(long lecturerId, String lecturerName, String subjectName, String className) {
         this.lecturerId = lecturerId;
         this.lecturerName = lecturerName;
         this.subjectName = subjectName;
         this.className = className;
-        this.semesterName = semesterName;
     }
 
     public long getLecturerId() {
@@ -49,13 +47,5 @@ public class StatisticalOfLecturer {
 
     public void setClassName(String className) {
         this.className = className;
-    }
-
-    public String getSemesterName() {
-        return semesterName;
-    }
-
-    public void setSemesterName(String semesterName) {
-        this.semesterName = semesterName;
     }
 }

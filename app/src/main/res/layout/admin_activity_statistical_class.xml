@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey"
-    tools:context=".ui.admin.StatisticalSubjectActivity"
+    tools:context=".ui.admin.StatisticalClassActivity"
     tools:ignore="HardcodedText">
 
     <RelativeLayout
@@ -117,7 +117,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/academicYearContainer"
+            android:id="@+id/semesterContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
@@ -263,6 +263,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:scrollbars="none"
             tools:listitem="@layout/admin_layout_recycle_view_statistical_class" />
 
     </HorizontalScrollView>

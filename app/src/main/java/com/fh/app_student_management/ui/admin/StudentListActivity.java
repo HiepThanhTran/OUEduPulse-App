@@ -20,6 +20,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -48,7 +51,6 @@ import java.util.List;
 
 public class StudentListActivity extends AppCompatActivity {
 
-    private AppDatabase db;
     private ArrayList<Semester> semesters;
     private ArrayList<String> semesterNames;
     private long selectedSemesterId;
@@ -78,6 +80,11 @@ public class StudentListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_activity_list_student);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.layoutStudent), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         initAddStudentView();
         handleEventListener();
@@ -103,9 +110,7 @@ public class StudentListActivity extends AppCompatActivity {
         btnFilter = findViewById(R.id.btnFilter);
         bottomSheetDialog = new BottomSheetDialog(this);
 
-        db = AppDatabase.getInstance(this);
-
-        semesters = new ArrayList<>(db.semesterDAO().getAll());
+        semesters = new ArrayList<>(AppDatabase.getInstance(this).semesterDAO().getAll());
         semesterNames = new ArrayList<>(semesters.size() + 1);
         semesterNames.add(0, "--- Chọn học kỳ ---");
         for (int i = 0; i < semesters.size(); i++) {
@@ -115,29 +120,29 @@ public class StudentListActivity extends AppCompatActivity {
             semesterNames.add(semesterName);
         }
 
-        majors = new ArrayList<>(db.majorDAO().getAll());
+        majors = new ArrayList<>(AppDatabase.getInstance(this).majorDAO().getAll());
         majorNames = new ArrayList<>(majors.size() + 1);
         majorNames.add(0, "--- Chọn ngành ---");
         for (int i = 0; i < majors.size(); i++) {
             majorNames.add(majors.get(i).getName());
         }
 
-        classes = new ArrayList<>(db.classDAO().getAll());
+        classes = new ArrayList<>(AppDatabase.getInstance(this).classDAO().getAll());
         classNames = new ArrayList<>(classes.size() + 1);
         classNames.add(0, "--- Chọn lớp ---");
         for (int i = 0; i < classes.size(); i++) {
             classNames.add(classes.get(i).getName());
         }
 
-        academicYears = new ArrayList<>(db.academicYearDAO().getAll());
+        academicYears = new ArrayList<>(AppDatabase.getInstance(this).academicYearDAO().getAll());
         academicYearNames = new ArrayList<>(academicYears.size() + 1);
         academicYearNames.add(0, "--- Chọn khóa học ---");
         for (int i = 0; i < academicYears.size(); i++) {
             academicYearNames.add(academicYears.get(i).getName());
         }
 
-        ArrayList<StudentWithRelations> students = new ArrayList<>(db.studentDAO().getAllWithRelations());
-
+        ArrayList<StudentWithRelations> students = new ArrayList<>(AppDatabase.getInstance(this)
+                .studentDAO().getAllWithRelations());
         studentListRecycleViewAdapter = new StudentListRecycleViewAdapter(this, students);
         RecyclerView rvStudent = findViewById(R.id.rvStudent);
         rvStudent.setLayoutManager(new LinearLayoutManager(this));
@@ -250,7 +255,6 @@ public class StudentListActivity extends AppCompatActivity {
 
         studentListRecycleViewAdapter.addStudent(studentWithRelations);
         bottomSheetDialog.dismiss();
-        Utils.showToast(this, "Thêm thành công");
     }
 
     private void showDatePickerDialog(View view) {
@@ -344,7 +348,8 @@ public class StudentListActivity extends AppCompatActivity {
                 return;
             }
 
-            subjects = new ArrayList<>(db.subjectDAO().getBySemesterClass(selectedSemesterId, selectedClassId));
+            subjects = new ArrayList<>(AppDatabase.getInstance(this)
+                    .subjectDAO().getBySemesterClass(selectedSemesterId, selectedClassId));
             subjectNames = new ArrayList<>(subjects.size() + 1);
             subjectNames.add(0, "--- Chọn môn học ---");
             for (SubjectWithRelations subject : subjects) {
@@ -371,12 +376,13 @@ public class StudentListActivity extends AppCompatActivity {
         if (selectedSemesterId > 0) {
             if (selectedClassId > 0) {
                 if (selectedSubjectId > 0) {
-                    students = db.studentDAO().getBySemesterClassSubject(selectedSemesterId, selectedClassId, selectedSubjectId);
+                    students = AppDatabase.getInstance(this)
+                            .studentDAO().getBySemesterClassSubject(selectedSemesterId, selectedClassId, selectedSubjectId);
                 } else {
-                    students = db.studentDAO().getBySemesterClass(selectedSemesterId, selectedClassId);
+                    students = AppDatabase.getInstance(this).studentDAO().getBySemesterClass(selectedSemesterId, selectedClassId);
                 }
             } else {
-                students = db.studentDAO().getBySemester(selectedSemesterId);
+                students = AppDatabase.getInstance(this).studentDAO().getBySemester(selectedSemesterId);
             }
         }
 

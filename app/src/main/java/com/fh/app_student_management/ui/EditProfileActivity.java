@@ -15,14 +15,18 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.fh.app_student_management.R;
 import com.fh.app_student_management.data.AppDatabase;
+import com.fh.app_student_management.data.entities.Lecturer;
 import com.fh.app_student_management.data.entities.User;
-import com.fh.app_student_management.data.relations.LecturerAndUser;
 import com.fh.app_student_management.utilities.Constants;
 import com.fh.app_student_management.utilities.Utils;
 import com.github.dhaval2404.imagepicker.ImagePicker;
@@ -33,7 +37,7 @@ import java.util.Objects;
 
 public class EditProfileActivity extends AppCompatActivity {
 
-    private LecturerAndUser lecturer;
+    private Lecturer lecturer;
     private User user;
 
     private LinearLayout layoutEditProfile;
@@ -41,18 +45,23 @@ public class EditProfileActivity extends AppCompatActivity {
     private ImageView iconCamera;
     private ImageView avatar;
     private EditText edtFullName;
+    private RadioGroup radioGroupGender;
     private EditText edtDob;
     private EditText edtAddress;
     private EditText edtSpecialization;
     private EditText edtDegree;
     private EditText edtCertificate;
-    private RadioGroup radioGroupGender;
     private Button btnSaveProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.layoutEditProfile), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         initEditProfileView();
         handleEventListener();
@@ -68,6 +77,12 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void initEditProfileView() {
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        assert bundle != null;
+        long userId = bundle.getLong(Constants.USER_ID, 0);
+        user = AppDatabase.getInstance(this).userDAO().getById(userId);
+
         layoutEditProfile = findViewById(R.id.layoutEditProfile);
         btnBack = findViewById(R.id.btnBack);
         iconCamera = findViewById(R.id.iconCamera);
@@ -82,35 +97,33 @@ public class EditProfileActivity extends AppCompatActivity {
         radioGroupGender = findViewById(R.id.radioGroupGender);
         btnSaveProfile = findViewById(R.id.btnSaveProfile);
 
-        AppDatabase db = AppDatabase.getInstance(this);
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
+        LinearLayout layoutSpecialization = findViewById(R.id.layoutSpecialization);
+        LinearLayout layoutDegree = findViewById(R.id.layoutDegree);
+        LinearLayout layoutCertificate = findViewById(R.id.layoutCertificate);
 
-        assert bundle != null;
-        long userId = bundle.getLong(Constants.USER_ID, 0);
-        user = db.userDAO().getById(userId);
+        layoutSpecialization.setVisibility(View.GONE);
+        layoutDegree.setVisibility(View.GONE);
+        layoutCertificate.setVisibility(View.GONE);
 
         avatar.setImageBitmap(Utils.getBitmapFromBytes(user.getAvatar()));
         edtEmail.setText(user.getEmail());
         edtFullName.setText(user.getFullName());
-        setTextOrHint(edtDob, user.getDob());
-        setTextOrHint(edtAddress, user.getAddress());
-        switch (user.getRole()) {
-            case ADMIN:
-                lecturer = null;
-                setNonEditableFields();
-                break;
-            case LECTURER:
-                lecturer = db.lecturerDAO().getByUser(user.getId());
-                setTextOrHint(edtSpecialization, lecturer.getLecturer().getSpecialization());
-                setTextOrHint(edtDegree, lecturer.getLecturer().getDegree());
-                setTextOrHint(edtCertificate, lecturer.getLecturer().getCertificate());
-                break;
-        }
         if (user.getGender() == Constants.MALE) {
             radioGroupGender.check(R.id.radioButtonMale);
         } else {
             radioGroupGender.check(R.id.radioButtonFemale);
+        }
+        setTextOrHint(edtDob, user.getDob());
+        setTextOrHint(edtAddress, user.getAddress());
+
+        if (user.getRole() == Constants.Role.LECTURER) {
+            lecturer = AppDatabase.getInstance(this).lecturerDAO().getByUser(user.getId());
+            layoutSpecialization.setVisibility(View.VISIBLE);
+            layoutDegree.setVisibility(View.VISIBLE);
+            layoutCertificate.setVisibility(View.VISIBLE);
+            setTextOrHint(edtSpecialization, lecturer.getSpecialization());
+            setTextOrHint(edtDegree, lecturer.getDegree());
+            setTextOrHint(edtCertificate, lecturer.getCertificate());
         }
     }
 
@@ -147,34 +160,26 @@ public class EditProfileActivity extends AppCompatActivity {
     private void performEditProfile() {
         if (!validateInputs()) return;
 
-        AppDatabase db = AppDatabase.getInstance(this);
-
         try {
             user.setAvatar(Utils.getBytesFromBitmap(Utils.getBitmapFromView(avatar)));
             user.setFullName(edtFullName.getText().toString());
             user.setDob(Utils.formatDate("dd/MM/yyyy").parse(edtDob.getText().toString()));
             user.setAddress(edtAddress.getText().toString());
-            switch (user.getRole()) {
-                case ADMIN:
-                    break;
-                case LECTURER:
-                    lecturer.getLecturer().setSpecialization(edtSpecialization.getText().toString());
-                    lecturer.getLecturer().setDegree(edtDegree.getText().toString());
-                    lecturer.getLecturer().setCertificate(edtCertificate.getText().toString());
+            int genderId = radioGroupGender.getCheckedRadioButtonId();
+            user.setGender(genderId == R.id.radioButtonMale ? Constants.MALE : Constants.FEMALE);
 
-                    db.lecturerDAO().update(lecturer.getLecturer());
-                    break;
-            }
-            if (radioGroupGender.getCheckedRadioButtonId() == R.id.radioButtonMale) {
-                user.setGender(Constants.MALE);
-            } else {
-                user.setGender(Constants.FEMALE);
+            if (user.getRole() == Constants.Role.LECTURER) {
+                lecturer.setSpecialization(edtSpecialization.getText().toString());
+                lecturer.setDegree(edtDegree.getText().toString());
+                lecturer.setCertificate(edtCertificate.getText().toString());
+
+                AppDatabase.getInstance(this).lecturerDAO().update(lecturer);
             }
 
-            db.userDAO().update(user);
+            AppDatabase.getInstance(this).userDAO().update(user);
 
             Intent resultIntent = new Intent();
-            resultIntent.putExtra(Constants.USER_ID, user.getEmail());
+            resultIntent.putExtra(Constants.USER_ID, user.getId());
             setResult(RESULT_OK, resultIntent);
             finish();
         } catch (ParseException e) {
@@ -202,7 +207,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private boolean validateNotEmpty(int viewId, String errorMessage) {
         EditText editText = findViewById(viewId);
-        if (editText == null || editText.getText().toString().trim().isEmpty()) {
+        if (((LinearLayout) editText.getParent()).getVisibility() == View.VISIBLE && editText.getText().toString().trim().isEmpty()) {
             Utils.showToast(this, errorMessage);
             return false;
         }
@@ -234,7 +239,7 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     @SuppressLint("ResourceAsColor")
-    private void setFieldsNonEditable(EditText... fields) {
+    private void setFieldsNonEditable(@NonNull EditText... fields) {
         for (EditText field : fields) {
             field.setFocusable(false);
             field.setFocusableInTouchMode(false);

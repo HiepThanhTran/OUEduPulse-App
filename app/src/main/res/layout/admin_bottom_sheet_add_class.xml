@@ -30,7 +30,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/edtClass"
+            android:id="@+id/edtClassName"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:autofillHints="name"

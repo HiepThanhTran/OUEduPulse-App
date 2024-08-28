@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.fh.app_student_management.R;
 import com.fh.app_student_management.data.AppDatabase;
@@ -22,6 +25,11 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         handler = new Handler();
 
@@ -34,13 +42,13 @@ public class SplashActivity extends AppCompatActivity {
         }
 
         runnable = () -> {
-            boolean isOnboarding = sharedPreferences.getBoolean(Constants.IS_FIRST_TIME_LAUNCH, false);
+            boolean isFirstTimeLaunch = sharedPreferences.getBoolean(Constants.IS_FIRST_TIME_LAUNCH, false);
             long userId = sharedPreferences.getLong(Constants.USER_ID, 0);
 
             Class<?> targetActivity = LoginActivity.class;
 
-            targetActivity = !isOnboarding ? OnboardingActivity.class : targetActivity;
-            targetActivity = userId > 0 ? BottomNavigationActivity.class : targetActivity;
+            targetActivity = !isFirstTimeLaunch ? OnboardingActivity.class : targetActivity;
+            targetActivity = userId > 0 ? HomeActivity.class : targetActivity;
 
             Intent intent = new Intent(this, targetActivity);
 

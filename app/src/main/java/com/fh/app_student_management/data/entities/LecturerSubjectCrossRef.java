@@ -5,20 +5,21 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "lecturer_subject_cross_ref", foreignKeys = {
-        @ForeignKey(
-                entity = Lecturer.class,
-                parentColumns = "id",
-                childColumns = "lecturer_id",
-                onDelete = ForeignKey.CASCADE
-        ),
-        @ForeignKey(
-                entity = Subject.class,
-                parentColumns = "id",
-                childColumns = "subject_id",
-                onDelete = ForeignKey.CASCADE
-        )
-})
+@Entity(tableName = "lecturer_subject_cross_ref",
+        foreignKeys = {
+                @ForeignKey(
+                        entity = Lecturer.class,
+                        parentColumns = "id",
+                        childColumns = "lecturer_id",
+                        onDelete = ForeignKey.CASCADE
+                ),
+                @ForeignKey(
+                        entity = Subject.class,
+                        parentColumns = "id",
+                        childColumns = "subject_id",
+                        onDelete = ForeignKey.CASCADE
+                )
+        })
 public class LecturerSubjectCrossRef {
 
     @PrimaryKey(autoGenerate = true)

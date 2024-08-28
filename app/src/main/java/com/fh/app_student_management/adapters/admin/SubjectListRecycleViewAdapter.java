@@ -2,6 +2,7 @@ package com.fh.app_student_management.adapters.admin;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,13 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fh.app_student_management.R;
+import com.fh.app_student_management.adapters.listener.ItemClickListener;
 import com.fh.app_student_management.data.AppDatabase;
 import com.fh.app_student_management.data.entities.Class;
 import com.fh.app_student_management.data.entities.Major;
 import com.fh.app_student_management.data.relations.SubjectWithRelations;
+import com.fh.app_student_management.ui.StudentListActivity;
+import com.fh.app_student_management.utilities.Constants;
 import com.fh.app_student_management.utilities.Utils;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -30,7 +34,6 @@ import java.util.Locale;
 public class SubjectListRecycleViewAdapter extends RecyclerView.Adapter<SubjectListRecycleViewAdapter.SubjectViewHolder> implements Filterable {
 
     private final Context context;
-    private final AppDatabase db;
     private final ArrayList<SubjectWithRelations> originalList;
     private final BottomSheetDialog bottomSheetDialog;
     private final ArrayList<Class> classes;
@@ -48,16 +51,15 @@ public class SubjectListRecycleViewAdapter extends RecyclerView.Adapter<SubjectL
         this.originalList = originalList;
         this.filteredList = originalList;
 
-        db = AppDatabase.getInstance(context);
         bottomSheetDialog = new BottomSheetDialog(context);
 
-        classes = new ArrayList<>(db.classDAO().getAll());
+        classes = new ArrayList<>(AppDatabase.getInstance(context).classDAO().getAll());
         classNames = new String[classes.size()];
         for (int i = 0; i < classes.size(); i++) {
             classNames[i] = classes.get(i).getName();
         }
 
-        majors = new ArrayList<>(db.majorDAO().getAll());
+        majors = new ArrayList<>(AppDatabase.getInstance(context).majorDAO().getAll());
         majorNames = new String[majors.size()];
         for (int i = 0; i < majors.size(); i++) {
             majorNames[i] = majors.get(i).getName();
@@ -79,6 +81,15 @@ public class SubjectListRecycleViewAdapter extends RecyclerView.Adapter<SubjectL
         holder.txtClassName.setText(subjectWithRelations.getClazz().getName());
         holder.txtMajorName.setText(subjectWithRelations.getMajor().getName());
         holder.txtSubjectCredits.setText(String.valueOf(subjectWithRelations.getSubject().getCredits()));
+
+        holder.setItemClickListener((view, position1, isLongClick) -> {
+            Intent intent = new Intent(context, StudentListActivity.class);
+            intent.putExtra("isStudentSubject", true);
+            intent.putExtra(Constants.SEMESTER_ID, subjectWithRelations.getSemesterId());
+            intent.putExtra(Constants.CLASS_ID, subjectWithRelations.getClazz().getId());
+            intent.putExtra(Constants.SUBJECT_ID, subjectWithRelations.getSubject().getId());
+            context.startActivity(intent);
+        });
 
         holder.btnEditSubject.setOnClickListener(v -> showEditSubjectDialog(subjectWithRelations));
 
@@ -125,29 +136,30 @@ public class SubjectListRecycleViewAdapter extends RecyclerView.Adapter<SubjectL
 
             @Override
             @SuppressWarnings("unchecked")
+            @SuppressLint("NotifyDataSetChanged")
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 filteredList = (ArrayList<SubjectWithRelations>) filterResults.values;
-                notifyItemRangeChanged(0, filteredList.size());
+                notifyDataSetChanged();
             }
         };
     }
 
-    public void addSubject(SubjectWithRelations subjectWithRelations) {
-        db.subjectDAO().insert(subjectWithRelations.getSubject());
+    public void addSubject(@NonNull SubjectWithRelations subjectWithRelations) {
+        AppDatabase.getInstance(context).subjectDAO().insert(subjectWithRelations.getSubject());
         originalList.add(0, subjectWithRelations);
         notifyItemInserted(0);
     }
 
     private void editSubject(int position) {
         SubjectWithRelations subjectWithRelations = filteredList.get(position);
-        db.subjectDAO().update(subjectWithRelations.getSubject());
+        AppDatabase.getInstance(context).subjectDAO().update(subjectWithRelations.getSubject());
         getFilter().filter(currentFilterText);
         notifyItemChanged(position);
     }
 
     private void deleteSubject(int position) {
         SubjectWithRelations subjectWithRelations = filteredList.get(position);
-        db.subjectDAO().delete(subjectWithRelations.getSubject());
+        AppDatabase.getInstance(context).subjectDAO().delete(subjectWithRelations.getSubject());
         originalList.remove(subjectWithRelations);
         filteredList.remove(subjectWithRelations);
         getFilter().filter(currentFilterText);
@@ -155,7 +167,7 @@ public class SubjectListRecycleViewAdapter extends RecyclerView.Adapter<SubjectL
     }
 
     @SuppressLint("InflateParams")
-    private void showEditSubjectDialog(SubjectWithRelations subjectWithRelations) {
+    private void showEditSubjectDialog(@NonNull SubjectWithRelations subjectWithRelations) {
         View view = LayoutInflater.from(context).inflate(R.layout.admin_bottom_sheet_edit_subject, null);
         bottomSheetDialog.setContentView(view);
         BottomSheetBehavior<View> behavior = BottomSheetBehavior.from((View) view.getParent());
@@ -226,7 +238,7 @@ public class SubjectListRecycleViewAdapter extends RecyclerView.Adapter<SubjectL
                 && validateNotEmpty(view, R.id.edtMajor, "Ngành không được để trống");
     }
 
-    private boolean validateNotEmpty(View view, int viewId, String errorMessage) {
+    private boolean validateNotEmpty(@NonNull View view, int viewId, String errorMessage) {
         EditText editText = view.findViewById(viewId);
         if (editText == null || editText.getText().toString().trim().isEmpty()) {
             Utils.showToast(context, errorMessage);
@@ -235,7 +247,7 @@ public class SubjectListRecycleViewAdapter extends RecyclerView.Adapter<SubjectL
         return true;
     }
 
-    public static class SubjectViewHolder extends RecyclerView.ViewHolder {
+    public static class SubjectViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         private final TextView txtSubjectName;
         private final TextView txtClassName;
@@ -243,6 +255,7 @@ public class SubjectListRecycleViewAdapter extends RecyclerView.Adapter<SubjectL
         private final TextView txtSubjectCredits;
         private final Button btnEditSubject;
         private final Button btnDeleteSubject;
+        private ItemClickListener itemClickListener;
 
         public SubjectViewHolder(View itemView) {
             super(itemView);
@@ -253,6 +266,24 @@ public class SubjectListRecycleViewAdapter extends RecyclerView.Adapter<SubjectL
             txtSubjectCredits = itemView.findViewById(R.id.txtSubjectCredits);
             btnEditSubject = itemView.findViewById(R.id.btnEditSubject);
             btnDeleteSubject = itemView.findViewById(R.id.btnDeleteSubject);
+
+            itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
+        }
+
+        public void setItemClickListener(ItemClickListener itemClickListener) {
+            this.itemClickListener = itemClickListener;
+        }
+
+        @Override
+        public void onClick(View view) {
+            itemClickListener.onClick(view, getAdapterPosition(), false);
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            itemClickListener.onClick(view, getAdapterPosition(), true);
+            return true;
         }
     }
 }

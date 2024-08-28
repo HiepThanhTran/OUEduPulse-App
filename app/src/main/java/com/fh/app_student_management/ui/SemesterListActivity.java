@@ -6,6 +6,9 @@ import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,6 +31,11 @@ public class SemesterListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_semester);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.layoutSemester), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         initSemesterView();
         handleEventListener();
@@ -39,8 +47,7 @@ public class SemesterListActivity extends AppCompatActivity {
         searchViewSemester = findViewById(R.id.searchViewSemester);
         RecyclerView rvSemester = findViewById(R.id.rvSemester);
 
-        AppDatabase db = AppDatabase.getInstance(this);
-        ArrayList<Semester> semesters = new ArrayList<>(db.semesterDAO().getAll());
+        ArrayList<Semester> semesters = new ArrayList<>(AppDatabase.getInstance(this).semesterDAO().getAll());
 
         semesterRecycleViewAdapter = new SemesterRecyclerViewAdapter(this, getIntent(), semesters);
         rvSemester.setLayoutManager(new LinearLayoutManager(this));

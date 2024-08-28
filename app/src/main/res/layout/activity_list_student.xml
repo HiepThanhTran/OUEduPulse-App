@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey"
-    tools:context=".ui.admin.StudentListActivity"
+    tools:context=".ui.StudentListActivity"
     tools:ignore="HardcodedText">
 
     <RelativeLayout
@@ -40,8 +40,8 @@
         android:layout_height="60dp"
         android:layout_below="@id/top"
         android:layout_marginStart="18dp"
-        android:layout_marginTop="20dp"
         android:layout_marginEnd="18dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/search_view_bg"
         app:closeIcon="@drawable/ic_close"
         app:iconifiedByDefault="false"
@@ -71,16 +71,6 @@
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="16sp" />
-
-        <ImageView
-            android:id="@+id/btnFilter"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="16dp"
-            android:contentDescription="ic_filter"
-            android:src="@drawable/ic_filter" />
 
     </RelativeLayout>
 

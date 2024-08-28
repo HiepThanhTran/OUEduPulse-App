@@ -9,9 +9,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -49,6 +53,11 @@ public class ClassListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_activity_list_class);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.layoutClass), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         initClassListView();
         handleEventListener();
@@ -61,22 +70,19 @@ public class ClassListActivity extends AppCompatActivity {
         searchViewClass = findViewById(R.id.searchViewClass);
         bottomSheetDialog = new BottomSheetDialog(this);
 
-        AppDatabase db = AppDatabase.getInstance(this);
-
-        majors = new ArrayList<>(db.majorDAO().getAll());
+        majors = new ArrayList<>(AppDatabase.getInstance(this).majorDAO().getAll());
         majorNames = new String[majors.size()];
         for (int i = 0; i < majors.size(); i++) {
             majorNames[i] = majors.get(i).getName();
         }
 
-        academicYears = new ArrayList<>(db.academicYearDAO().getAll());
+        academicYears = new ArrayList<>(AppDatabase.getInstance(this).academicYearDAO().getAll());
         academicYearNames = new String[academicYears.size()];
         for (int i = 0; i < academicYears.size(); i++) {
             academicYearNames[i] = academicYears.get(i).getName();
         }
 
-        ArrayList<ClassWithRelations> classes = new ArrayList<>(db.classDAO().getAllWithRelations());
-
+        ArrayList<ClassWithRelations> classes = new ArrayList<>(AppDatabase.getInstance(this).classDAO().getAllWithRelations());
         RecyclerView rvClass = findViewById(R.id.rvClass);
         classListRecycleViewAdapter = new ClassListRecycleViewAdapter(this, classes);
         rvClass.setLayoutManager(new LinearLayoutManager(this));
@@ -166,7 +172,7 @@ public class ClassListActivity extends AppCompatActivity {
                 && validateNotEmpty(view, R.id.edtAcademicYear, "Năm học không được để trống");
     }
 
-    private boolean validateNotEmpty(View view, int viewId, String errorMessage) {
+    private boolean validateNotEmpty(@NonNull View view, int viewId, String errorMessage) {
         EditText editText = view.findViewById(viewId);
         if (editText == null || editText.getText().toString().trim().isEmpty()) {
             Utils.showToast(this, errorMessage);

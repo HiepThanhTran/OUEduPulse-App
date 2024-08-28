@@ -43,7 +43,7 @@
         android:layout_marginEnd="20dp">
 
         <LinearLayout
-            android:id="@+id/academicYearContainer"
+            android:id="@+id/semesterContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
@@ -81,9 +81,48 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/classContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/academicYearContainer"
+            android:layout_below="@+id/semesterContainer"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/opensans_bold"
+                android:text="Lớp"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/edtClass"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/custom_input"
+                android:clickable="false"
+                android:drawableStart="@drawable/ic_class"
+                android:drawablePadding="12dp"
+                android:ems="10"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:fontFamily="@font/opensans_bold"
+                android:hint="--- Chọn lớp ---"
+                android:inputType="none"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textColor="@color/grey"
+                android:textSize="16sp"
+                tools:ignore="Autofill,LabelFor" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/classContainer"
             android:layout_marginBottom="20dp"
             android:orientation="vertical">
 
@@ -165,7 +204,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/container"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="100dp"
         android:layout_marginEnd="20dp" />
 
 </RelativeLayout>

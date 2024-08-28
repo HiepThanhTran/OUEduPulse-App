@@ -33,7 +33,7 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/edSemester"
+        android:id="@+id/lecturerContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/top"
@@ -78,7 +78,7 @@
         android:id="@+id/titleTable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/edSemester"
+        android:layout_below="@id/lecturerContainer"
         android:layout_marginStart="12dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="12dp"
@@ -225,6 +225,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:scrollbars="none"
             tools:listitem="@layout/admin_layout_recycle_view_statistical_subject" />
 
     </HorizontalScrollView>

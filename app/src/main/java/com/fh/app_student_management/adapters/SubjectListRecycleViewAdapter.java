@@ -1,4 +1,4 @@
-package com.fh.app_student_management.adapters.lecturer;
+package com.fh.app_student_management.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -41,7 +41,7 @@ public class SubjectListRecycleViewAdapter extends RecyclerView.Adapter<SubjectL
     @NonNull
     @Override
     public SubjectViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.lecturer_layout_recycle_view_subject, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.z_layout_recycle_view_subject, parent, false);
 
         return new SubjectViewHolder(view);
     }

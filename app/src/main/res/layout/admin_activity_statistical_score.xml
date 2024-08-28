@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:background="@color/grey"
-    tools:context=".ui.lecturer.StatisticalScoreActivity"
+    tools:context=".ui.admin.StatisticalScoreActivity"
     tools:ignore="HardcodedText">
 
     <RelativeLayout
@@ -81,10 +81,49 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/classContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/semesterContainer"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/opensans_bold"
+                android:text="Lớp"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/edtClass"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/custom_input"
+                android:clickable="false"
+                android:drawableStart="@drawable/ic_class"
+                android:drawablePadding="12dp"
+                android:ems="10"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:fontFamily="@font/opensans_bold"
+                android:hint="--- Chọn lớp ---"
+                android:inputType="none"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textColor="@color/grey"
+                android:textSize="16sp"
+                tools:ignore="Autofill,LabelFor" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/subjectContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/semesterContainer"
+            android:layout_below="@id/classContainer"
             android:layout_marginBottom="20dp"
             android:orientation="vertical">
 
@@ -166,7 +205,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/container"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="100dp"
         android:layout_marginEnd="20dp" />
 
 </RelativeLayout>

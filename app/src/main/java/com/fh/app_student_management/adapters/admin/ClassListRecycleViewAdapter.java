@@ -2,6 +2,7 @@ package com.fh.app_student_management.adapters.admin;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +17,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fh.app_student_management.R;
+import com.fh.app_student_management.adapters.listener.ItemClickListener;
 import com.fh.app_student_management.data.AppDatabase;
 import com.fh.app_student_management.data.entities.AcademicYear;
 import com.fh.app_student_management.data.entities.Faculty;
 import com.fh.app_student_management.data.entities.Major;
 import com.fh.app_student_management.data.relations.ClassWithRelations;
+import com.fh.app_student_management.ui.StudentListActivity;
+import com.fh.app_student_management.utilities.Constants;
 import com.fh.app_student_management.utilities.Utils;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -32,7 +36,6 @@ public class ClassListRecycleViewAdapter extends RecyclerView.Adapter<ClassListR
 
     private final Context context;
     private final ArrayList<ClassWithRelations> originalList;
-    private final AppDatabase db;
     private final BottomSheetDialog bottomSheetDialog;
     private final ArrayList<Major> majors;
     private final String[] majorNames;
@@ -49,16 +52,15 @@ public class ClassListRecycleViewAdapter extends RecyclerView.Adapter<ClassListR
         this.originalList = originalList;
         this.filteredList = originalList;
 
-        db = AppDatabase.getInstance(context);
         bottomSheetDialog = new BottomSheetDialog(context);
 
-        majors = new ArrayList<>(db.majorDAO().getAll());
+        majors = new ArrayList<>(AppDatabase.getInstance(context).majorDAO().getAll());
         majorNames = new String[majors.size()];
         for (int i = 0; i < majors.size(); i++) {
             majorNames[i] = majors.get(i).getName();
         }
 
-        academicYears = new ArrayList<>(db.academicYearDAO().getAll());
+        academicYears = new ArrayList<>(AppDatabase.getInstance(context).academicYearDAO().getAll());
         academicYearNames = new String[academicYears.size()];
         for (int i = 0; i < academicYears.size(); i++) {
             academicYearNames[i] = academicYears.get(i).getName();
@@ -76,11 +78,18 @@ public class ClassListRecycleViewAdapter extends RecyclerView.Adapter<ClassListR
     @Override
     public void onBindViewHolder(@NonNull ClassViewHolder holder, int position) {
         ClassWithRelations classWithRelations = filteredList.get(position);
-        Faculty faculty = db.facultyDAO().getById(classWithRelations.getMajor().getFacultyId());
+        Faculty faculty = AppDatabase.getInstance(context).facultyDAO().getById(classWithRelations.getMajor().getFacultyId());
         holder.txtClassName.setText(classWithRelations.getClazz().getName());
         holder.txtFacultyName.setText(faculty.getName());
         holder.txtMajorName.setText(classWithRelations.getMajor().getName());
         holder.txtAcademicYearName.setText(classWithRelations.getAcademicYear().getName());
+
+        holder.setItemClickListener((view, position1, isLongClick) -> {
+            Intent intent = new Intent(context, StudentListActivity.class);
+            intent.putExtra("isStudentClass", true);
+            intent.putExtra(Constants.CLASS_ID, classWithRelations.getClazz().getId());
+            context.startActivity(intent);
+        });
 
         holder.btnEditClass.setOnClickListener(v -> showEditClassDialog(classWithRelations));
 
@@ -127,29 +136,30 @@ public class ClassListRecycleViewAdapter extends RecyclerView.Adapter<ClassListR
 
             @Override
             @SuppressWarnings("unchecked")
+            @SuppressLint("NotifyDataSetChanged")
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 filteredList = (ArrayList<ClassWithRelations>) filterResults.values;
-                notifyItemRangeChanged(0, filteredList.size());
+                notifyDataSetChanged();
             }
         };
     }
 
-    public void addClass(ClassWithRelations classWithRelations) {
-        db.classDAO().insert(classWithRelations.getClazz());
+    public void addClass(@NonNull ClassWithRelations classWithRelations) {
+        AppDatabase.getInstance(context).classDAO().insert(classWithRelations.getClazz());
         originalList.add(0, classWithRelations);
         notifyItemInserted(0);
     }
 
     private void editClass(int position) {
         ClassWithRelations classWithRelations = filteredList.get(position);
-        db.classDAO().update(classWithRelations.getClazz());
+        AppDatabase.getInstance(context).classDAO().update(classWithRelations.getClazz());
         getFilter().filter(currentFilterText);
         notifyItemChanged(position);
     }
 
     private void deleteClass(int position) {
         ClassWithRelations classWithRelations = filteredList.get(position);
-        db.classDAO().delete(classWithRelations.getClazz());
+        AppDatabase.getInstance(context).classDAO().delete(classWithRelations.getClazz());
         originalList.remove(classWithRelations);
         filteredList.remove(classWithRelations);
         getFilter().filter(currentFilterText);
@@ -157,7 +167,7 @@ public class ClassListRecycleViewAdapter extends RecyclerView.Adapter<ClassListR
     }
 
     @SuppressLint("InflateParams")
-    private void showEditClassDialog(ClassWithRelations classWithRelations) {
+    private void showEditClassDialog(@NonNull ClassWithRelations classWithRelations) {
         View view = LayoutInflater.from(context).inflate(R.layout.admin_bottom_sheet_edit_class, null);
         bottomSheetDialog.setContentView(view);
         BottomSheetBehavior<View> behavior = BottomSheetBehavior.from((View) view.getParent());
@@ -225,7 +235,7 @@ public class ClassListRecycleViewAdapter extends RecyclerView.Adapter<ClassListR
                 && validateNotEmpty(view, R.id.edtAcademicYear, "Năm học không được để trống");
     }
 
-    private boolean validateNotEmpty(View view, int viewId, String errorMessage) {
+    private boolean validateNotEmpty(@NonNull View view, int viewId, String errorMessage) {
         EditText editText = view.findViewById(viewId);
         if (editText == null || editText.getText().toString().trim().isEmpty()) {
             Utils.showToast(context, errorMessage);
@@ -234,7 +244,7 @@ public class ClassListRecycleViewAdapter extends RecyclerView.Adapter<ClassListR
         return true;
     }
 
-    public static class ClassViewHolder extends RecyclerView.ViewHolder {
+    public static class ClassViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         private final TextView txtClassName;
         private final TextView txtFacultyName;
@@ -242,6 +252,7 @@ public class ClassListRecycleViewAdapter extends RecyclerView.Adapter<ClassListR
         private final TextView txtAcademicYearName;
         private final Button btnEditClass;
         private final Button btnDeleteClass;
+        private ItemClickListener itemClickListener;
 
         public ClassViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -252,6 +263,24 @@ public class ClassListRecycleViewAdapter extends RecyclerView.Adapter<ClassListR
             txtAcademicYearName = itemView.findViewById(R.id.txtAcademicYearName);
             btnEditClass = itemView.findViewById(R.id.btnEditClass);
             btnDeleteClass = itemView.findViewById(R.id.btnDeleteClass);
+
+            itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
+        }
+
+        public void setItemClickListener(ItemClickListener itemClickListener) {
+            this.itemClickListener = itemClickListener;
+        }
+
+        @Override
+        public void onClick(View view) {
+            itemClickListener.onClick(view, getAdapterPosition(), false);
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            itemClickListener.onClick(view, getAdapterPosition(), true);
+            return true;
         }
     }
 }

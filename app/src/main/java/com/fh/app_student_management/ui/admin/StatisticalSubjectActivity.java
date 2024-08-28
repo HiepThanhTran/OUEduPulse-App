@@ -9,15 +9,16 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fh.app_student_management.R;
-import com.fh.app_student_management.adapters.admin.LecturerStatisticalRecycleViewAdapter;
 import com.fh.app_student_management.adapters.admin.SubjectStatisticalRecycleViewAdapter;
 import com.fh.app_student_management.data.AppDatabase;
 import com.fh.app_student_management.data.entities.Semester;
-import com.fh.app_student_management.data.relations.StatisticalOfLecturer;
 import com.fh.app_student_management.data.relations.StatisticalOfSubject;
 import com.fh.app_student_management.utilities.Utils;
 
@@ -26,7 +27,6 @@ import java.util.List;
 
 public class StatisticalSubjectActivity extends AppCompatActivity {
 
-    private AppDatabase db;
     private ArrayList<Semester> semesters;
     private ArrayList<String> semesterNames;
     private long selectedSemesterId;
@@ -43,6 +43,11 @@ public class StatisticalSubjectActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_activity_statistical_subject);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         initStatisticalSubjectView();
         handleEventListener();
@@ -58,9 +63,7 @@ public class StatisticalSubjectActivity extends AppCompatActivity {
 
         titleTable.setVisibility(View.GONE);
 
-        db = AppDatabase.getInstance(this);
-
-        semesters = new ArrayList<>(db.semesterDAO().getAll());
+        semesters = new ArrayList<>(AppDatabase.getInstance(this).semesterDAO().getAll());
         semesterNames = new ArrayList<>(semesters.size() + 1);
         semesterNames.add(0, "--- Chọn học kỳ ---");
         for (int i = 0; i < semesters.size(); i++) {
@@ -93,7 +96,7 @@ public class StatisticalSubjectActivity extends AppCompatActivity {
     private void updateStatistical() {
         List<StatisticalOfSubject> statisticalOfSubjects = new ArrayList<>();
         if (selectedSemesterId > 0) {
-            statisticalOfSubjects = db.statisticalDAO().getStatisticalOfSubject(selectedSemesterId);
+            statisticalOfSubjects = AppDatabase.getInstance(this).statisticalDAO().getStatisticalOfSubject(selectedSemesterId);
         }
         rvSubject.setLayoutManager(new LinearLayoutManager(this));
         rvSubject.setAdapter(new SubjectStatisticalRecycleViewAdapter(this, new ArrayList<>(statisticalOfSubjects)));

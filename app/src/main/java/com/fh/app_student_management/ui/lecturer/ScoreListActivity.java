@@ -7,6 +7,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,6 +29,11 @@ public class ScoreListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lecturer_activity_list_score);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.layoutScore), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         initScoreView();
         handleEventListener();
@@ -43,11 +51,9 @@ public class ScoreListActivity extends AppCompatActivity {
 
         txtSubjectName.setText(subjectName);
 
-        AppDatabase db = AppDatabase.getInstance(this);
-        ArrayList<StudentWithScores> students = new ArrayList<>(db.studentDAO().getScoresBySemesterSubject(semesterId, subjectId));
-        ScoreListRecycleViewAdapter scoreListRecycleViewAdapter = new ScoreListRecycleViewAdapter(
-                this, getIntent(), students
-        );
+        ArrayList<StudentWithScores> students = new ArrayList<>(AppDatabase.getInstance(this)
+                .studentDAO().getScoresBySemesterSubject(semesterId, subjectId));
+        ScoreListRecycleViewAdapter scoreListRecycleViewAdapter = new ScoreListRecycleViewAdapter(this, getIntent(), students);
         rvScore.setLayoutManager(new LinearLayoutManager(this));
         rvScore.setAdapter(scoreListRecycleViewAdapter);
     }
