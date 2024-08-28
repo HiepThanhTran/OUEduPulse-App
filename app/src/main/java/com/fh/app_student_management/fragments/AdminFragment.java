@@ -68,7 +68,6 @@ public class AdminFragment extends Fragment {
     private void initAdminView(@NonNull View view) {
         btnToUserManagement = view.findViewById(R.id.btnToUserManagement);
         btnToStudentManagement = view.findViewById(R.id.btnToStudentManagement);
-        btnToScoreManagement = view.findViewById(R.id.btnToScoreManagement);
         btnToClassManagement = view.findViewById(R.id.btnToClassManagement);
         btnToSubjectManagement = view.findViewById(R.id.btnToSubjectManagement);
         btnToFeature = view.findViewById(R.id.btnToFeature);
@@ -86,10 +85,6 @@ public class AdminFragment extends Fragment {
         btnToStudentManagement.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), StudentListActivity.class);
             startActivity(intent);
-        });
-
-        btnToScoreManagement.setOnClickListener(v -> {
-
         });
 
         btnToClassManagement.setOnClickListener(v -> {
