@@ -1,4 +1,4 @@
-# OUEduPulse - Student Management Android App
+# OUEduPulse - Student Management
 
 ## Installation
 
