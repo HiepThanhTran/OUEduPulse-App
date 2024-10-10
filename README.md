@@ -1,6 +1,6 @@
 # OUEduPulse - Student Management Android App
 
-# Installation
+## Installation
 
-# Run Locally
+## Run Locally
 
